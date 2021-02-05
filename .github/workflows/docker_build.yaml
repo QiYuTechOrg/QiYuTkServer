@@ -45,5 +45,4 @@ jobs:
           tags: |
             qiyutech/${{ env.IMAGE_NAME }}
             ghcr.io/qiyutechdev/${{ env.IMAGE_NAME }}
-            docker.pkg.github.com/qiyutechdev/docker-images/${{ env.IMAGE_NAME }}
             registry.cn-hangzhou.aliyuncs.com/qiyutech/${{ env.IMAGE_NAME }}
