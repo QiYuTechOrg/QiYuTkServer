@@ -1,0 +1,103 @@
+version: "3.3"
+
+services:
+  admin:
+    build:
+      dockerfile: docker/Dockerfile
+      context: .
+    image: tbk:latest
+    container_name: tbk_admin
+    restart: always
+    networks:
+      - tbk
+    working_dir: /app/tbk
+    entrypoint: /app/entrypoints/admin.sh
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_started
+    healthcheck:
+      test: curl --fail http://127.0.0.1:8001/ping/ || exit 1
+      interval: 10s
+      timeout: 2s
+      retries: 3
+    volumes:
+      - type: bind
+        source: ./logs
+        target: /app/logs
+      - type: bind
+        source: ./media
+        target: /app/media
+      - type: bind
+        source: ./tbk
+        target: /app/tbk
+
+  api:
+    image: tbk:latest
+    container_name: tbk_api
+    restart: always
+    networks:
+      - tbk
+    working_dir: /app/tbk
+    entrypoint: /app/entrypoints/api.sh
+    ports:
+      - "8002:8002"
+    env_file:
+      - .env
+    depends_on:
+      admin:
+        condition: service_healthy
+    healthcheck:
+      test: curl --fail http://127.0.0.1:8002/ping || exit 1
+    volumes:
+      - type: bind
+        source: ./logs
+        target: /app/logs
+      - type: bind
+        source: ./media
+        target: /app/media
+      - type: bind
+        source: ./tbk
+        target: /app/tbk
+
+  cron:
+    image: tbk:latest
+    container_name: tbk_cron
+    restart: always
+    networks:
+      - tbk
+    working_dir: /app/tbk
+    entrypoint: /app/entrypoints/cron.sh
+    env_file:
+      - .env
+    depends_on:
+      admin:
+        condition: service_healthy
+    volumes:
+      - type: bind
+        source: ./logs
+        target: /app/logs
+      - type: bind
+        source: ./media
+        target: /app/media
+      - type: bind
+        source: ./tbk
+        target: /app/tbk
+
+
+  db:
+    image: postgres:12.4
+    restart: always
+    container_name: tbk_db
+    environment:
+      - POSTGRES_USER=tbk
+      - POSTGRES_PASSWORD=tbk
+      - POSTGRES_DB=tbk
+    networks:
+      - tbk
+
+networks:
+  tbk:

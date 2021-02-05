@@ -1,0 +1,2 @@
+type AppErrno = number
+type OrderType = number

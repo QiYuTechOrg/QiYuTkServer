@@ -1,0 +1,13 @@
+// 这个文件由 openapi.json 自动生成
+// 请不要手工编辑
+
+package com.qiyutech.tbk.dt
+
+import org.json.JSONObject
+
+typealias DtAppErrno = Int
+typealias DtString = String
+typealias DtOrderType = Int
+typealias DtInteger = Int
+typealias DtItemInfo = DtTbkItemInfo
+

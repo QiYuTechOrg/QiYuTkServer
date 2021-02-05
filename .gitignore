@@ -1,0 +1,9 @@
+.idea
+.venv
+openapi.json
+node_modules
+__pycache__
+dump_data.json
+demo.json
+demo.xml
+poetry.lock

@@ -1,0 +1,23 @@
+.venv
+caddy
+code_gen
+docker
+# entrypoints
+logs
+media
+mk
+run
+# static
+tbk
+.dockerignore
+.editorconfig
+.env
+.gitignore
+docker-compose.yaml
+Makefile
+poetry.lock
+poetry.toml
+pylama.ini
+pyproject.toml
+README.md
+# requirements.txt

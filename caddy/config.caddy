@@ -1,0 +1,16 @@
+admin.tbk.qiyutech.tech {
+    route {
+        file_server /static/* {
+            root /var/www/tbk
+        }
+
+        file_server /media/* {
+            root /var/www/tbk
+        }
+    }
+    reverse_proxy 127.0.0.1:8001
+}
+
+api.tbk.qiyutech.tech {
+    reverse_proxy /* 127.0.0.1:8002
+}

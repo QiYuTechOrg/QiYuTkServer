@@ -1,0 +1,10 @@
+// 这个文件由 openapi.json 自动生成
+// 请不要手工编辑
+
+package com.qiyutech.tbk.dt
+
+import android.content.Context
+import android.net.Uri
+import com.android.volley.VolleyError
+import com.qiyutech.tbk.utils.MyHttpUtils
+import com.qiyutech.tbk.values.TbkAPIUrls

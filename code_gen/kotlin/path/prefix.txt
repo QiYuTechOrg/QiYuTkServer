@@ -1,0 +1,9 @@
+// 这个文件是由于 openapi.json 自动生成的
+// 请不要使用手工编辑
+
+package com.qiyutech.tbk.values
+
+import com.qiyutech.tbk.BuildConfig
+
+object TbkAPIUrls {
+
