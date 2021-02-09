@@ -7,13 +7,13 @@ certifi==2020.12.5; python_version >= "3.9" and python_full_version < "3.0.0" an
 chardet==3.0.4; python_version >= "3.9" and python_version < "4.0" and (python_version >= "3.9" and python_full_version < "3.0.0" and python_version < "4.0" or python_version >= "3.9" and python_version < "4.0" and python_full_version >= "3.5.0")
 click==7.1.2; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
 dataclasses-json==0.5.2; python_version >= "3.6"
-dj-qiyu-tpl==0.3.0; python_version >= "3.9" and python_version < "4.0"
+dj-qiyu-tpl==0.3.1; python_version >= "3.9" and python_version < "4.0"
 django-admin-env-notice==0.2
 django-constance==2.8.0; python_version >= "3.6"
 django-dotenv==1.4.2
 django-ipware==3.0.2
 django-picklefield==3.0.1; python_version >= "3"
-django-qiyu-utils==0.3.1; python_version >= "3.9" and python_version < "4.0"
+django-qiyu-utils==0.3.2; python_version >= "3.9" and python_version < "4.0"
 django-structlog==2.1.0
 django==3.1.6; python_version >= "3.6"
 dtk-api==0.7.1; python_version >= "3.9" and python_version < "4.0"
