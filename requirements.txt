@@ -13,7 +13,7 @@ django-constance==2.8.0; python_version >= "3.6"
 django-dotenv==1.4.2
 django-ipware==3.0.2
 django-picklefield==3.0.1; python_version >= "3"
-django-qiyu-utils==0.3.2; python_version >= "3.9" and python_version < "4.0"
+django-qiyu-utils==0.3.3; python_version >= "3.9" and python_version < "4.0"
 django-structlog==2.1.0
 django==3.1.6; python_version >= "3.6"
 dtk-api==0.7.1; python_version >= "3.9" and python_version < "4.0"
