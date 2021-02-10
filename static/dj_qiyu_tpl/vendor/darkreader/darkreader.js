@@ -1,5 +1,5 @@
 /**
- * Dark Reader v4.9.26
+ * Dark Reader v4.9.27
  * https://darkreader.org/
  */
 
@@ -111,7 +111,8 @@
     var userAgent = typeof navigator === 'undefined' ? 'some useragent' : navigator.userAgent.toLowerCase();
     var platform = typeof navigator === 'undefined' ? 'some platform' : navigator.platform.toLowerCase();
     var isChromium = userAgent.includes('chrome') || userAgent.includes('chromium');
-    var isFirefox = userAgent.includes('firefox');
+    var isThunderbird = userAgent.includes('thunderbird');
+    var isFirefox = userAgent.includes('firefox') || isThunderbird;
     var isVivaldi = userAgent.includes('vivaldi');
     var isYaBrowser = userAgent.includes('yabrowser');
     var isOpera = userAgent.includes('opr') || userAgent.includes('opera');
@@ -121,6 +122,8 @@
     var isMacOS = platform.startsWith('mac');
     var isMobile = userAgent.includes('mobile');
     var isShadowDomSupported = typeof ShadowRoot === 'function';
+    var isMatchMediaChangeEventListenerSupported = (typeof MediaQueryList === 'function' &&
+        typeof MediaQueryList.prototype.addEventListener === 'function');
     var chromiumVersion = (function () {
         var m = userAgent.match(/chrom[e|ium]\/([^ ]+)/);
         if (m && m[1]) {
@@ -399,6 +402,7 @@
     }
 
     var anchor;
+    var parsedURLCache = new Map();
     function fixBaseURL($url) {
         if (!anchor) {
             anchor = document.createElement('a');
@@ -408,12 +412,18 @@
     }
     function parseURL($url, $base) {
         if ($base === void 0) { $base = null; }
-        if ($base) {
-            $base = fixBaseURL($base);
-            return new URL($url, $base);
+        var key = "" + $url + ($base ? ';' + $base : '');
+        if (parsedURLCache.has(key)) {
+            return parsedURLCache.get(key);
         }
-        $url = fixBaseURL($url);
-        return new URL($url);
+        if ($base) {
+            var parsedURL_1 = new URL($url, fixBaseURL($base));
+            parsedURLCache.set(key, parsedURL_1);
+            return parsedURL_1;
+        }
+        var parsedURL = new URL(fixBaseURL($url));
+        parsedURLCache.set($url, parsedURL);
+        return parsedURL;
     }
     function getAbsoluteURL($base, $relative) {
         if ($relative.match(/^data\:/)) {
@@ -1878,7 +1888,7 @@
             }
         }
         else if (property.indexOf('shadow') >= 0) {
-            var modifier = getShadowModifier(property, value);
+            var modifier = getShadowModifier(value);
             if (modifier) {
                 return { property: property, value: modifier, important: important, sourceValue: sourceValue };
             }
@@ -1999,9 +2009,11 @@
         lines.push('::-webkit-scrollbar-corner {');
         lines.push("    background-color: " + colorCorner + ";");
         lines.push('}');
-        lines.push('* {');
-        lines.push("    scrollbar-color: " + colorTrack + " " + colorThumb + ";");
-        lines.push('}');
+        if (isFirefox) {
+            lines.push('* {');
+            lines.push("    scrollbar-color: " + colorThumb + " " + colorTrack + ";");
+            lines.push('}');
+        }
         return lines.join('\n');
     }
     function getModifiedFallbackStyle(filter, _a) {
@@ -2253,7 +2265,7 @@
             return null;
         }
     }
-    function getShadowModifier(prop, value) {
+    function getShadowModifier(value) {
         try {
             var index_2 = 0;
             var colorMatches_1 = getMatches(/(^|\s)([a-z]+\(.+?\)|#[0-9a-f]+|[a-z]+)(.*?(inset|outset)?($|,))/ig, value, 2);
@@ -2861,7 +2873,7 @@
         var observer = new MutationObserver(function () {
             update();
         });
-        var observerOptions = { attributes: true, childList: true, characterData: true };
+        var observerOptions = { attributes: true, childList: true, subtree: true, characterData: true };
         function containsCSSImport() {
             return element instanceof HTMLStyleElement && element.textContent.trim().match(cssImportRegex);
         }
@@ -3074,7 +3086,7 @@
         }
         function watchForSheetChanges() {
             watchForSheetChangesUsingProxy();
-            if (!(canOptimizeUsingProxy && element.sheet)) {
+            if (!isThunderbird && !(canOptimizeUsingProxy && element.sheet)) {
                 watchForSheetChangesUsingRAF();
             }
         }
@@ -3607,7 +3619,7 @@
             Object.defineProperty(CSSStyleSheet.prototype, 'deleteRule', deleteRuleDescriptor);
             Object.defineProperty(CSSStyleSheet.prototype, 'removeRule', removeRuleDescriptor);
             document.removeEventListener('__darkreader__cleanUp', cleanUp);
-            document.removeEventListener('__darkreader__addUndefinedResolver', function (e) { return addUndefinedResolver(e); });
+            document.removeEventListener('__darkreader__addUndefinedResolver', addUndefinedResolver);
         };
         var addUndefinedResolver = function (e) {
             customElements.whenDefined(e.detail.tag).then(function () {
@@ -3615,7 +3627,7 @@
             });
         };
         document.addEventListener('__darkreader__cleanUp', cleanUp);
-        document.addEventListener('__darkreader__addUndefinedResolver', function (e) { return addUndefinedResolver(e); });
+        document.addEventListener('__darkreader__addUndefinedResolver', addUndefinedResolver);
         var updateSheetEvent = new Event('__darkreader__updateSheet');
         function proxyAddRule(selector, style, index) {
             addRuleDescriptor.value.call(this, selector, style, index);
@@ -3656,6 +3668,8 @@
     var filter = null;
     var fixes = null;
     var isIFrame = null;
+    var ignoredImageAnalysisSelectors = null;
+    var ignoredInlineSelectors = null;
     function createOrUpdateStyle(className, root) {
         if (root === void 0) { root = document.head || document; }
         var element = root.querySelector("." + className);
@@ -3774,9 +3788,6 @@
             fallback.textContent = '';
         }
     }
-    function getIgnoreImageAnalysisSelectors() {
-        return fixes && Array.isArray(fixes.ignoreImageAnalysis) ? fixes.ignoreImageAnalysis : [];
-    }
     function createDynamicStyleOverrides() {
         cancelRendering();
         updateVariables(getElementCSSVariables(document.documentElement));
@@ -3792,7 +3803,7 @@
             return variables;
         });
         if (newVariables.length === 0) {
-            styleManagers.forEach(function (manager) { return manager.render(filter, variables, getIgnoreImageAnalysisSelectors()); });
+            styleManagers.forEach(function (manager) { return manager.render(filter, variables, ignoredImageAnalysisSelectors); });
             if (loadingStyles.size === 0) {
                 cleanFallbackStyle();
             }
@@ -3814,8 +3825,7 @@
                 push(inlineStyleElements, elements);
             }
         });
-        var ignoredInlineSelectors = fixes && Array.isArray(fixes.ignoreInlineStyle) ? fixes.ignoreInlineStyle : [];
-        inlineStyleElements.forEach(function (el) { return overrideInlineStyle(el, filter, getIgnoreImageAnalysisSelectors(), ignoredInlineSelectors); });
+        inlineStyleElements.forEach(function (el) { return overrideInlineStyle(el, filter, ignoredInlineSelectors, ignoredImageAnalysisSelectors); });
         handleAdoptedStyleSheets(document);
     }
     var loadingStylesCounter = 0;
@@ -3843,7 +3853,7 @@
                 return;
             }
             if (details.variables.size === 0) {
-                manager.render(filter, variables, getIgnoreImageAnalysisSelectors());
+                manager.render(filter, variables, ignoredImageAnalysisSelectors);
             }
             else {
                 updateVariables(details.variables);
@@ -3873,8 +3883,8 @@
         }
     }
     var throttledRenderAllStyles = throttle(function (callback) {
-        styleManagers.forEach(function (manager) { return manager.render(filter, variables, getIgnoreImageAnalysisSelectors()); });
-        adoptedStyleManagers.forEach(function (manager) { return manager.render(filter, variables, getIgnoreImageAnalysisSelectors()); });
+        styleManagers.forEach(function (manager) { return manager.render(filter, variables, ignoredImageAnalysisSelectors); });
+        adoptedStyleManagers.forEach(function (manager) { return manager.render(filter, variables, ignoredImageAnalysisSelectors); });
         callback && callback();
     });
     var cancelRendering = function () {
@@ -3923,7 +3933,7 @@
             if (node.adoptedStyleSheets.length > 0) {
                 var newManger = createAdoptedStyleSheetOverride(node);
                 adoptedStyleManagers.push(newManger);
-                newManger.render(filter, variables, getIgnoreImageAnalysisSelectors());
+                newManger.render(filter, variables, ignoredImageAnalysisSelectors);
             }
         }
     }
@@ -3947,7 +3957,7 @@
                 return variables;
             });
             if (newVariables.length === 0) {
-                newManagers.forEach(function (manager) { return manager.render(filter, variables, getIgnoreImageAnalysisSelectors()); });
+                newManagers.forEach(function (manager) { return manager.render(filter, variables, ignoredImageAnalysisSelectors); });
             }
             else {
                 newVariables.forEach(function (variables) { return updateVariables(variables); });
@@ -3959,9 +3969,8 @@
             createShadowStaticStyleOverrides(shadowRoot);
             handleAdoptedStyleSheets(shadowRoot);
         });
-        var ignoredInlineSelectors = fixes && Array.isArray(fixes.ignoreInlineStyle) ? fixes.ignoreInlineStyle : [];
         watchForInlineStyles(function (element) {
-            overrideInlineStyle(element, filter, ignoredInlineSelectors, getIgnoreImageAnalysisSelectors());
+            overrideInlineStyle(element, filter, ignoredInlineSelectors, ignoredImageAnalysisSelectors);
             if (element === document.documentElement) {
                 var rootVariables = getElementCSSVariables(document.documentElement);
                 if (rootVariables.size > 0) {
@@ -3973,7 +3982,7 @@
             createShadowStaticStyleOverrides(root);
             var inlineStyleElements = root.querySelectorAll(INLINE_STYLE_SELECTOR);
             if (inlineStyleElements.length > 0) {
-                forEach(inlineStyleElements, function (el) { return overrideInlineStyle(el, filter, getIgnoreImageAnalysisSelectors(), ignoredInlineSelectors); });
+                forEach(inlineStyleElements, function (el) { return overrideInlineStyle(el, filter, ignoredInlineSelectors, ignoredImageAnalysisSelectors); });
             }
         });
         addDOMReadyListener(onDOMReady);
@@ -4007,6 +4016,14 @@
     function createOrUpdateDynamicTheme(filterConfig, dynamicThemeFixes, iframe) {
         filter = filterConfig;
         fixes = dynamicThemeFixes;
+        if (fixes) {
+            ignoredImageAnalysisSelectors = Array.isArray(fixes.ignoreImageAnalysis) ? fixes.ignoreImageAnalysis : [];
+            ignoredInlineSelectors = Array.isArray(fixes.ignoreInlineStyle) ? fixes.ignoreInlineStyle : [];
+        }
+        else {
+            ignoredImageAnalysisSelectors = [];
+            ignoredInlineSelectors = [];
+        }
         isIFrame = iframe;
         if (document.head) {
             if (isAnotherDarkReaderInstanceActive()) {
@@ -4061,8 +4078,10 @@
             manager.destroy();
         });
         adoptedStyleManagers.splice(0);
+        parsedURLCache.clear();
     }
     function cleanDynamicThemeCache() {
+        variables.clear();
         stopWatchingForDocumentVisibility();
         cancelRendering();
         stopWatchingForUpdates();
@@ -4133,6 +4152,7 @@
         });
     }
 
+    var isDarkReaderEnabled = false;
     var isIFrame$1 = (function () {
         try {
             return window.self !== window.top;
@@ -4150,9 +4170,14 @@
             throw new Error('Theme engine is not supported.');
         }
         createOrUpdateDynamicTheme(theme, fixes, isIFrame$1);
+        isDarkReaderEnabled = true;
+    }
+    function isEnabled() {
+        return isDarkReaderEnabled;
     }
     function disable() {
         removeDynamicTheme();
+        isDarkReaderEnabled = false;
     }
     var darkScheme = matchMedia('(prefers-color-scheme: dark)');
     var store = {
@@ -4173,10 +4198,20 @@
         if (themeOptions) {
             store = { themeOptions: themeOptions, fixes: fixes };
             handleColorScheme();
-            darkScheme.addEventListener('change', handleColorScheme);
+            if (isMatchMediaChangeEventListenerSupported) {
+                darkScheme.addEventListener('change', handleColorScheme);
+            }
+            else {
+                darkScheme.addListener(handleColorScheme);
+            }
         }
         else {
-            darkScheme.removeEventListener('change', handleColorScheme);
+            if (isMatchMediaChangeEventListenerSupported) {
+                darkScheme.removeEventListener('change', handleColorScheme);
+            }
+            else {
+                darkScheme.removeListener(handleColorScheme);
+            }
             disable();
         }
     }
@@ -4196,6 +4231,7 @@
     exports.disable = disable;
     exports.enable = enable;
     exports.exportGeneratedCSS = exportGeneratedCSS;
+    exports.isEnabled = isEnabled;
     exports.setFetchMethod = setFetchMethod$1;
 
     Object.defineProperty(exports, '__esModule', { value: true });
