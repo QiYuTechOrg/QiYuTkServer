@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     env:
-      IMAGE_NAME: tbk:v20210205
+      IMAGE_NAME: tbk:latest
       BUILD_DIR: .
     runs-on: ubuntu-20.04
     steps:
