@@ -89,7 +89,7 @@ services:
 
 
   db:
-    image: postgres:12.4
+    image: postgres:12.5
     restart: always
     container_name: tbk_db
     environment:
