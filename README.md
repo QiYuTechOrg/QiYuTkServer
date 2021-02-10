@@ -7,7 +7,9 @@
 
 ## 奇遇淘客文档
 
-[文档](https://tbk.qiyutech.tech/)
+* [服务器端文档](https://tbk.qiyutech.tech/)
+* [Docker 使用文档](https://tbk.qiyutech.tech/server/docker.html)
+* [服务器端部署文档](https://tbk.qiyutech.tech/server/deploy.html)
 
 ## 博客文章
 
@@ -18,7 +20,3 @@
 * Python
 * Django
 * FastAPI
-
-## docker 镜像
-
-[Docker 使用文档](https://tbk.qiyutech.tech/server/docker.html)
