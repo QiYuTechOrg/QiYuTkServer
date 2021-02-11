@@ -1,5 +1,8 @@
 # 奇遇淘客 APP 服务器端
 
+![Docker Pulls](https://img.shields.io/docker/pulls/qiyutech/tbk)
+![Docker Image Version (latest semver)](https://img.shields.io/docker/v/qiyutech/tbk)
+
 ## 奇遇淘客代码库
 
 * [奇遇淘客 iOS APP](https://github.com/QiYuTechDev/QiYuTkiOS)
