@@ -1,9 +1,8 @@
 [tool.poetry]
 name = "tbk"
-version = "0.0.0"
+version = "v0.1.5"
 description = "奇遇淘客"
 authors = ["dev <dev@qiyutech.tech>"]
-
 
 [tool.poetry.dependencies]
 python = "^3.9"
