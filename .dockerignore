@@ -1,4 +1,4 @@
-.venv
+.github
 caddy
 code_gen
 docker
@@ -8,15 +8,15 @@ media
 mk
 run
 # static
-tbk
+# tbk
 .dockerignore
 .editorconfig
 .env
 .gitignore
 docker-compose.yaml
+LICENSE
 Makefile
 poetry.lock
-poetry.toml
 pylama.ini
 pyproject.toml
 README.md
