@@ -1,0 +1,112 @@
+{% extends "tbk/web/base.html" %}
+
+{% comment %}
+
+参数:
+args      : GuessYouLikeArgs
+data_list : Optional[List[TbkItemInfo]]
+{% endcomment %}
+
+{% load device_render %}
+
+{% block title %}
+    {% with name=request.GET.name %}
+        {% if name %}奇遇淘客 -- {{ name }} 搜索结果{% else %}奇遇淘客 Web 端 -- 首页{% endif %}
+    {% endwith %}
+{% endblock %}
+
+
+{% block content %}
+    <link rel="stylesheet" href="/static/web/css/list.css">
+    <style>
+        {% pc_render %}
+            #main-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                margin-left: 10%;
+                margin-right: 10%;
+                grid-column-gap: 1em;
+                grid-row-gap: 1em;
+            }
+
+            #search-form {
+                margin: auto;
+                width: 50%;
+            }
+        {% end_pc_render %}
+
+        {% mobile_render %}
+            #main-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                margin-left: .5em;
+                margin-right: .5em;
+                grid-column-gap: .5em;
+                grid-row-gap: .5em;
+            }
+
+            #search-form {
+                margin: auto;
+                width: 90%;
+            }
+        {% end_mobile_render %}
+    </style>
+
+    <div style="height: 2em;"></div>
+    <form id="search-form" class="form" method="get" action="{% url "search" %}">
+        <div class="field has-addons">
+            <div class="control is-expanded">
+                {% with name=request.GET.name %}
+                    <input class="input" name="name" type="text" placeholder="输入要搜索的商品名称..."
+                           {% if name %}value="{{ name }}"{% endif %}>
+                {% endwith %}
+            </div>
+            <div class="control">
+                <input type="submit" class="button is-primary" value="搜索商品"/>
+            </div>
+        </div>
+    </form>
+    <div style="height: 2em;"></div>
+
+    <div id="main-content">
+        {% for item in data_list %}
+            <a class="shop-item-container" href="{% url "detail" item_id=item.tao_id %}">
+                <div class="shop-item-pict">
+                    <img src="{{ item.tao_img }}" alt="背景图片">
+                </div>
+                <div class="shop-item-title">
+                    <span>{{ item.title_short }}</span>
+                </div>
+
+                <div class="shop-quan-and-sales">
+                    <div class="shop-quan">
+                        <div>券</div>
+                        <div>{{ item.price_coupon }}元</div>
+                    </div>
+                    <div class="shop-sales">月销: {{ item.sale_month }}</div>
+                </div>
+
+                <div class="item-price">
+                    <div>{{ item.price_actual }}</div>
+                    <div>{{ item.price_origin }}</div>
+                </div>
+            </a>
+
+        {% endfor %}
+    </div>
+
+    <div style="height: 2em;"></div>
+
+    <div class="container has-text-centered">
+        {% with name=request.GET.name %}
+            {% if page > 1 %}
+                <a class="pagination-link is-current"
+                   href="?{% if name %}name={{ name }}&{% endif %}page={{ page|add:"-1" }}">上一页</a>
+            {% endif %}
+            {% if data_list|length > 0 %}
+                <a class="pagination-link is-current"
+                   href="?{% if name %}name={{ name }}&{% endif %}page={{ page|add:"1" }}">下一页</a>
+            {% endif %}
+        {% endwith %}
+    </div>
+{% endblock %}

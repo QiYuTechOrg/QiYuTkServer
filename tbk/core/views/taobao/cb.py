@@ -1,11 +1,10 @@
 import traceback
-from dataclasses import dataclass
 from typing import Optional
 
-from dataclasses_json import DataClassJsonMixin
 from django import forms
 from django.http import HttpRequest
 from django.views.generic import TemplateView
+from pydantic import BaseModel, Field
 
 from core.logger import get_logger
 from core.logic import TaoBaoLogic
@@ -13,10 +12,9 @@ from core.logic import TaoBaoLogic
 __all__ = ["TaoBaoCB"]
 
 
-@dataclass
-class TaoBaoCbData(DataClassJsonMixin):
-    code: str
-    state: str
+class TaoBaoCbData(BaseModel):
+    code: str = Field(..., title="")
+    state: str = Field(..., title="")
 
 
 class TaoBaoCbForm(forms.Form):
@@ -25,7 +23,7 @@ class TaoBaoCbForm(forms.Form):
 
     def to_data(self) -> Optional[TaoBaoCbData]:
         if self.is_valid():
-            return TaoBaoCbData.from_dict(self.cleaned_data)
+            return TaoBaoCbData(**self.cleaned_data)
         return None
 
 

@@ -1,1 +1,1 @@
-from .item_tkl_resp import ShareItemTklResponseModel
+from .item_tkl_resp import ShareItemTklResponseModel  # noqa

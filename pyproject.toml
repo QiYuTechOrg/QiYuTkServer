@@ -3,6 +3,8 @@ name = "tbk"
 version = "v0.2.0"
 description = "奇遇淘客"
 authors = ["dev <dev@qiyutech.tech>"]
+readme = "README.md"
+homepage = "https://tbk.qiyutech.tech/"
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -41,27 +43,13 @@ django-structlog = ">=2.1,<2.2"
 # dataclass <-> dict <-> json converter
 dataclasses-json = ">=0.5,<0.6"
 
-#########################################
-# 当前 API 接口还没有稳定
-# 不允许跨越小版本, 仅仅允许跨越 fix 版本
-#########################################
-# 大淘客接口
-dtk-api = ">=0.7.1,<0.8"
-# 折淘客接口
-ztk-api = ">=0.3.2,<0.4"
-#########################################
-
 ###################################################
 # API 接口 依赖
 fastapi = ">=0.63,<0.64"
 # for fast API multipart
 python-multipart = "<0.1"
 # for deploy fastapi
-uvicorn = ">=0.13,<0.14"
-# for external API eg: 折淘客
-aiohttp = ">=3.7,<4"
-# for sync http request
-requests = ">=2.24,<3"
+uvicorn = { version = ">=0.13,<0.14", extras = ["standard"] }
 ###################################################
 
 
@@ -70,6 +58,7 @@ django-dotenv = ">=1.4,<2.0"
 
 django-qiyu-utils = ">=0.3.8,<0.4"
 dj-qiyu-tpl = ">=0.3,<0.4"
+qiyu-api = ">=0.3.3,<0.4"
 
 [tool.poetry.dev-dependencies]
 pytest = ">=6"

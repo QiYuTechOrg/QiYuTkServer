@@ -1,0 +1,93 @@
+{% extends "tbk/web/base.html" %}
+
+{% comment %}
+
+参数:
+detail : GaoYongModel
+{% endcomment %}
+
+{% load device_render %}
+
+{% block title %}奇遇淘客 {{ detail.title }} 商品详情{% endblock %}
+
+
+{% block content %}
+    <link rel="stylesheet" href="/static/web/css/detail.css">
+    <style>
+        {% pc_render %}
+            #main-content {
+                margin: auto;
+                width: 480px;
+            }
+        {% end_pc_render %}
+
+        {% mobile_render %}
+            #main-content {
+                margin-left: .5em;
+            }
+        {% end_mobile_render %}
+    </style>
+
+    <div id="main-content">
+        <div style="background: white; padding-bottom: .5em;">
+            <div class="overlay">
+                <img src="{{ detail.tao_img }}" alt="商品图片" width="100%" height="100%"/>
+            </div>
+
+            <div class="item-detail-price">
+                <div>{{ detail.price_actual }}</div>
+                <div><s id="tao-bao-jia-ge">{{ detail.price_origin }}</s></div>
+                <div>月销: &nbsp; <span>{{ detail.sale_month }}</span></div>
+            </div>
+
+            <div>{{ detail.title_long }}</div>
+        </div>
+
+        {% if detail.price_coupon > 0 %}
+            <div>
+                <div id="you-hui-xin-xi-first">
+                    <div id="you-hui-xin-xi-money">
+                        <div>¥&nbsp;</div>
+                        <div>{{ detail.price_coupon }}</div>
+                        <div>&nbsp;优惠券</div>
+                    </div>
+                </div>
+                <div id="you-hui-xin-xi-second">
+                    <div>{{ detail.coupon_start_time }}</div>
+                    <div>&nbsp;~&nbsp;</div>
+                    <div>{{ detail.coupon_end_time }}</div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="has-text-centered" style="margin-top: .5em;">
+            <a href="{{ detail.coupon_link }}" class="button is-danger">立刻购买</a>
+        </div>
+
+        <div style="height: 0.5rem"></div>
+
+        <div id="shop-info">
+            <div id="shop-info-summary">
+                <div><img src="{{ detail.seller_logo }}" alt="商家图标"/></div>
+                <div>{{ detail.seller_name }}</div>
+                <div></div>
+            </div>
+            <div style="height: 1px; background: rgb(240, 240, 240); margin-top: .5em; margin-bottom: .5em;"></div>
+            <div id="shop-score-summary">
+                <div>宝贝描述:<span>{{ detail.score_dsr }}</span></div>
+                <div>卖家服务:<span>{{ detail.score_service }}</span></div>
+                <div>物流服务:<span>{{ detail.score_ship }}</span></div>
+            </div>
+        </div>
+
+        <div id="desc-id">
+            {% for img in detail.tao_details %}
+                {% if img != "" %}
+                    <img src="{{ img }}" alt="内容介绍"/>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+

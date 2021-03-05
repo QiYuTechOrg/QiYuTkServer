@@ -14,3 +14,9 @@ shell:
 clean-log:
 	rm logs/*.log
 
+
+dev-build:
+	docker-compose build --no-cache
+
+dev-run:
+	docker-compose up

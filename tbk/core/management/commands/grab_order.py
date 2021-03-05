@@ -3,7 +3,7 @@ from apscheduler.jobstores.memory import MemoryJobStore
 from apscheduler.schedulers.blocking import BlockingScheduler
 from django.core.management.base import BaseCommand, CommandParser
 
-from core.cron.dtk_cron import *
+from core.cron.dtk_cron import *  # noqa
 
 
 class Command(BaseCommand):
@@ -25,7 +25,7 @@ class Command(BaseCommand):
 
         # 添加指定的任务
         # todo dtk 订单抓取
-        GrabOrderDtkCronHour(bs)
+        GrabOrderDtkCronHour(bs)  # noqa
 
         # 启动处理
         bs.start()

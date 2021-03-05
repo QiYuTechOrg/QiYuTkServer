@@ -1,7 +1,8 @@
 from typing import Optional
 
+from qiyu_api.tbk_api import TbkItemInfo
+from qiyu_api.ztk_api import GaoYongArgs
 from structlog.stdlib import BoundLogger
-from ztk_api import GaoYongArgs, GaoYongModel
 
 from core.excpetions import ItemNotFoundException, TbNotBindException
 from tbk.s_config import SConfig
@@ -19,20 +20,22 @@ class GaoYongLogic(object):
     def __init__(self, logger: BoundLogger):
         self._log = logger
 
-    async def gao_yong(self, item_id: str, token: str) -> GaoYongModel:
+    async def gao_yong(self, item_id: str, token: str) -> Optional[TbkItemInfo]:
         user_logic = UserV2Logic(self._log)
         relation_id = await user_logic.get_relation_by_token(token)
         return await self._do_gao_yong(item_id, str(relation_id))
 
     async def gao_yong_with_relation_id_optional(
         self, item_id: str, token: str
-    ) -> GaoYongModel:
+    ) -> Optional[TbkItemInfo]:
         try:
             return await self.gao_yong(item_id, token)
         except TbNotBindException:
             return await self._do_gao_yong(item_id, None)
 
-    async def _do_gao_yong(self, item_id: str, relation_id: Optional[str] = None):
+    async def _do_gao_yong(
+        self, item_id: str, relation_id: Optional[str] = None
+    ) -> Optional[TbkItemInfo]:
         """
         高佣分享 可以没有渠道 ID
 

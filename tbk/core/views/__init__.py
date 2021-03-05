@@ -1,1 +1,1 @@
-from .index import IndexView, PrivacyView, PingView
+from .index import PrivacyView, PingView  # noqa

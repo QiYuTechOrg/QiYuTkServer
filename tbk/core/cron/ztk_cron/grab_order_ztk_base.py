@@ -4,8 +4,8 @@ from uuid import uuid4
 
 import requests
 from django.db import transaction
+from qiyu_api.ztk_api import NewOrderArgs, ZTKSync, OrderDetailsResp, OrderDto
 from structlog.stdlib import BoundLogger
-from ztk_api import NewOrderArgs, ZTKSync, OrderDetailsResp, OrderDto
 
 from core.logger import get_cron_logger
 from core.logic import UserV2Logic
@@ -63,10 +63,10 @@ class GrabOrderZtkCronBase(object):
             s += timedelta(minutes=20)
 
     def _get_query_type(self) -> int:
-        raise NotImplemented("_get_query_type not impl")
+        raise NotImplementedError("_get_query_type not impl")
 
     def _get_start_time(self) -> datetime:
-        raise NotImplemented("_get_start_time not impl")
+        raise NotImplementedError("_get_start_time not impl")
 
     def _process_order(self, order: OrderDto, logger: BoundLogger):
         """

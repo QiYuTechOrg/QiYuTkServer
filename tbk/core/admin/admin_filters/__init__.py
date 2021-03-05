@@ -1,1 +1,1 @@
-from .user_name_filter import UsernameFilter
+from .user_name_filter import UsernameFilter  # noqa

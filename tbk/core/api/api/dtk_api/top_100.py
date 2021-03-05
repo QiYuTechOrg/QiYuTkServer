@@ -1,8 +1,8 @@
 from typing import Optional, List
 
-from dtk_api import DtkAsyncApi
 from fastapi import Depends
 from pydantic import Field
+from qiyu_api.dtk_api import DtkAsyncApi
 from structlog.stdlib import BoundLogger
 
 from core.logger import get_logger

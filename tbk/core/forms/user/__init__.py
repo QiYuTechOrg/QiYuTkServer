@@ -1,3 +1,3 @@
-from .bind_wx import UserBindWxForm, UserBindAliPayForm
-from .native_auth import UserNativeAuthForm
-from .user_token_form import UserTokenForm
+from .bind_wx import UserBindWxForm, UserBindAliPayForm  # noqa
+from .native_auth import UserNativeAuthForm  # noqa
+from .user_token_form import UserTokenForm  # noqa

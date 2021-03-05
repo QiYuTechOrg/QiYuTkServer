@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
-from django_qiyu_utils.settings import *
+from django_qiyu_utils.settings import *  # noqa
 
-from .app_config import *
+from .app_config import *  # noqa
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "dj_qiyu_tpl.apps.DjQiYuTplConfig",
     # 自己的模块
     "core.apps.CoreConfig",
+    # PC & mobile UI
+    "web.apps.WebConfig",
 ]
 
 MIDDLEWARE = [
@@ -58,7 +60,9 @@ ROOT_URLCONF = "tbk.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(os.path.dirname(__file__), "../../static")],
+        "DIRS": [
+            os.path.join(os.path.dirname(__file__), "../../templates"),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -76,13 +80,13 @@ WSGI_APPLICATION = "tbk.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": DB_ENGINE,
-        "NAME": DB_NAME,
-        "USER": DB_USER,
-        "PASSWORD": DB_PASSWORD,
-        "HOST": DB_HOST,
-        "PORT": DB_PORT,
-        "DBNAME": DB_NAME,
+        "ENGINE": DB_ENGINE,  # noqa
+        "NAME": DB_NAME,  # noqa
+        "USER": DB_USER,  # noqa
+        "PASSWORD": DB_PASSWORD,  # noqa
+        "HOST": DB_HOST,  # noqa
+        "PORT": DB_PORT,  # noqa
+        "DBNAME": DB_NAME,  # noqa
     }
 }
 
@@ -117,7 +121,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 
-if DEBUG:
+if DEBUG:  # noqa
     ENVIRONMENT_NAME = "开发环境"
     ENVIRONMENT_COLOR = "#999999"
 else:

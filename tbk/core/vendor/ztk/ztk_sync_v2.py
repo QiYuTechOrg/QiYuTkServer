@@ -6,7 +6,7 @@ from typing import Optional
 
 import structlog
 from fastapi import Depends
-from ztk_api import ZTKSync
+from qiyu_api.ztk_api import ZTKSync
 
 from tbk.s_config import SConfig
 from ...logger import get_logger

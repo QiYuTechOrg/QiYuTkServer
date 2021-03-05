@@ -1,10 +1,12 @@
 from typing import Optional
 
-from dtk_api import DtkAsyncApi
-from dtk_api.gen import TbServiceGetPrivilegeLinkArgs, TbServiceGetPrivilegeLinkResp
-from fastapi import Body
-from fastapi import Depends
+from fastapi import Body, Depends
 from pydantic import Field
+from qiyu_api.dtk_api import DtkAsyncApi
+from qiyu_api.dtk_api.gen import (
+    TbServiceGetPrivilegeLinkArgs,
+    TbServiceGetPrivilegeLinkResp,
+)
 from structlog.stdlib import BoundLogger
 
 from core.logger import get_logger

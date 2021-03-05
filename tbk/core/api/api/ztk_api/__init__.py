@@ -1,11 +1,11 @@
-from .bang_dan_tui_jian import bang_dan_tui_jian
-from .guess_you_like import guess_you_like
-from .item_detail_v2 import item_detail_v2
-from .ju_hua_suan import ju_hua_suan
-from .nine_nine import nine_nine
-from .suggest import ztk_suggest
-from .tmall_chao_shi import tmall_chao_shi
-from .tmall_shang_pin import tmall_shang_pin
-from .ztk_gao_yong import ztk_gao_yong
-from .ztk_keyword import ztk_keyword
-from .ztk_search import ztk_search
+from .bang_dan_tui_jian import bang_dan_tui_jian  # noqa
+from .guess_you_like import guess_you_like  # noqa
+from .item_detail_v2 import item_detail_v2  # noqa
+from .ju_hua_suan import ju_hua_suan  # noqa
+from .nine_nine import nine_nine  # noqa
+from .suggest import ztk_suggest  # noqa
+from .tmall_chao_shi import tmall_chao_shi  # noqa
+from .tmall_shang_pin import tmall_shang_pin  # noqa
+from .ztk_gao_yong import ztk_gao_yong  # noqa
+from .ztk_keyword import ztk_keyword  # noqa
+from .ztk_search import ztk_search  # noqa

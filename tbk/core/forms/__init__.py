@@ -1,2 +1,2 @@
-from .share import *
-from .user import *
+from .share import *  # noqa
+from .user import *  # noqa

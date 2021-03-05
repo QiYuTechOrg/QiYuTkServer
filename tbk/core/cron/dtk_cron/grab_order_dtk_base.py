@@ -3,10 +3,10 @@ from typing import Optional, List
 from uuid import uuid4
 
 from django.db import transaction
-from dtk_api import DtkSyncApi
-from dtk_api.gen import TbServiceGetOrderDetailsArgs
+from qiyu_api.dtk_api import DtkSyncApi
+from qiyu_api.dtk_api.gen import TbServiceGetOrderDetailsArgs
+from qiyu_api.ztk_api import OrderDetailsResp, OrderDto
 from structlog.stdlib import BoundLogger
-from ztk_api import OrderDetailsResp, OrderDto
 
 from core.logger import get_cron_logger
 from core.logic import UserV2Logic
@@ -64,10 +64,10 @@ class GrabOrderDtkCronBase(object):
             s += timedelta(minutes=20)
 
     def _get_query_type(self) -> int:
-        raise NotImplemented("_get_query_type not impl")
+        raise NotImplementedError("_get_query_type not impl")
 
     def _get_start_time(self) -> datetime:
-        raise NotImplemented("_get_start_time not impl")
+        raise NotImplementedError("_get_start_time not impl")
 
     def _process_order(self, order: OrderDto, logger: BoundLogger):
         """

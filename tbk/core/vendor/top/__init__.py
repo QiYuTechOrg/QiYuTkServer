@@ -4,5 +4,5 @@
 :doc: https://open.taobao.com/docCenter
 """
 
-from .async_api import AsyncTopApi
-from .sync_api import TopApi
+from .async_api import AsyncTopApi  # noqa
+from .sync_api import TopApi  # noqa

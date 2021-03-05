@@ -2,8 +2,8 @@ from typing import Optional, List
 
 from fastapi import Query, Depends
 from pydantic import Field
+from qiyu_api.ztk_api import ZTK, ItemDetailV2Args, ItemDetailV2Model
 from structlog.stdlib import BoundLogger
-from ztk_api import ZTK, ItemDetailV2Args, ItemDetailV2Model
 
 from core.logger import get_logger
 from core.resp.base import ApiResp, ResponseModel

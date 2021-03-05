@@ -9,9 +9,9 @@ from django.core.management.base import BaseCommand, CommandParser
 # this is a work around for import error
 try:
     from tbk.s_config import SConfig
-    from ...api import api
+    from ...api import api  # noqa
     from ...logger import get_logger
-    from ...vendor.ztk import ItemDetailV2Args, ZTK, GaoYongArgs, ChannelIdListArgs
+    from ...vendor.ztk import ZTK, ChannelIdListArgs
 except ImportError as e:
     print(f"导入失败: {e}", file=sys.stderr)
     sys.exit(1)

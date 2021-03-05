@@ -1,7 +1,7 @@
 from typing import Optional, List
 
 from pydantic import Field
-from tbk_api import TbkItemInfo
+from qiyu_api.tbk_api import TbkItemInfo
 
 from core.resp.base import ResponseModel
 

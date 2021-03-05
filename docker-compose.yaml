@@ -1,3 +1,6 @@
+# 这个文件是在 开发中使用
+# 线上部署文档请参考:
+# https://tbk.qiyutech.tech/server/deploy.html
 version: "3.3"
 
 services:
@@ -11,11 +14,11 @@ services:
     networks:
       - tbk
     working_dir: /app/tbk
-    entrypoint: /app/entrypoints/admin.sh
+    entrypoint: /app/entrypoints/dev_admin.sh
     ports:
       - "8001:8001"
     env_file:
-      - .env
+      - dev.env
     depends_on:
       db:
         condition: service_started
@@ -32,8 +35,14 @@ services:
         source: ./media
         target: /app/media
       - type: bind
+        source: ./static
+        target: /app/static
+      - type: bind
         source: ./tbk
         target: /app/tbk
+      - type: bind
+        source: ./templates
+        target: /app/templates
 
   api:
     image: tbk:latest
@@ -46,7 +55,7 @@ services:
     ports:
       - "8002:8002"
     env_file:
-      - .env
+      - dev.env
     depends_on:
       admin:
         condition: service_healthy
@@ -72,7 +81,7 @@ services:
     working_dir: /app/tbk
     entrypoint: /app/entrypoints/cron.sh
     env_file:
-      - .env
+      - dev.env
     depends_on:
       admin:
         condition: service_healthy

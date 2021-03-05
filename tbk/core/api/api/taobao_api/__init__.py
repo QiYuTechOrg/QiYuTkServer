@@ -1,1 +1,1 @@
-from .auth_url import auth_url
+from .auth_url import auth_url  # noqa

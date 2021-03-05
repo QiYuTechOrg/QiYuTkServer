@@ -1,1 +1,1 @@
-from .ztk_cron import *
+from .ztk_cron import *  # noqa

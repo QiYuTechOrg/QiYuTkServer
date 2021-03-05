@@ -1,1 +1,1 @@
-from .cb import TaoBaoCB
+from .cb import TaoBaoCB  # noqa

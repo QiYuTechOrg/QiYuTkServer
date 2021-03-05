@@ -1,5 +1,5 @@
-from dtk_api import DtkStdApi
 from fastapi import Body, Depends
+from qiyu_api.dtk_api import DtkStdApi
 from structlog.stdlib import BoundLogger
 
 from core.forms.tbk import TbkBrandGoodsForm

@@ -1,9 +1,9 @@
 from typing import Optional, List
 
-from dtk_api import DtkAsyncApi
-from dtk_api.gen import CategoryGetSuperCategoryResp
 from fastapi import Depends
 from pydantic import Field
+from qiyu_api.dtk_api import DtkAsyncApi
+from qiyu_api.dtk_api.gen import CategoryGetSuperCategoryResp
 from structlog.stdlib import BoundLogger
 
 from core.logger import get_logger

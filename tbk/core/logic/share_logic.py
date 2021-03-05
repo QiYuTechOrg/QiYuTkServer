@@ -1,5 +1,5 @@
+from qiyu_api.ztk_api import ZTK, TKLCreateArgs
 from structlog.stdlib import BoundLogger
-from ztk_api import ZTK, TKLCreateArgs
 
 from core.excpetions import ItemNotFoundException, ZtkException
 from tbk.s_config import SConfig
@@ -19,10 +19,10 @@ class ShareLogic(object):
     async def ios_share_item(self, item_id: str, token: str, is_ios=False) -> str:
         gao_yong = GaoYongLogic(self._log)
         info = await gao_yong.gao_yong_with_relation_id_optional(item_id, token)
-        if info.coupon_click_url is None:
+        if info.coupon_link is None:
             self._log.bind(item_id=item_id).error("item is not found")
             raise ItemNotFoundException()
-        return await self._do_create_tkl(info.coupon_click_url, is_ios)
+        return await self._do_create_tkl(info.coupon_link, is_ios)
 
     async def share_item(self, item_id: str, token: str, is_ios=False) -> str:
         """
@@ -35,10 +35,10 @@ class ShareLogic(object):
         """
         gao_yong = GaoYongLogic(self._log)
         info = await gao_yong.gao_yong(item_id, token)
-        if info.coupon_click_url is None:
+        if info.coupon_link is None:
             self._log.bind(item_id=item_id).error("item is not found")
             raise ItemNotFoundException()
-        return await self._do_create_tkl(info.coupon_click_url, is_ios)
+        return await self._do_create_tkl(info.coupon_link, is_ios)
 
     async def _do_create_tkl(self, coupon_click_url: str, is_ios: bool = False):
         """

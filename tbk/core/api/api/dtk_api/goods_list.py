@@ -1,6 +1,6 @@
-from dtk_api import DtkStdApi
-from dtk_api.gen import GoodsGetGoodsListArgs
 from fastapi import Body, Depends
+from qiyu_api.dtk_api import DtkStdApi
+from qiyu_api.dtk_api.gen import GoodsGetGoodsListArgs
 from structlog.stdlib import BoundLogger
 
 from core.logger import get_logger

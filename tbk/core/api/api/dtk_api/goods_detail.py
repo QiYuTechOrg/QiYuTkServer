@@ -1,10 +1,10 @@
 from typing import Optional
 
-from dtk_api import DtkAsyncApi
-from dtk_api.gen import GoodsGetGoodsDetailsArgs, GoodsGetGoodsDetailsResp
 from fastapi import Body
 from fastapi import Depends
 from pydantic import Field
+from qiyu_api.dtk_api import DtkAsyncApi
+from qiyu_api.dtk_api.gen import GoodsGetGoodsDetailsArgs, GoodsGetGoodsDetailsResp
 from structlog.stdlib import BoundLogger
 
 from core.logger import get_logger

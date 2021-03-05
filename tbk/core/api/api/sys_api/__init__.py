@@ -1,1 +1,1 @@
-from .sys_config import sys_auth
+from .sys_config import sys_auth  # noqa

@@ -1,10 +1,10 @@
 from typing import Optional, List
 
 from fastapi import Depends, Body
-from pydantic import BaseModel
-from pydantic import Field
+from pydantic import BaseModel, Field
+from qiyu_api.tbk_api import TbkItemInfo
+from qiyu_api.ztk_api import ZTKStd, SearchArgs
 from structlog.stdlib import BoundLogger
-from ztk_api import ZTK, SearchArgs, SearchModel
 
 from core.logger import get_logger
 from core.resp.base import ResponseModel, ApiResp
@@ -15,7 +15,7 @@ from ...api_utils import api_inner_wrapper
 
 
 class SearchResponseModel(ResponseModel):
-    data: Optional[List[SearchModel]] = Field(None, title="详细数据")
+    data: Optional[List[TbkItemInfo]] = Field(None, title="详细数据")
 
 
 class SearchForm(BaseModel):
@@ -45,12 +45,12 @@ class SearchForm(BaseModel):
 async def ztk_search(
     f: SearchForm = Body(..., title="请求参数"),
     logger: BoundLogger = Depends(get_logger),
-    ztk: ZTK = Depends(get_ztk_api_v2),
+    ztk: ZTKStd = Depends(get_ztk_api_v2),
 ):
     @api_inner_wrapper(logger)
     async def inner():
         data = f.to_data()
         j = await ztk.search(data)
-        return ApiResp.from_data(j.content).to_dict()
+        return ApiResp.from_data(j).to_dict()
 
     return await inner

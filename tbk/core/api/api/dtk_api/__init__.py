@@ -1,15 +1,15 @@
-from .fast_buy import dtk_fast_buy
-from .goods_detail import dtk_goods_detail
-from .goods_list import dtk_goods_lists
-from .goods_nine_op_goods_list import dtk_goods_nine_op_goods_list
-from .goods_price_trend import dtk_goods_price_trend
-from .guess_you_like import dtk_guess_you_like
-from .privilege_link import dtk_privilege_link
-from .ranking_list import dtk_ranking_list
-from .search_goods import dtk_search_goods
-from .search_suggestion import dtk_search_suggestion
-from .super_category import dtk_super_category
-from .super_search import dtk_super_search
-from .tb_service_get_brand_list import dtk_tb_service_get_brand_list
-from .tb_service_get_tb_service import dtk_tb_service_get_tb_service
-from .top_100 import dtk_top_100
+from .fast_buy import dtk_fast_buy  # noqa
+from .goods_detail import dtk_goods_detail  # noqa
+from .goods_list import dtk_goods_lists  # noqa
+from .goods_nine_op_goods_list import dtk_goods_nine_op_goods_list  # noqa
+from .goods_price_trend import dtk_goods_price_trend  # noqa
+from .guess_you_like import dtk_guess_you_like  # noqa
+from .privilege_link import dtk_privilege_link  # noqa
+from .ranking_list import dtk_ranking_list  # noqa
+from .search_goods import dtk_search_goods  # noqa
+from .search_suggestion import dtk_search_suggestion  # noqa
+from .super_category import dtk_super_category  # noqa
+from .super_search import dtk_super_search  # noqa
+from .tb_service_get_brand_list import dtk_tb_service_get_brand_list  # noqa
+from .tb_service_get_tb_service import dtk_tb_service_get_tb_service  # noqa
+from .top_100 import dtk_top_100  # noqa

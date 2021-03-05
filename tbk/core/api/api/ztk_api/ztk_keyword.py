@@ -2,8 +2,8 @@ from typing import List, Optional
 
 from fastapi import Depends
 from pydantic import Field
+from qiyu_api.ztk_api import ZTKStd
 from structlog.stdlib import BoundLogger
-from ztk_api import ZTK
 
 from core.logger import get_logger
 from core.resp.base import ApiResp, ResponseModel
@@ -24,7 +24,7 @@ class KeywordResponseModel(ResponseModel):
     response_model=KeywordResponseModel,
 )
 async def ztk_keyword(
-    logger: BoundLogger = Depends(get_logger), ztk: ZTK = Depends(get_ztk_api_v2)
+    logger: BoundLogger = Depends(get_logger), ztk: ZTKStd = Depends(get_ztk_api_v2)
 ):
     @api_inner_wrapper(logger)
     async def inner():

@@ -1,10 +1,6 @@
 from django.views.generic import TemplateView
 
-__all__ = ["IndexView", "PrivacyView", "PingView"]
-
-
-class IndexView(TemplateView):
-    template_name = "tbk/html/index.html"
+__all__ = ["PrivacyView", "PingView"]
 
 
 class PrivacyView(TemplateView):

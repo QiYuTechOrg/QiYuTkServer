@@ -1,10 +1,10 @@
 from typing import Optional, List
 
-from dtk_api import DtkStdApi
 from fastapi import Body, Depends
 from pydantic import Field
+from qiyu_api.dtk_api import DtkStdApi
+from qiyu_api.tbk_api import TbkBrandInfo
 from structlog.stdlib import BoundLogger
-from tbk_api import TbkBrandInfo
 
 from core.forms.tbk import TbkBrandListForm
 from core.logger import get_logger

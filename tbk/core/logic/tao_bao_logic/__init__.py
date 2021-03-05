@@ -1,1 +1,1 @@
-from .logic import TaoBaoLogic
+from .logic import TaoBaoLogic  # noqa

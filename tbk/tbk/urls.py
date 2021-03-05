@@ -14,18 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.admin import AdminSite
 from django.urls import path
 from django_qiyu_utils.settings import SERVE_FILE_URLS
 
 from core.views import (
-    IndexView,
     taobao,
     PingView,
     PrivacyView,
 )
+from web import views as web_views
 
 assert isinstance(admin.site, AdminSite)
 if settings.DEBUG:
@@ -38,17 +37,15 @@ else:
     admin.site.site_title = "奇遇淘客 [线上环境]"
 
 urlpatterns = [
-    # 管理后台
-    path("admin/", admin.site.urls),
     # 首页
-    path("", IndexView.as_view()),
-    path("index/", IndexView.as_view(), name="index"),
+    path("", web_views.IndexView.as_view(), name="index"),
+    path("detail/<str:item_id>", web_views.DetailView.as_view(), name="detail"),
+    path("search/", web_views.SearchView.as_view(), name="search"),
     path("privacy/", PrivacyView.as_view(), name="privacy"),
     path("taobao/cb", taobao.TaoBaoCB.as_view()),
     path("ping/", PingView.as_view(), name="ping"),
+    # 管理后台
+    path("admin/", admin.site.urls),
 ]
 
 urlpatterns += SERVE_FILE_URLS
-
-if settings.DEBUG:
-    urlpatterns += [static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)]

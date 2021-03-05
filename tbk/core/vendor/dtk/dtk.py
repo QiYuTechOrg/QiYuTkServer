@@ -1,6 +1,6 @@
 from typing import Optional
 
-from dtk_api import DtkAsyncApi, DtkStdApi
+from qiyu_api.dtk_api import DtkAsyncApi, DtkStdApi
 
 from tbk.s_config import SConfig
 

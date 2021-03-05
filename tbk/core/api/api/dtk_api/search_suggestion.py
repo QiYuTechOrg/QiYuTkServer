@@ -1,9 +1,9 @@
 from typing import Optional, List
 
-from dtk_api import DtkAsyncApi
-from dtk_api.gen import GoodsSearchSuggestionArgs
 from fastapi import Depends, Body
 from pydantic import Field
+from qiyu_api.dtk_api import DtkAsyncApi
+from qiyu_api.dtk_api.gen import GoodsSearchSuggestionArgs
 from structlog.stdlib import BoundLogger
 
 from core.logger import get_logger

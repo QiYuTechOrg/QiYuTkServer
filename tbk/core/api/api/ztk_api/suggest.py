@@ -3,8 +3,8 @@ from typing import List, Optional
 from fastapi import Depends
 from fastapi import Query
 from pydantic import Field
+from qiyu_api.ztk_api import ZTKStd, SuggestArgs
 from structlog.stdlib import BoundLogger
-from ztk_api import ZTK, SuggestArgs
 
 from core.logger import get_logger
 from core.resp.base import ApiResp, ResponseModel
@@ -27,7 +27,7 @@ class SuggestResponseModel(ResponseModel):
 async def ztk_suggest(
     content: str = Query(..., title="搜索关键词"),
     logger: BoundLogger = Depends(get_logger),
-    ztk: ZTK = Depends(get_ztk_api_v2),
+    ztk: ZTKStd = Depends(get_ztk_api_v2),
 ):
     @api_inner_wrapper(logger)
     async def inner():

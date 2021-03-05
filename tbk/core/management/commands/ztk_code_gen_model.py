@@ -25,7 +25,7 @@ from tbk.s_config import SConfig
 
 # this is a work around for import error
 try:
-    from ...api import api
+    from ...api import api  # noqa
     from ...logger import get_logger
     from ...vendor.ztk import ItemDetailV2Args, ZTK, GaoYongArgs, BatchItemsArgs
 except ImportError:

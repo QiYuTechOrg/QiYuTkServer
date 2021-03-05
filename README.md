@@ -5,6 +5,11 @@
 ![docker build](https://github.com/QiYuTechDev/QiYuTkServer/workflows/docker%20build/badge.svg?branch=main)
 ![docker release](https://github.com/QiYuTechDev/QiYuTkServer/workflows/docker%20release/badge.svg?branch=v0.1.1&event=release)
 
+## 警告
+
+    正在使用 v0.2.0 版本的用户，请尽快升级到 v0.2.1。
+    v0.2.0 版本的 Docker 镜像中包含了有问题的 aiohttp。
+
 ## 奇遇淘客代码库
 
 * [奇遇淘客 iOS APP](https://github.com/QiYuTechDev/QiYuTkiOS)
