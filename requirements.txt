@@ -1,4 +1,4 @@
-aiohttp==3.7.3; python_version >= "3.6"
+aiohttp==3.7.4; python_version >= "3.6"
 apscheduler==3.7.0; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0" and python_version < "4")
 asgiref==3.3.1; python_version >= "3.6"
 async-timeout==3.0.1; python_version >= "3.9" and python_version < "4.0" and python_full_version >= "3.5.3"
@@ -7,7 +7,7 @@ certifi==2020.12.5; python_version >= "3.9" and python_full_version < "3.0.0" an
 chardet==3.0.4; python_version >= "3.9" and python_version < "4.0" and (python_version >= "3.9" and python_full_version < "3.0.0" and python_version < "4.0" or python_version >= "3.9" and python_version < "4.0" and python_full_version >= "3.5.0")
 click==7.1.2; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
 dataclasses-json==0.5.2; python_version >= "3.6"
-dj-qiyu-tpl==0.3.5; python_version >= "3.9" and python_version < "4.0"
+dj-qiyu-tpl==0.3.12; python_version >= "3.9" and python_version < "4.0"
 django-admin-env-notice==0.2
 django-constance==2.8.0; python_version >= "3.6"
 django-dotenv==1.4.2
@@ -15,7 +15,7 @@ django-ipware==3.0.2
 django-picklefield==3.0.1; python_version >= "3"
 django-qiyu-utils==0.3.8; python_version >= "3.9" and python_version < "4.0"
 django-structlog==2.1.0
-django==3.1.6; python_version >= "3.6"
+django==3.1.7; python_version >= "3.6"
 docutils==0.16; python_version >= "3.9" and python_full_version < "3.0.0" and python_version < "4.0" or python_version >= "3.9" and python_version < "4.0" and python_full_version >= "3.5.0"
 dtk-api==0.7.1; python_version >= "3.9" and python_version < "4.0"
 fastapi==0.63.0; python_version >= "3.6"
@@ -26,9 +26,9 @@ marshmallow-enum==1.5.1; python_version >= "3.9" and python_version < "4.0"
 marshmallow==3.10.0; python_version >= "3.9" and python_version < "4.0"
 multidict==5.1.0; python_version >= "3.9" and python_version < "4.0"
 mypy-extensions==0.4.3; python_version >= "3.6"
-pillow==8.1.0; python_version >= "3.6"
+pillow==8.1.1; python_version >= "3.6"
 psycopg2-binary==2.8.6; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.4.0")
-pydantic==1.7.3; python_version >= "3.9" and python_version < "4.0"
+pydantic==1.8.1; python_version >= "3.9" and python_version < "4.0" and python_full_version >= "3.6.1"
 pygments==2.8.0; python_version >= "3.9" and python_version < "4.0"
 python-multipart==0.0.5
 pytz==2021.1
@@ -37,12 +37,12 @@ six==1.15.0; python_version >= "2.7" and python_full_version < "3.0.0" or python
 sqlparse==0.4.1; python_version >= "3.6"
 starlette==0.13.6; python_version >= "3.6"
 stringcase==1.2.0; python_version >= "3.9" and python_version < "4.0"
-structlog==20.2.0; python_version >= "3.9" and python_version < "4.0"
+structlog==21.1.0; python_version >= "3.9" and python_version < "4.0"
 tbk-api==0.2.1; python_version >= "3.9" and python_version < "4.0"
-typing-extensions==3.7.4.3; python_version >= "3.9" and python_version < "4.0"
+typing-extensions==3.7.4.3; python_version >= "3.9" and python_version < "4.0" and python_full_version >= "3.6.1"
 typing-inspect==0.6.0; python_version >= "3.9" and python_version < "4.0"
 tzlocal==2.1; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version < "4"
 urllib3==1.26.3; python_version >= "3.9" and python_full_version < "3.0.0" and python_version < "4.0" or python_full_version >= "3.5.0" and python_version < "4" and python_version >= "3.9"
-uvicorn==0.13.3
+uvicorn==0.13.4
 yarl==1.6.3; python_version >= "3.9" and python_version < "4.0"
-ztk-api==0.3.2; python_version >= "3.9" and python_version < "4.0"
+ztk-api==0.3.3; python_version >= "3.9" and python_version < "4.0"
