@@ -31,6 +31,8 @@ class SearchView(TemplateView):
         data = form.cleaned_data
         name = data["name"]
         page = data["page"]
+        if not isinstance(page, int):
+            page = 1
         ztk = ZTKStd(SConfig.ZTKSid, logger=logger)
         args = SearchArgs(q=name, page=page)
         ret = async_to_sync(ztk.search)(args)
