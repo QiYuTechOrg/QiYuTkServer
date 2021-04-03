@@ -30,3 +30,7 @@
 * Python
 * Django
 * FastAPI
+
+## 更新日志
+
+[服务器端更新日志](https://tbk.qiyutech.tech/server/release.html)
