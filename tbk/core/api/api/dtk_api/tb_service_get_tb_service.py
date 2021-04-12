@@ -21,11 +21,10 @@ class DtkTbServiceResponseModel(ResponseModel):
     tags=["大淘客"],
     summary="联盟搜索",
     description="",
-    response_model=DtkTbServiceResponseModel,
 )
 async def dtk_tb_service_get_tb_service(
     request: HttpRequest, args: TbServiceGetTbServiceArgs
-):
+) -> DtkTbServiceResponseModel:
     logger = get_logger()
     dtk = await get_dtk_async()
 

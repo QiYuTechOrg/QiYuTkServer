@@ -37,9 +37,8 @@ class NineNineForm(BaseModel):
     tags=["折淘客"],
     summary="9.9 包邮购",
     description="",
-    response_model=NineNineResponseModel,
 )
-async def nine_nine(request: HttpRequest, g: NineNineForm):
+async def nine_nine(request: HttpRequest, g: NineNineForm) -> NineNineResponseModel:
     logger = get_logger()
     ztk = get_ztk_api_v2(logger)
 

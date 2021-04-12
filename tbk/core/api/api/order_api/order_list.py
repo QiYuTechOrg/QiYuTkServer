@@ -65,9 +65,10 @@ class OrderListForm(BaseModel):
     "/order/list",
     tags=["订单"],
     summary="获取订单列表",
-    response_model=OrderListResponseModel,
 )
-async def order_list(request: HttpRequest, form: OrderListForm):
+async def order_list(
+    request: HttpRequest, form: OrderListForm
+) -> OrderListResponseModel:
     """
     获取用户的淘宝客订单
     """

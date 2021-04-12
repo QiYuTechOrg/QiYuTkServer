@@ -13,9 +13,10 @@ from ...api_utils import api_inner_wrapper
     "/tbk/dtk/brand_goods",
     tags=["淘宝客"],
     summary="大淘客品牌商品列表",
-    response_model=GenericItemListResponseModel,
 )
-async def tbk_dtk_brand_goods(request: HttpRequest, args: TbkBrandGoodsForm):
+async def tbk_dtk_brand_goods(
+    request: HttpRequest, args: TbkBrandGoodsForm
+) -> GenericItemListResponseModel:
     """
     获取淘宝客的单品详情
     """

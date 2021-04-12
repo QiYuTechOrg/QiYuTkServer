@@ -66,9 +66,8 @@ class GaoYongForm(BaseModel):
     tags=["折淘客"],
     summary="高佣转链",
     description="",
-    response_model=GaoYongResponseModel,
 )
-async def ztk_gao_yong(request: HttpRequest, g: GaoYongForm):
+async def ztk_gao_yong(request: HttpRequest, g: GaoYongForm) -> GaoYongResponseModel:
     logger = get_logger()
 
     @api_inner_wrapper(logger)

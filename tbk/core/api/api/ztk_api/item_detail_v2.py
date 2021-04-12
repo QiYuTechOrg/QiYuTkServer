@@ -23,9 +23,8 @@ class ItemV2ResponseModel(ResponseModel):
     tags=["折淘客"],
     summary="商品详情",
     description="获取指定商品的详情\n注意: 当前仅仅支持淘宝的商品",
-    response_model=ItemV2ResponseModel,
 )
-async def item_detail_v2(request: HttpRequest, item_id: str):
+async def item_detail_v2(request: HttpRequest, item_id: str) -> ItemV2ResponseModel:
     logger = get_logger()
     ztk = get_ztk_api_v2(logger)
 

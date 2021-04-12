@@ -28,9 +28,8 @@ class TaoBaoAuthUrlResponseModel(ResponseModel):
     tags=["淘宝"],
     summary="渠道ID绑定配置",
     description="返回绑定的渠道 ID URL, 授权直接用 showUrlPage 打开页面即可",
-    response_model=TaoBaoAuthUrlResponseModel,
 )
-async def auth_url(request: HttpRequest, g: AuthUrlForm):
+async def auth_url(request: HttpRequest, g: AuthUrlForm) -> TaoBaoAuthUrlResponseModel:
     logger = get_logger()
 
     @api_inner_wrapper(logger)

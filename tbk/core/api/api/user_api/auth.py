@@ -22,9 +22,10 @@ class UserAuthResponseModel(ResponseModel):
     tags=["用户"],
     summary="用户认证息",
     description="用户登录",
-    response_model=UserAuthResponseModel,
 )
-async def user_auth(request: HttpRequest, g: UserNativeAuthForm):
+async def user_auth(
+    request: HttpRequest, g: UserNativeAuthForm
+) -> UserAuthResponseModel:
     logger = get_logger()
     ul = UserV2Logic(logger)
     token = await ul.auth(username=g.username, password=g.password)

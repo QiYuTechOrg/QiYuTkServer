@@ -19,9 +19,8 @@ class DtkTop100ResponseModel(ResponseModel):
     tags=["大淘客"],
     summary="热搜记录",
     description="",
-    response_model=DtkTop100ResponseModel,
 )
-async def dtk_top_100():
+async def dtk_top_100() -> DtkTop100ResponseModel:
     logger = get_logger()
     dtk = await get_dtk_async()
 

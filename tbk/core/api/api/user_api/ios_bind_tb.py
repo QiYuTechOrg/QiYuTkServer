@@ -32,12 +32,11 @@ class TbBindForm(BaseModel):
     "/user/bind",
     tags=["用户"],
     summary="iOS用户绑定淘宝渠道ID",
-    response_model=TbBindResponseModel,
 )
 async def user_ios_bind_tb(
     request: HttpRequest,
     g: TbBindForm,
-):
+) -> TbBindResponseModel:
     """
     给指定的用户绑定渠道 ID 信息
     """

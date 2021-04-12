@@ -20,9 +20,10 @@ class UserCancelResponseModel(ResponseModel):
     tags=["用户"],
     summary="用户注销",
     description="注销自己的用户",
-    response_model=UserCancelResponseModel,
 )
-async def user_cancel(request: HttpRequest, g: UserTokenForm):
+async def user_cancel(
+    request: HttpRequest, g: UserTokenForm
+) -> UserCancelResponseModel:
     logger = get_logger()
 
     @api_inner_wrapper(logger)

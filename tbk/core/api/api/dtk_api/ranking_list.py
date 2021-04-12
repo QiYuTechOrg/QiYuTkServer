@@ -16,9 +16,10 @@ from ...api_utils import api_inner_wrapper
     tags=["大淘客"],
     summary="各大榜单",
     description="[大淘客各大榜单接口](https://www.dataoke.com/pmc/api-d.html?id=6)",
-    response_model=GenericItemListResponseModel,
 )
-async def dtk_ranking_list(request: HttpRequest, args: GoodsGetRankingListArgs):
+async def dtk_ranking_list(
+    request: HttpRequest, args: GoodsGetRankingListArgs
+) -> GenericItemListResponseModel:
     logger = get_logger()
     dtk: DtkStdApi = await get_dtk_std()
 

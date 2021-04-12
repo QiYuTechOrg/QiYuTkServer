@@ -22,11 +22,10 @@ class DtkBrandListResponseModel(ResponseModel):
     tags=["大淘客"],
     summary="超值大牌",
     description="[大淘客品牌库文档](https://www.dataoke.com/pmc/api-d.html?id=17)",
-    response_model=DtkBrandListResponseModel,
 )
 async def dtk_tb_service_get_brand_list(
     request: HttpRequest, g: TbServiceGetBrandListArgs
-):
+) -> DtkBrandListResponseModel:
     logger = get_logger()
 
     dtk: DtkAsyncApi = await get_dtk_async()

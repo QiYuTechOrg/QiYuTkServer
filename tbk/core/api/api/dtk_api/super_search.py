@@ -15,9 +15,10 @@ from ...api_utils import api_inner_wrapper
     tags=["大淘客"],
     summary="超级搜索",
     description="[大淘客超级搜索](https://www.dataoke.com/pmc/api-d.html?id=14)",
-    response_model=GenericItemListResponseModel,
 )
-async def dtk_super_search(request: HttpRequest, g: GoodsListSuperGoodsArgs):
+async def dtk_super_search(
+    request: HttpRequest, g: GoodsListSuperGoodsArgs
+) -> GenericItemListResponseModel:
     logger = get_logger()
     dtk = await get_dtk_std()
 

@@ -21,9 +21,10 @@ class TbkBrandListResponseModel(ResponseModel):
     "/tbk/dtk/brand_list",
     tags=["淘宝客"],
     summary="大淘客品牌列表",
-    response_model=TbkBrandListResponseModel,
 )
-async def tbk_dtk_brand_list(request: HttpRequest, args: TbkBrandListForm):
+async def tbk_dtk_brand_list(
+    request: HttpRequest, args: TbkBrandListForm
+) -> TbkBrandListResponseModel:
     """
     获取淘宝客的单品详情
     """

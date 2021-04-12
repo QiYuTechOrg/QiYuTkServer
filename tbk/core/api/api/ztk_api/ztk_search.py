@@ -39,9 +39,8 @@ class SearchForm(BaseModel):
     tags=["折淘客"],
     summary="全网商品搜索",
     description="",
-    response_model=SearchResponseModel,
 )
-async def ztk_search(request: HttpRequest, f: SearchForm):
+async def ztk_search(request: HttpRequest, f: SearchForm) -> SearchResponseModel:
     logger = get_logger()
     ztk = get_ztk_api_v2(logger)
 

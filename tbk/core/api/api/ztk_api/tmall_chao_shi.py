@@ -37,9 +37,10 @@ class TMallChaoShiForm(BaseModel):
     tags=["折淘客"],
     summary="天猫超市",
     description="",
-    response_model=TMallChaoShiResponseModel,
 )
-async def tmall_chao_shi(request: HttpRequest, g: TMallChaoShiForm):
+async def tmall_chao_shi(
+    request: HttpRequest, g: TMallChaoShiForm
+) -> TMallChaoShiResponseModel:
     logger = get_logger()
     ztk = get_ztk_api_v2(logger)
 

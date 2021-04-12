@@ -22,9 +22,10 @@ class DtkGoodsPriceTrendResponseModel(ResponseModel):
     tags=["大淘客"],
     summary="商品历史券后价",
     description="",
-    response_model=DtkGoodsPriceTrendResponseModel,
 )
-async def dtk_goods_price_trend(request: HttpRequest, args: GoodsPriceTrendArgs):
+async def dtk_goods_price_trend(
+    request: HttpRequest, args: GoodsPriceTrendArgs
+) -> DtkGoodsPriceTrendResponseModel:
     logger = get_logger()
 
     dtk: DtkAsyncApi = await get_dtk_async()

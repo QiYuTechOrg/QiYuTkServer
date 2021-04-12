@@ -22,9 +22,10 @@ class DtkSearchSuggestionResponseModel(ResponseModel):
     tags=["大淘客"],
     summary="搜索联想词",
     description="[搜索联想词文档](https://www.dataoke.com/pmc/api-d.html?id=18)",
-    response_model=DtkSearchSuggestionResponseModel,
 )
-async def dtk_search_suggestion(request: HttpRequest, g: GoodsSearchSuggestionArgs):
+async def dtk_search_suggestion(
+    request: HttpRequest, g: GoodsSearchSuggestionArgs
+) -> DtkSearchSuggestionResponseModel:
     logger = get_logger()
     dtk: DtkAsyncApi = await get_dtk_async()
 

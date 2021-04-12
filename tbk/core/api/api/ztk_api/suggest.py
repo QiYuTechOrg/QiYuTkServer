@@ -20,9 +20,8 @@ class SuggestResponseModel(ResponseModel):
     tags=["折淘客"],
     summary="关键词推荐",
     description="",
-    response_model=SuggestResponseModel,
 )
-async def ztk_suggest(request: HttpRequest, content: str):
+async def ztk_suggest(request: HttpRequest, content: str) -> SuggestResponseModel:
     logger = get_logger()
     ztk = get_ztk_api_v2(logger)
 

@@ -21,11 +21,10 @@ class DtkSuperCategoryResponseModel(ResponseModel):
     tags=["大淘客"],
     summary="超级分类",
     description="[大淘客超级分类文档](https://www.dataoke.com/pmc/api-d.html?id=10)",
-    response_model=DtkSuperCategoryResponseModel,
 )
 async def dtk_super_category(
     request: HttpRequest,
-):
+) -> DtkSuperCategoryResponseModel:
     logger = get_logger()
     dtk = await get_dtk_async()
 

@@ -24,9 +24,10 @@ class DtkPrivilegeLinkResponseModel(ResponseModel):
     tags=["大淘客"],
     summary="高效转链",
     description="",
-    response_model=DtkPrivilegeLinkResponseModel,
 )
-async def dtk_privilege_link(request: HttpRequest, args: TbServiceGetPrivilegeLinkArgs):
+async def dtk_privilege_link(
+    request: HttpRequest, args: TbServiceGetPrivilegeLinkArgs
+) -> DtkPrivilegeLinkResponseModel:
     logger = get_logger()
     dtk = await get_dtk_async()
 

@@ -21,9 +21,10 @@ class DtkGoodsDetailResponseModel(ResponseModel):
     tags=["大淘客"],
     summary="单品详情",
     description="",
-    response_model=DtkGoodsDetailResponseModel,
 )
-async def dtk_goods_detail(request: HttpRequest, args: GoodsGetGoodsDetailsArgs):
+async def dtk_goods_detail(
+    request: HttpRequest, args: GoodsGetGoodsDetailsArgs
+) -> DtkGoodsDetailResponseModel:
     logger = get_logger()
     dtk = await get_dtk_async()
 

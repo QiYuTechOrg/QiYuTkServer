@@ -15,11 +15,10 @@ from ...api_utils import api_inner_wrapper
     tags=["大淘客"],
     summary="9.9包邮",
     description="9.9包邮精选  文档: https://www.dataoke.com/pmc/api-d.html?id=15",
-    response_model=GenericItemListResponseModel,
 )
 async def dtk_goods_nine_op_goods_list(
     request: HttpRequest, g: GoodsNineOpGoodsListArgs
-):
+) -> GenericItemListResponseModel:
     logger = get_logger()
     dtk = await get_dtk_std()
 

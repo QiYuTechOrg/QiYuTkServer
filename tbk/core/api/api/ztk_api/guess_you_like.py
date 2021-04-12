@@ -47,9 +47,10 @@ class GuessYouLikeForm(BaseModel):
     tags=["折淘客"],
     summary="猜你喜欢",
     description="使用折淘客 猜你喜欢接口",
-    response_model=GuessYouLikeResponseModel,
 )
-async def guess_you_like(request: HttpRequest, g: GuessYouLikeForm):
+async def guess_you_like(
+    request: HttpRequest, g: GuessYouLikeForm
+) -> GuessYouLikeResponseModel:
     logger = get_logger()
     ztk = get_ztk_api_v2(logger)
 

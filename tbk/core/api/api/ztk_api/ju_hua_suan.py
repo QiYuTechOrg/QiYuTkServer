@@ -36,9 +36,10 @@ class JuHuaSuanForm(BaseModel):
     tags=["折淘客"],
     summary="聚划算",
     description="",
-    response_model=JuHuanSuanResponseModel,
 )
-async def ju_hua_suan(request: HttpRequest, g: JuHuaSuanForm):
+async def ju_hua_suan(
+    request: HttpRequest, g: JuHuaSuanForm
+) -> JuHuanSuanResponseModel:
     logger = get_logger()
     ztk = get_ztk_api_v2(logger)
 

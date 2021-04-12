@@ -36,9 +36,10 @@ class BangDanTuiJianForm(BaseModel):
     tags=["折淘客"],
     summary="榜单推荐",
     description="",
-    response_model=BangDanTuiJianResponseModel,
 )
-async def bang_dan_tui_jian(request: HttpRequest, g: BangDanTuiJianForm):
+async def bang_dan_tui_jian(
+    request: HttpRequest, g: BangDanTuiJianForm
+) -> BangDanTuiJianResponseModel:
     logger = get_logger()
     ztk = get_ztk_api_v2(logger)
 

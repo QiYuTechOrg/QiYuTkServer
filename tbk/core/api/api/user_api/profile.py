@@ -23,9 +23,10 @@ class UserProfileResponseModel(ResponseModel):
     tags=["用户"],
     summary="用户信息",
     description="获取用户自己的信息",
-    response_model=UserProfileResponseModel,
 )
-async def user_profile(request: HttpRequest, g: UserTokenForm):
+async def user_profile(
+    request: HttpRequest, g: UserTokenForm
+) -> UserProfileResponseModel:
     logger = get_logger()
 
     @api_ensure_login(g.token, logger)

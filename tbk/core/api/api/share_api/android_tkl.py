@@ -17,9 +17,10 @@ from ...api_utils import api_inner_wrapper
     tags=["分享"],
     summary="Android 使用淘口令分享商品",
     description="用户通过淘口令分享指定的商品\n注意: 这个用户必须绑定渠道ID",
-    response_model=ShareItemTklResponseModel,
 )
-async def share_android_relation_tkl(request: HttpRequest, g: ShareItemTklForm):
+async def share_android_relation_tkl(
+    request: HttpRequest, g: ShareItemTklForm
+) -> ShareItemTklResponseModel:
     logger = get_logger()
 
     @api_inner_wrapper(logger)

@@ -37,9 +37,10 @@ class TMallShangPinForm(BaseModel):
     tags=["折淘客"],
     summary="天猫商品",
     description="",
-    response_model=TMallShangPinResponseModel,
 )
-async def tmall_shang_pin(request: HttpRequest, g: TMallShangPinForm):
+async def tmall_shang_pin(
+    request: HttpRequest, g: TMallShangPinForm
+) -> TMallShangPinResponseModel:
     logger = get_logger()
     ztk = get_ztk_api_v2(logger)
 

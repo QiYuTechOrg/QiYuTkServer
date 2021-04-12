@@ -23,9 +23,8 @@ class SysConfigResponseModel(ResponseModel):
     tags=["配置"],
     summary="系统配置",
     description="返回系统的配置",
-    response_model=SysConfigResponseModel,
 )
-async def sys_auth(request: HttpRequest):
+async def sys_auth(request: HttpRequest) -> SysConfigResponseModel:
     logger = get_logger()
 
     @api_inner_wrapper(logger)

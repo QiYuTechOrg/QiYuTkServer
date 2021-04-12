@@ -20,9 +20,8 @@ class UserTbResponseModel(ResponseModel):
     tags=["用户"],
     summary="用户是否已经进行淘宝认证",
     description="用户是否已经进行淘宝认证",
-    response_model=UserTbResponseModel,
 )
-async def user_tb(request: HttpRequest, g: UserTokenForm):
+async def user_tb(request: HttpRequest, g: UserTokenForm) -> UserTbResponseModel:
     logger = get_logger()
 
     @api_inner_wrapper(logger)

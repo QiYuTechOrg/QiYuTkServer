@@ -15,9 +15,10 @@ from ...api_utils import api_inner_wrapper
     tags=["大淘客"],
     summary="大淘客搜索",
     description="",
-    response_model=GenericItemListResponseModel,
 )
-async def dtk_search_goods(request: HttpRequest, args: GoodsGetDtkSearchGoodsArgs):
+async def dtk_search_goods(
+    request: HttpRequest, args: GoodsGetDtkSearchGoodsArgs
+) -> GenericItemListResponseModel:
     logger = get_logger()
     dtk = await get_dtk_std()
 

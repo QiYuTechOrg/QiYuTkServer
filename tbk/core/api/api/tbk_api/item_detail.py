@@ -21,12 +21,11 @@ class TbkGoodsDetailResponseModel(ResponseModel):
     "/tbk/item_detail",
     tags=["淘宝客"],
     summary="单品详情",
-    response_model=TbkGoodsDetailResponseModel,
 )
 async def tbk_item_detail(
     request: HttpRequest,
     args: TbkItemDetailForm,
-):
+) -> TbkGoodsDetailResponseModel:
     """
     获取淘宝客的单品详情
     """

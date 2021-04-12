@@ -15,9 +15,10 @@ from ...api_utils import api_inner_wrapper
     tags=["大淘客"],
     summary="商品列表",
     description="实际接口: https://www.dataoke.com/pmc/api-d.html?id=5",
-    response_model=GenericItemListResponseModel,
 )
-async def dtk_goods_lists(request: HttpRequest, args: GoodsGetGoodsListArgs):
+async def dtk_goods_lists(
+    request: HttpRequest, args: GoodsGetGoodsListArgs
+) -> GenericItemListResponseModel:
     logger = get_logger()
     dtk = await get_dtk_std()
 

@@ -15,9 +15,10 @@ from ...api_utils import api_inner_wrapper
     tags=["大淘客"],
     summary="猜你喜欢",
     description="[每日爆品推荐](https://www.dataoke.com/pmc/api-d.html?id=34)",
-    response_model=GenericItemListResponseModel,
 )
-async def dtk_guess_you_like(request: HttpRequest, g: GoodsExplosiveGoodsListArgs):
+async def dtk_guess_you_like(
+    request: HttpRequest, g: GoodsExplosiveGoodsListArgs
+) -> GenericItemListResponseModel:
     logger = get_logger()
     dtk = await get_dtk_std()
 
