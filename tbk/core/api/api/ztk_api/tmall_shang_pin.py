@@ -1,11 +1,9 @@
 from typing import Optional, List
 
 from django.http import HttpRequest
-from fastapi import Depends, Body
 from pydantic import BaseModel, Field
 from qiyu_api.tbk_api import TbkItemInfo
-from qiyu_api.ztk_api import ZTKStd, TMallShangPinArgs
-from structlog.stdlib import BoundLogger
+from qiyu_api.ztk_api import TMallShangPinArgs
 
 from core.logger import get_logger
 from core.resp.base import ResponseModel, ApiResp

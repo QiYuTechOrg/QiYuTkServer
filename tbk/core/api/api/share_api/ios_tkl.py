@@ -3,8 +3,6 @@
 """
 
 from django.http import HttpRequest
-from fastapi import Depends, Body
-from structlog.stdlib import BoundLogger
 
 from core.forms import ShareItemTklForm
 from core.logger import get_logger
@@ -42,10 +40,9 @@ async def share_ios_relation_tkl(request: HttpRequest, g: ShareItemTklForm):
     description="用户通过淘口令分享指定的商品\n注意: 这个用户可以没有绑定渠道ID",
     response_model=ShareItemTklResponseModel,
 )
-async def share_ios_no_relation_tkl(
-    g: ShareItemTklForm = Body(..., title="请求参数"),
-    logger: BoundLogger = Depends(get_logger),
-):
+async def share_ios_no_relation_tkl(request: HttpRequest, g: ShareItemTklForm):
+    logger = get_logger()
+
     @api_inner_wrapper(logger)
     async def inner():
         logic = ShareLogic(logger)

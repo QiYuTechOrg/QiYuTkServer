@@ -1,8 +1,7 @@
 from typing import Optional
 
-from fastapi import Depends, Body
+from django.http import HttpRequest
 from pydantic import Field
-from structlog.stdlib import BoundLogger
 
 from core.forms import UserTokenForm
 from core.logger import get_logger
@@ -23,10 +22,9 @@ class UserTbResponseModel(ResponseModel):
     description="用户是否已经进行淘宝认证",
     response_model=UserTbResponseModel,
 )
-async def user_tb(
-    g: UserTokenForm = Body(..., title="请求参数"),
-    logger: BoundLogger = Depends(get_logger),
-):
+async def user_tb(request: HttpRequest, g: UserTokenForm):
+    logger = get_logger()
+
     @api_inner_wrapper(logger)
     async def inner():
         logic = UserV2Logic(logger)

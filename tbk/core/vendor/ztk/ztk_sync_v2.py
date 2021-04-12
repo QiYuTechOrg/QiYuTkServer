@@ -5,7 +5,6 @@
 from typing import Optional
 
 import structlog
-from fastapi import Depends
 from qiyu_api.ztk_api import ZTKSync
 
 from tbk.s_config import SConfig
@@ -17,7 +16,9 @@ __all__ = ["get_ztk_sync_api_v2"]
 g_ztk_sync: Optional[ZTKSync] = None
 
 
-def get_ztk_sync_api_v2(logger: structlog.stdlib.BoundLogger = Depends(get_logger)):
+def get_ztk_sync_api_v2(logger: Optional[structlog.stdlib.BoundLogger] = None):
+    if logger is None:
+        logger = get_logger()
     global g_ztk_sync
     if g_ztk_sync is None:
         g_ztk_sync = ZTKSync(SConfig.ZTKSid, logger)
