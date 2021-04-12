@@ -41,7 +41,7 @@ urlpatterns = [
     # 首页
     path("", web_views.IndexView.as_view(), name="index"),
     # API 接口
-    path("api", app.urls),
+    path("api/", app.urls),
     # Web 接口
     path("detail/<str:item_id>", web_views.DetailView.as_view(), name="detail"),
     path("search/", web_views.SearchView.as_view(), name="search"),
