@@ -1,10 +1,9 @@
 from typing import Optional, List
 
-from fastapi import Depends, Body
+from django.http import HttpRequest
 from pydantic import BaseModel, Field
 from qiyu_api.tbk_api import TbkItemInfo
-from qiyu_api.ztk_api import ZTKStd, SearchArgs
-from structlog.stdlib import BoundLogger
+from qiyu_api.ztk_api import SearchArgs
 
 from core.logger import get_logger
 from core.resp.base import ResponseModel, ApiResp
@@ -42,11 +41,10 @@ class SearchForm(BaseModel):
     description="",
     response_model=SearchResponseModel,
 )
-async def ztk_search(
-    f: SearchForm = Body(..., title="请求参数"),
-    logger: BoundLogger = Depends(get_logger),
-    ztk: ZTKStd = Depends(get_ztk_api_v2),
-):
+async def ztk_search(request: HttpRequest, f: SearchForm):
+    logger = get_logger()
+    ztk = get_ztk_api_v2(logger)
+
     @api_inner_wrapper(logger)
     async def inner():
         data = f.to_data()
