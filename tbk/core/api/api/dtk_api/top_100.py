@@ -1,9 +1,6 @@
 from typing import Optional, List
 
-from fastapi import Depends
 from pydantic import Field
-from qiyu_api.dtk_api import DtkAsyncApi
-from structlog.stdlib import BoundLogger
 
 from core.logger import get_logger
 from core.resp.base import ResponseModel, ApiResp
@@ -24,10 +21,10 @@ class DtkTop100ResponseModel(ResponseModel):
     description="",
     response_model=DtkTop100ResponseModel,
 )
-async def dtk_top_100(
-    logger: BoundLogger = Depends(get_logger),
-    dtk: DtkAsyncApi = Depends(get_dtk_async),
-):
+async def dtk_top_100():
+    logger = get_logger()
+    dtk = await get_dtk_async()
+
     @api_inner_wrapper(logger)
     async def inner():
         j = await dtk.category_get_top100()

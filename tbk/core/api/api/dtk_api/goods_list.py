@@ -1,7 +1,5 @@
-from fastapi import Body, Depends
-from qiyu_api.dtk_api import DtkStdApi
+from django.http import HttpRequest
 from qiyu_api.dtk_api.gen import GoodsGetGoodsListArgs
-from structlog.stdlib import BoundLogger
 
 from core.logger import get_logger
 from core.resp.base import ApiResp
@@ -19,11 +17,10 @@ from ...api_utils import api_inner_wrapper
     description="实际接口: https://www.dataoke.com/pmc/api-d.html?id=5",
     response_model=GenericItemListResponseModel,
 )
-async def dtk_goods_lists(
-    args: GoodsGetGoodsListArgs = Body(..., title="请求参数"),
-    logger: BoundLogger = Depends(get_logger),
-    dtk: DtkStdApi = Depends(get_dtk_std),
-):
+async def dtk_goods_lists(request: HttpRequest, args: GoodsGetGoodsListArgs):
+    logger = get_logger()
+    dtk = await get_dtk_std()
+
     @api_inner_wrapper(logger)
     async def inner():
         j = await dtk.goods_get_goods_list(args)

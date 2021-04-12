@@ -2,6 +2,7 @@
 用户分享淘宝商品
 """
 
+from django.http import HttpRequest
 from fastapi import Depends, Body
 from structlog.stdlib import BoundLogger
 
@@ -21,10 +22,9 @@ from ...api_utils import api_inner_wrapper
     description="用户通过淘口令分享指定的商品\n注意: 这个用户必须绑定渠道ID",
     response_model=ShareItemTklResponseModel,
 )
-async def share_ios_relation_tkl(
-    g: ShareItemTklForm = Body(..., title="请求参数"),
-    logger: BoundLogger = Depends(get_logger),
-):
+async def share_ios_relation_tkl(request: HttpRequest, g: ShareItemTklForm):
+    logger = get_logger()
+
     @api_inner_wrapper(logger)
     async def inner():
         logic = ShareLogic(logger)

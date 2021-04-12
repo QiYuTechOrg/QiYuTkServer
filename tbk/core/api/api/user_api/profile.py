@@ -1,9 +1,8 @@
 from typing import Optional
 
 from django.contrib.auth.models import User
-from fastapi import Depends, Body
+from django.http import HttpRequest
 from pydantic import Field
-from structlog.stdlib import BoundLogger
 
 from core.dm import UserProfileDataModel
 from core.forms import UserTokenForm
@@ -26,10 +25,9 @@ class UserProfileResponseModel(ResponseModel):
     description="获取用户自己的信息",
     response_model=UserProfileResponseModel,
 )
-async def user_profile(
-    g: UserTokenForm = Body(..., title="请求参数"),
-    logger: BoundLogger = Depends(get_logger),
-):
+async def user_profile(request: HttpRequest, g: UserTokenForm):
+    logger = get_logger()
+
     @api_ensure_login(g.token, logger)
     async def inner(user: User):
         ul = UserLogic(logger)

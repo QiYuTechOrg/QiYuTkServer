@@ -4,7 +4,6 @@
 from typing import Optional
 
 import structlog
-from fastapi import Depends
 from qiyu_api.ztk_api import ZTKStd
 
 from tbk.s_config import SConfig
@@ -15,7 +14,9 @@ __all__ = ["get_ztk_api_v2"]
 g_ztk: Optional[ZTKStd] = None
 
 
-def get_ztk_api_v2(logger: structlog.stdlib.BoundLogger = Depends(get_logger)):
+def get_ztk_api_v2(logger: Optional[structlog.stdlib.BoundLogger] = None):
+    if logger is None:
+        logger = get_logger()
     global g_ztk
     if g_ztk is None:
         g_ztk = ZTKStd(SConfig.ZTKSid, logger)

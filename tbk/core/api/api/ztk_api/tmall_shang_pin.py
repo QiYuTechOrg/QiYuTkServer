@@ -1,5 +1,6 @@
 from typing import Optional, List
 
+from django.http import HttpRequest
 from fastapi import Depends, Body
 from pydantic import BaseModel, Field
 from qiyu_api.tbk_api import TbkItemInfo
@@ -40,11 +41,10 @@ class TMallShangPinForm(BaseModel):
     description="",
     response_model=TMallShangPinResponseModel,
 )
-async def tmall_shang_pin(
-    g: TMallShangPinForm = Body(..., title="请求参数"),
-    logger: BoundLogger = Depends(get_logger),
-    ztk: ZTKStd = Depends(get_ztk_api_v2),
-):
+async def tmall_shang_pin(request: HttpRequest, g: TMallShangPinForm):
+    logger = get_logger()
+    ztk = get_ztk_api_v2(logger)
+
     @api_inner_wrapper(logger)
     async def inner():
         data = g.to_data()
