@@ -14,6 +14,8 @@ import os
 
 from django_qiyu_utils.settings import *  # noqa
 
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
 from .app_config import *  # noqa
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
