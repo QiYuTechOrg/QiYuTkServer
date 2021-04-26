@@ -1,10 +1,8 @@
 from typing import List, Optional
 
-from fastapi import Depends
-from fastapi import Query
+from django.http import HttpRequest
 from pydantic import Field
-from qiyu_api.ztk_api import ZTKStd, SuggestArgs
-from structlog.stdlib import BoundLogger
+from qiyu_api.ztk_api import SuggestArgs
 
 from core.logger import get_logger
 from core.resp.base import ApiResp, ResponseModel
@@ -22,13 +20,11 @@ class SuggestResponseModel(ResponseModel):
     tags=["折淘客"],
     summary="关键词推荐",
     description="",
-    response_model=SuggestResponseModel,
 )
-async def ztk_suggest(
-    content: str = Query(..., title="搜索关键词"),
-    logger: BoundLogger = Depends(get_logger),
-    ztk: ZTKStd = Depends(get_ztk_api_v2),
-):
+async def ztk_suggest(request: HttpRequest, content: str) -> SuggestResponseModel:
+    logger = get_logger()
+    ztk = get_ztk_api_v2(logger)
+
     @api_inner_wrapper(logger)
     async def inner():
         args = SuggestArgs(content=content)

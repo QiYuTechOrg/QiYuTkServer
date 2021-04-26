@@ -1,10 +1,9 @@
 from typing import Optional, List
 
-from fastapi import Depends, Body
+from django.http import HttpRequest
 from pydantic import BaseModel, Field
 from qiyu_api.tbk_api import TbkItemInfo
-from qiyu_api.ztk_api import ZTKStd, GuessYouLikeArgs
-from structlog.stdlib import BoundLogger
+from qiyu_api.ztk_api import GuessYouLikeArgs
 
 from core.logger import get_logger
 from core.resp.base import ResponseModel, ApiResp
@@ -48,13 +47,13 @@ class GuessYouLikeForm(BaseModel):
     tags=["折淘客"],
     summary="猜你喜欢",
     description="使用折淘客 猜你喜欢接口",
-    response_model=GuessYouLikeResponseModel,
 )
 async def guess_you_like(
-    g: GuessYouLikeForm = Body(..., title="请求参数"),
-    logger: BoundLogger = Depends(get_logger),
-    ztk: ZTKStd = Depends(get_ztk_api_v2),
-):
+    request: HttpRequest, g: GuessYouLikeForm
+) -> GuessYouLikeResponseModel:
+    logger = get_logger()
+    ztk = get_ztk_api_v2(logger)
+
     @api_inner_wrapper(logger)
     async def inner():
         args = g.to_data()

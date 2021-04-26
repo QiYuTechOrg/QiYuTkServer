@@ -1,7 +1,5 @@
-from fastapi import Body, Depends
-from qiyu_api.dtk_api import DtkStdApi
+from django.http import HttpRequest
 from qiyu_api.dtk_api.gen import GoodsGetDtkSearchGoodsArgs
-from structlog.stdlib import BoundLogger
 
 from core.logger import get_logger
 from core.resp.base import ApiResp
@@ -17,13 +15,13 @@ from ...api_utils import api_inner_wrapper
     tags=["大淘客"],
     summary="大淘客搜索",
     description="",
-    response_model=GenericItemListResponseModel,
 )
 async def dtk_search_goods(
-    args: GoodsGetDtkSearchGoodsArgs = Body(..., title="请求参数"),
-    logger: BoundLogger = Depends(get_logger),
-    dtk: DtkStdApi = Depends(get_dtk_std),
-):
+    request: HttpRequest, args: GoodsGetDtkSearchGoodsArgs
+) -> GenericItemListResponseModel:
+    logger = get_logger()
+    dtk = await get_dtk_std()
+
     @api_inner_wrapper(logger)
     async def inner():
         j = await dtk.goods_get_dtk_search_goods(args)

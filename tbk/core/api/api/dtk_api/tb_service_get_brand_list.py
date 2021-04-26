@@ -1,10 +1,9 @@
 from typing import Optional, List
 
-from fastapi import Depends, Body
+from django.http import HttpRequest
 from pydantic import Field
 from qiyu_api.dtk_api import DtkAsyncApi
 from qiyu_api.dtk_api.gen import TbServiceGetBrandListArgs, TbServiceGetBrandListResp
-from structlog.stdlib import BoundLogger
 
 from core.logger import get_logger
 from core.resp.base import ResponseModel, ApiResp
@@ -23,13 +22,14 @@ class DtkBrandListResponseModel(ResponseModel):
     tags=["大淘客"],
     summary="超值大牌",
     description="[大淘客品牌库文档](https://www.dataoke.com/pmc/api-d.html?id=17)",
-    response_model=DtkBrandListResponseModel,
 )
 async def dtk_tb_service_get_brand_list(
-    g: TbServiceGetBrandListArgs = Body(..., title="请求参数"),
-    logger: BoundLogger = Depends(get_logger),
-    dtk: DtkAsyncApi = Depends(get_dtk_async),
-):
+    request: HttpRequest, g: TbServiceGetBrandListArgs
+) -> DtkBrandListResponseModel:
+    logger = get_logger()
+
+    dtk: DtkAsyncApi = await get_dtk_async()
+
     @api_inner_wrapper(logger)
     async def inner():
         j = await dtk.tb_service_get_brand_list(g)

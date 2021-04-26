@@ -4,9 +4,8 @@ Android 使用的是回调的绑定方式
 """
 
 from django.contrib.auth.models import User
-from fastapi import Depends, Body
+from django.http import HttpRequest
 from pydantic import Field, BaseModel
-from structlog.stdlib import BoundLogger
 
 from core.logger import get_logger
 from core.logic import TaoBaoLogic
@@ -33,15 +32,15 @@ class TbBindForm(BaseModel):
     "/user/bind",
     tags=["用户"],
     summary="iOS用户绑定淘宝渠道ID",
-    response_model=TbBindResponseModel,
 )
 async def user_ios_bind_tb(
-    g: TbBindForm = Body(..., title="请求参数"),
-    logger: BoundLogger = Depends(get_logger),
-):
+    request: HttpRequest,
+    g: TbBindForm,
+) -> TbBindResponseModel:
     """
     给指定的用户绑定渠道 ID 信息
     """
+    logger = get_logger()
 
     @api_ensure_login(g.token, logger)
     async def inner(user: User):

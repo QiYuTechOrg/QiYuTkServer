@@ -1,8 +1,7 @@
 from typing import Optional
 
-from fastapi import Depends, Body
+from django.http import HttpRequest
 from pydantic import Field
-from structlog.stdlib import BoundLogger
 
 from core.dm.user import UserNativeAuthDataModel
 from core.forms.user import UserNativeAuthForm
@@ -23,12 +22,11 @@ class UserAuthResponseModel(ResponseModel):
     tags=["用户"],
     summary="用户认证息",
     description="用户登录",
-    response_model=UserAuthResponseModel,
 )
 async def user_auth(
-    g: UserNativeAuthForm = Body(..., title="请求参数"),
-    logger: BoundLogger = Depends(get_logger),
-):
+    request: HttpRequest, g: UserNativeAuthForm
+) -> UserAuthResponseModel:
+    logger = get_logger()
     ul = UserV2Logic(logger)
     token = await ul.auth(username=g.username, password=g.password)
     if token is None:

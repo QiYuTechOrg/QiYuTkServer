@@ -1,10 +1,8 @@
 from typing import Optional, List
 
-from fastapi import Depends
+from django.http import HttpRequest
 from pydantic import Field
-from qiyu_api.dtk_api import DtkAsyncApi
 from qiyu_api.dtk_api.gen import CategoryGetSuperCategoryResp
-from structlog.stdlib import BoundLogger
 
 from core.logger import get_logger
 from core.resp.base import ResponseModel, ApiResp
@@ -23,12 +21,13 @@ class DtkSuperCategoryResponseModel(ResponseModel):
     tags=["大淘客"],
     summary="超级分类",
     description="[大淘客超级分类文档](https://www.dataoke.com/pmc/api-d.html?id=10)",
-    response_model=DtkSuperCategoryResponseModel,
 )
 async def dtk_super_category(
-    logger: BoundLogger = Depends(get_logger),
-    dtk: DtkAsyncApi = Depends(get_dtk_async),
-):
+    request: HttpRequest,
+) -> DtkSuperCategoryResponseModel:
+    logger = get_logger()
+    dtk = await get_dtk_async()
+
     @api_inner_wrapper(logger)
     async def inner():
         j = await dtk.category_get_super_category()

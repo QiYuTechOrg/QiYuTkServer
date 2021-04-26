@@ -1,9 +1,8 @@
 from typing import Optional, List
 
-from fastapi import Query, Depends
+from django.http import HttpRequest
 from pydantic import Field
-from qiyu_api.ztk_api import ZTK, ItemDetailV2Args, ItemDetailV2Model
-from structlog.stdlib import BoundLogger
+from qiyu_api.ztk_api import ItemDetailV2Args, ItemDetailV2Model
 
 from core.logger import get_logger
 from core.resp.base import ApiResp, ResponseModel
@@ -24,13 +23,11 @@ class ItemV2ResponseModel(ResponseModel):
     tags=["折淘客"],
     summary="商品详情",
     description="获取指定商品的详情\n注意: 当前仅仅支持淘宝的商品",
-    response_model=ItemV2ResponseModel,
 )
-async def item_detail_v2(
-    item_id: str = Query(..., title="商品ID", description="要获取商品详情的ID"),
-    logger: BoundLogger = Depends(get_logger),
-    ztk: ZTK = Depends(get_ztk_api_v2),
-):
+async def item_detail_v2(request: HttpRequest, item_id: str) -> ItemV2ResponseModel:
+    logger = get_logger()
+    ztk = get_ztk_api_v2(logger)
+
     @api_inner_wrapper(logger)
     async def inner():
         args = ItemDetailV2Args(tao_id=item_id)

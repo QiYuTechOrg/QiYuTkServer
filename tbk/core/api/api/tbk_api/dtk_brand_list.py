@@ -1,10 +1,8 @@
 from typing import Optional, List
 
-from fastapi import Body, Depends
+from django.http import HttpRequest
 from pydantic import Field
-from qiyu_api.dtk_api import DtkStdApi
 from qiyu_api.tbk_api import TbkBrandInfo
-from structlog.stdlib import BoundLogger
 
 from core.forms.tbk import TbkBrandListForm
 from core.logger import get_logger
@@ -23,16 +21,15 @@ class TbkBrandListResponseModel(ResponseModel):
     "/tbk/dtk/brand_list",
     tags=["淘宝客"],
     summary="大淘客品牌列表",
-    response_model=TbkBrandListResponseModel,
 )
 async def tbk_dtk_brand_list(
-    args: TbkBrandListForm = Body(..., title="请求参数"),
-    logger: BoundLogger = Depends(get_logger),
-    tbk: DtkStdApi = Depends(get_dtk_std),
-):
+    request: HttpRequest, args: TbkBrandListForm
+) -> TbkBrandListResponseModel:
     """
     获取淘宝客的单品详情
     """
+    logger = get_logger()
+    tbk = await get_dtk_std()
 
     @api_inner_wrapper(logger)
     async def inner():

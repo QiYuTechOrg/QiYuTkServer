@@ -1,8 +1,7 @@
 from typing import Optional
 
-from fastapi import Depends
+from django.http import HttpRequest
 from pydantic import Field, BaseModel
-from structlog.stdlib import BoundLogger
 
 from core.logger import get_logger
 from core.logic import SysLogic
@@ -24,9 +23,10 @@ class SysConfigResponseModel(ResponseModel):
     tags=["配置"],
     summary="系统配置",
     description="返回系统的配置",
-    response_model=SysConfigResponseModel,
 )
-async def sys_auth(logger: BoundLogger = Depends(get_logger)):
+async def sys_auth(request: HttpRequest) -> SysConfigResponseModel:
+    logger = get_logger()
+
     @api_inner_wrapper(logger)
     async def inner():
         logic = SysLogic(logger)

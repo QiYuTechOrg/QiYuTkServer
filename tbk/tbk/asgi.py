@@ -16,7 +16,7 @@ __all__ = ["app"]
 
 dot_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "../.env")
 if os.path.exists(dot_file):
-    dotenv.load_dotenv(dot_file)
+    dotenv.read_dotenv(dot_file)
 
 os.environ.setdefault("WS_DJANGO_RUN_MODE", "async")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tbk.settings")

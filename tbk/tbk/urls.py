@@ -19,6 +19,7 @@ from django.contrib.admin import AdminSite
 from django.urls import path
 from django_qiyu_utils.settings import SERVE_FILE_URLS
 
+from core.api.api import app
 from core.views import (
     taobao,
     PingView,
@@ -39,6 +40,9 @@ else:
 urlpatterns = [
     # 首页
     path("", web_views.IndexView.as_view(), name="index"),
+    # API 接口
+    path("api/", app.urls),
+    # Web 接口
     path("detail/<str:item_id>", web_views.DetailView.as_view(), name="detail"),
     path("search/", web_views.SearchView.as_view(), name="search"),
     path("privacy/", PrivacyView.as_view(), name="privacy"),

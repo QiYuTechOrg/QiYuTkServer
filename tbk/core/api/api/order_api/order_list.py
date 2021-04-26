@@ -2,9 +2,8 @@ import datetime
 import decimal
 from typing import List, Optional
 
-from fastapi import Depends, Body
+from django.http import HttpRequest
 from pydantic import BaseModel, Field
-from structlog.stdlib import BoundLogger
 
 from core.api.api import fields
 from core.api.api.app import app
@@ -66,15 +65,15 @@ class OrderListForm(BaseModel):
     "/order/list",
     tags=["订单"],
     summary="获取订单列表",
-    response_model=OrderListResponseModel,
 )
 async def order_list(
-    form: OrderListForm = Body(..., title="请求数据"),
-    logger: BoundLogger = Depends(get_logger),
-):
+    request: HttpRequest, form: OrderListForm
+) -> OrderListResponseModel:
     """
     获取用户的淘宝客订单
     """
+
+    logger = get_logger()
 
     @api_inner_wrapper(logger)
     async def inner():

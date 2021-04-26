@@ -1,11 +1,8 @@
 from typing import Optional, List
 
-from fastapi import Body
-from fastapi import Depends
+from django.http import HttpRequest
 from pydantic import Field
-from qiyu_api.dtk_api import DtkAsyncApi
 from qiyu_api.dtk_api.gen import TbServiceGetTbServiceResp, TbServiceGetTbServiceArgs
-from structlog.stdlib import BoundLogger
 
 from core.logger import get_logger
 from core.resp.base import ResponseModel, ApiResp
@@ -24,13 +21,13 @@ class DtkTbServiceResponseModel(ResponseModel):
     tags=["大淘客"],
     summary="联盟搜索",
     description="",
-    response_model=DtkTbServiceResponseModel,
 )
 async def dtk_tb_service_get_tb_service(
-    args: TbServiceGetTbServiceArgs = Body(..., title="请求参数"),
-    logger: BoundLogger = Depends(get_logger),
-    dtk: DtkAsyncApi = Depends(get_dtk_async),
-):
+    request: HttpRequest, args: TbServiceGetTbServiceArgs
+) -> DtkTbServiceResponseModel:
+    logger = get_logger()
+    dtk = await get_dtk_async()
+
     @api_inner_wrapper(logger)
     async def inner():
         j = await dtk.tb_service_get_tb_service(args)
