@@ -1,7 +1,6 @@
 # 奇遇淘客 APP 服务器端
 
 ![Docker Pulls](https://img.shields.io/docker/pulls/qiyutech/tbk)
-![Docker Image Version (latest semver)](https://img.shields.io/docker/v/qiyutech/tbk)
 ![docker build](https://github.com/QiYuTechDev/QiYuTkServer/workflows/docker%20build/badge.svg?branch=main)
 ![docker release](https://github.com/QiYuTechDev/QiYuTkServer/workflows/docker%20release/badge.svg?branch=v0.1.1&event=release)
 
