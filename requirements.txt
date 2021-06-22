@@ -26,7 +26,7 @@ marshmallow==3.12.1; python_version >= "3.9" and python_version < "4.0"
 multidict==5.1.0; python_version >= "3.9" and python_version < "4.0"
 mypy-extensions==0.4.3; python_version >= "3.6"
 pillow==8.2.0; python_version >= "3.6"
-psycopg2-binary==2.8.6; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.4.0")
+psycopg2-binary==2.9.1; python_version >= "3.6"
 pycparser==2.20; python_version >= "3.9" and python_full_version < "3.0.0" and python_version < "4.0" or python_version >= "3.9" and python_version < "4.0" and python_full_version >= "3.4.0"
 pydantic==1.8.2; python_full_version >= "3.6.1" and python_version >= "3.9" and python_version < "4.0"
 pydes==2.0.1; python_version >= "3.9" and python_version < "4.0"

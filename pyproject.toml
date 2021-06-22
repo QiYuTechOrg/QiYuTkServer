@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tbk"
-version = "v0.4.2"
+version = "v0.5.0"
 description = "奇遇淘客"
 authors = ["dev <dev@qiyutech.tech>"]
 readme = "README.md"
@@ -16,7 +16,7 @@ apscheduler = ">=3.6,<4.0"
 django = ">=3.2.4,<3.3"
 
 # for django database
-psycopg2-binary = ">=2.8,<2.9"
+psycopg2-binary = ">=2.9,<2.10"
 # add MySQL if use MySQL database
 
 # 线上环境展示
