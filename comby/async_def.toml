@@ -1,8 +1,6 @@
 [async_def]
 
-match = "async def :[[name]](:[argument])"
+match = "@app"
 
 rewrite = """@async_to_sync
-async def :[[name]](:[argument])"""
-
-rule = 'where :[name] != "inner", :[name] != "to_data", :[name] != "init"'
+@app"""
