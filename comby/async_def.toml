@@ -9,3 +9,4 @@ from asgiref.sync import async_to_sync
 async def :[name](:[arguments])
 """
 
+rule = 'where :[name] != "inner"'
