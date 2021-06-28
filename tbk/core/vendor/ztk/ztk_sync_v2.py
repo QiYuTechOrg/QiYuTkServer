@@ -12,14 +12,8 @@ from ...logger import get_logger
 
 __all__ = ["get_ztk_sync_api_v2"]
 
-# g is for `global`
-g_ztk_sync: Optional[ZTKSync] = None
-
 
 def get_ztk_sync_api_v2(logger: Optional[structlog.stdlib.BoundLogger] = None):
     if logger is None:
         logger = get_logger()
-    global g_ztk_sync
-    if g_ztk_sync is None:
-        g_ztk_sync = ZTKSync(SConfig.ZTKSid, logger)
-    return g_ztk_sync
+    return ZTKSync(SConfig.ZTKSid, logger)
