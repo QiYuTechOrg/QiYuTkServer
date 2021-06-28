@@ -1,12 +1,10 @@
 [async_def]
 
-match = "async def :[name](:[arguments])"
+match = "async def :[[name]](:[argument])"
 
 rewrite = """
-from asgiref.sync import async_to_sync
-
 @async_to_sync
-async def :[name](:[arguments])
+async def :[[name]](:[argument])
 """
 
 rule = 'where :[name] != "inner"'
