@@ -1,0 +1,11 @@
+[async_def]
+
+match = "async def :[name](:[arguments])"
+
+rewrite = """
+from asgiref.sync import async_to_sync
+
+@async_to_sync
+async def :[name](:[arguments])
+"""
+

@@ -1,6 +1,7 @@
 .github
 caddy
 code_gen
+comby
 docker
 # entrypoints
 logs
