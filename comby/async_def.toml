@@ -1,0 +1,6 @@
+[async_def]
+
+match = "@app"
+
+rewrite = """@async_to_sync
+@app"""

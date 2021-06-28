@@ -20,3 +20,10 @@ dev-build:
 
 dev-run:
 	docker-compose up
+
+
+comby-async-def-dry-run:
+	comby -config comby/async_def.toml -directory tbk/core/api/api -matcher .py
+
+comby-async-def-in-place:
+	comby -in-place -config comby/async_def.toml -directory tbk/core/api/api -matcher .py
