@@ -2,9 +2,7 @@
 
 match = "async def :[[name]](:[argument])"
 
-rewrite = """
-@async_to_sync
-async def :[[name]](:[argument])
-"""
+rewrite = """@async_to_sync
+async def :[[name]](:[argument])"""
 
-rule = 'where :[name] != "inner"'
+rule = 'where :[name] != "inner", :[name] != "to_data", :[name] != "init"'
