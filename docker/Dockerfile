@@ -10,6 +10,6 @@ COPY . /app/
 
 RUN chmod a+x /app/entrypoints/*
 
-EXPOSE 8001 8002
+EXPOSE 8001
 
 VOLUME ["/app/logs", "/app/media"]
