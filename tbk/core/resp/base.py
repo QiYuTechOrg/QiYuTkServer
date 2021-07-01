@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from typing import TypeVar, Optional, Generic
 
 from pydantic import BaseModel, Field
@@ -10,15 +9,14 @@ T = TypeVar("T")
 __all__ = ["ApiResp", "ResponseModel", "AppErrno"]
 
 
-@dataclass
-class ApiResp(Generic[T]):
-    errno: AppErrno = AppErrno.success
-    errmsg: str = "成功"
-    data: Optional[T] = None
+class ApiResp(BaseModel, Generic[T]):
+    errno: AppErrno = Field(AppErrno.success, title="错误码")
+    errmsg: str = Field("成功", title="错误信息")
+    data: Optional[T] = Field(None, title="数据字段")
 
     @staticmethod
     def from_data(data: T) -> "ApiResp[T]":
-        return ApiResp(data=data)
+        return ApiResp[T](data=data)
 
     @staticmethod
     def from_errno(errno: AppErrno, errmsg: Optional[str] = None) -> "ApiResp[int]":
