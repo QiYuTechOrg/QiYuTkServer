@@ -121,4 +121,9 @@ class SConfig(metaclass=MyMetaClass):
     ####################################
     # WebHook 配置
     WEBHOOK_NEW_ORDER: str  # 新订单回调
-    WEBHOOK_NEW_USER: str  # 新用户回调
+    WEBHOOK_NEW_USER: str  # 新用户调
+    WEBHOOK_NEW_BIND: str  # 渠道ID绑定
+
+    ####################################
+    # 网页端配置
+    WEB_SHOW_COUPON: bool
