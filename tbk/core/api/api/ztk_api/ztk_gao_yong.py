@@ -37,7 +37,7 @@ class GaoYongForm(BaseModel):
         self: "GaoYongForm", logger: BoundLogger
     ) -> Awaitable[Optional[GaoYongArgs]]:
         logic = UserV2Logic(logger)
-        user = async_to_sync(logic.get_user_by_token(self.token))
+        user = async_to_sync(logic.get_user_by_token)(self.token)
         if user is None:
             logger.bind(token=self.token).error("user token is invalid")
             # noinspection PyTypeChecker
