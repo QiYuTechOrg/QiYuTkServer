@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Optional, List
+from typing import Optional
 from uuid import uuid4
 
 from django.db import transaction
@@ -253,11 +253,13 @@ class GrabOrderDtkCronBase(object):
     @staticmethod
     def _do_get_order_list(
         args: TbServiceGetOrderDetailsArgs, logger: BoundLogger
-    ) -> Optional[List[dict]]:
+    ) -> Optional[OrderDetailsResp]:
         dtk = DtkSyncApi(SConfig.DTKAppKey, SConfig.DTKAppSecret)
-        ret_list = dtk.tb_service_get_order_details(args)
-        logger.bind(ret_list=ret_list).info("get data")
-        return ret_list
+        ret = dtk.tb_service_get_order_details(args)
+        logger.bind(ret=ret).info("get data")
+        if ret is None:
+            return None
+        return OrderDetailsResp(**ret)
 
     @staticmethod
     def _fmt_time(ne: datetime) -> str:
