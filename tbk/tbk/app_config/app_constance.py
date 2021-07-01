@@ -25,6 +25,9 @@ CONSTANCE_CONFIG = {
     # 折淘客配置
     "ZTKSid": (EnvHelper.get_from_env("ZTK_SID"), "折淘客 sid", str),
     "ZTKAppKey": (EnvHelper.get_from_env("ZTK_APP_KEY"), "折淘客 App Key", str),
+    # 其他配置
+    "WEBHOOK_NEW_ORDER": (EnvHelper.get_from_env("WEBHOOK_NEW_ORDER"), "新订单的 WebHook", str),
+    "WEBHOOK_NEW_USER": (EnvHelper.get_from_env("WEBHOOK_NEW_USER"), "新用户的 WebHook", str),
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {
@@ -34,4 +37,5 @@ CONSTANCE_CONFIG_FIELDSETS = {
     },
     "折淘客": {"fields": ("ZTKSid", "ZTKAppKey"), "collapse": True},
     "大淘客": {"fields": ("DTKAppKey", "DTKAppSecret"), "collapse": True},
+    "WebHook": {"fields": ("WEBHOOK_NEW_ORDER", "WEBHOOK_NEW_USER"), "collapse": True},
 }

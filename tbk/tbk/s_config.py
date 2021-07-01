@@ -117,3 +117,8 @@ class SConfig(metaclass=MyMetaClass):
     # app key
     ZTKAppKey: str
     ####################################
+
+    ####################################
+    # WebHook 配置
+    WEBHOOK_NEW_ORDER: str  # 新订单回调
+    WEBHOOK_NEW_USER: str  # 新用户回调
