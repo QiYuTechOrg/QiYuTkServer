@@ -53,7 +53,7 @@ django-ninja = ">=0.13,<0.14"
 django-dotenv = ">=1.4,<2.0"
 
 dj-qiyu-tpl = ">=0.4,<0.5"
-qiyu-api = ">=0.3.4,<0.4"
+qiyu-api = ">=0.7,<0.8"
 
 [tool.poetry.dev-dependencies]
 pytest = "*"
