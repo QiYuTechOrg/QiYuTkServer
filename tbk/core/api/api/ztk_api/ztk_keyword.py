@@ -1,5 +1,6 @@
 from typing import List, Optional
 
+from django.http import HttpRequest
 from pydantic import Field
 
 from core.logger import get_logger
@@ -19,9 +20,9 @@ class KeywordResponseModel(ResponseModel):
     summary="关键词推荐",
     description="",
 )
-async def ztk_keyword() -> KeywordResponseModel:
+async def ztk_keyword(request: HttpRequest) -> KeywordResponseModel:
     logger = get_logger()
-    ztk = get_ztk_api_v2(logger)
+    ztk = await get_ztk_api_v2(logger)
 
     @api_inner_wrapper(logger)
     async def inner():

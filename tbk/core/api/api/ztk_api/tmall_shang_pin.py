@@ -42,7 +42,7 @@ async def tmall_shang_pin(
     request: HttpRequest, g: TMallShangPinForm
 ) -> TMallShangPinResponseModel:
     logger = get_logger()
-    ztk = get_ztk_api_v2(logger)
+    ztk = await get_ztk_api_v2(logger)
 
     @api_inner_wrapper(logger)
     async def inner():
