@@ -131,7 +131,7 @@ class GrabOrderZtkCronBase(object):
             income=order.income(),
             score=int(order.income() * 100),
             status=OrderStatusEnum.wait,
-            detail=order.to_dict(),
+            detail=order.dict(by_alias=True),
         )
 
         # noinspection PyArgumentList
@@ -169,7 +169,7 @@ class GrabOrderZtkCronBase(object):
         model.end_time = order.end_time()
         model.income = order.income()
         model.score = int(order.income() * 100)
-        model.detail = order.to_dict()
+        model.detail = order.dict(by_alias=True)
 
         if order.is_order_paid():  # 默认状态
             model.status = OrderStatusEnum.wait

@@ -28,7 +28,7 @@ class BangDanTuiJianForm(BaseModel):
     cid: Optional[int] = fields.cid_field
 
     def to_data(self) -> BangDanTuiJianArgs:
-        return BangDanTuiJianArgs.from_dict(self.dict())
+        return BangDanTuiJianArgs(**self.dict())
 
 
 @app.post(

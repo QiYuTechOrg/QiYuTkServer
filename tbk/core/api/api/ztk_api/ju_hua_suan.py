@@ -28,7 +28,7 @@ class JuHuaSuanForm(BaseModel):
     cid: Optional[int] = fields.cid_field
 
     def to_data(self) -> JuHuaSuanArgs:
-        return JuHuaSuanArgs.from_dict(self.dict())
+        return JuHuaSuanArgs(**self.dict(by_alias=True))
 
 
 @app.post(

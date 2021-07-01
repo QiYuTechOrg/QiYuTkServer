@@ -29,7 +29,7 @@ class NineNineForm(BaseModel):
     price: str = Field("0.0-9.9", title="商品价格", description="")
 
     def to_data(self) -> NineNineArgs:
-        return NineNineArgs.from_dict(self.dict())
+        return NineNineArgs(**self.dict(by_alias=True))
 
 
 @app.post(

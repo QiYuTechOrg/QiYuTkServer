@@ -29,7 +29,7 @@ class TMallChaoShiForm(BaseModel):
     price: str = Field("0.0-9.9", title="商品价格", description="")
 
     def to_data(self) -> TMallChaoShiArgs:
-        return TMallChaoShiArgs.from_dict(self.dict())
+        return TMallChaoShiArgs(**self.dict(by_alias=True))
 
 
 @app.post(

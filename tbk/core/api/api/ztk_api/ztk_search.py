@@ -31,7 +31,7 @@ class SearchForm(BaseModel):
     youquan: Optional[int] = Field(None, title="是否有券", description="1 为有券，其它值为全部商品")
 
     def to_data(self) -> SearchArgs:
-        return SearchArgs.from_dict(self.dict())
+        return SearchArgs(**self.dict(by_alias=True))
 
 
 @app.post(

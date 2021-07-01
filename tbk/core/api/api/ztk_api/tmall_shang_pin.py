@@ -29,7 +29,7 @@ class TMallShangPinForm(BaseModel):
     price: str = Field("0.0-9.9", title="商品价格", description="")
 
     def to_data(self) -> TMallShangPinArgs:
-        return TMallShangPinArgs.from_dict(self.dict())
+        return TMallShangPinArgs(**self.dict(by_alias=True))
 
 
 @app.post(

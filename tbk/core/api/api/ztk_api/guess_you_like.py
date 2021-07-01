@@ -39,7 +39,7 @@ class GuessYouLikeForm(BaseModel):
     )
 
     def to_data(self) -> GuessYouLikeArgs:
-        return GuessYouLikeArgs.from_dict(self.dict())
+        return GuessYouLikeArgs(**self.dict(by_alias=True))
 
 
 @app.post(
