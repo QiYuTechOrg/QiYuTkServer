@@ -7,7 +7,7 @@ from qiyu_api.ztk_api import GuessYouLikeArgs
 
 from core.logger import get_logger
 from core.resp.base import ResponseModel, ApiResp
-from core.vendor.ztk import get_ztk_api_v2
+from core.vendor.ztk import get_ztk_std_api
 from .. import fields
 from ..app import app
 from ...api_utils import api_inner_wrapper
@@ -52,7 +52,7 @@ async def guess_you_like(
     request: HttpRequest, g: GuessYouLikeForm
 ) -> GuessYouLikeResponseModel:
     logger = get_logger()
-    ztk = await get_ztk_api_v2(logger)
+    ztk = await get_ztk_std_api(logger)
 
     @api_inner_wrapper(logger)
     async def inner():

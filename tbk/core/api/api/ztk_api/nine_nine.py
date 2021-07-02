@@ -7,7 +7,7 @@ from qiyu_api.ztk_api import NineNineArgs
 
 from core.logger import get_logger
 from core.resp.base import ResponseModel, ApiResp
-from core.vendor.ztk import get_ztk_api_v2
+from core.vendor.ztk import get_ztk_std_api
 from ...api import fields
 from ...api.app import app
 from ...api_utils import api_inner_wrapper
@@ -40,7 +40,7 @@ class NineNineForm(BaseModel):
 )
 async def nine_nine(request: HttpRequest, g: NineNineForm) -> NineNineResponseModel:
     logger = get_logger()
-    ztk = await get_ztk_api_v2(logger)
+    ztk = await get_ztk_std_api(logger)
 
     @api_inner_wrapper(logger)
     async def inner():

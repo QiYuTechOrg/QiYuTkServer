@@ -1,5 +1,6 @@
 from typing import Optional, List
 
+from asgiref.sync import sync_to_async
 from django.http import HttpRequest
 from pydantic import Field
 from qiyu_api.ztk_api import ItemDetailV2Args, ItemDetailV2Model
@@ -7,7 +8,7 @@ from qiyu_api.ztk_api import ItemDetailV2Args, ItemDetailV2Model
 from core.logger import get_logger
 from core.resp.base import ApiResp, ResponseModel
 from core.shared import AppErrno
-from core.vendor.ztk import get_ztk_api_v2
+from core.vendor.ztk import get_ztk_api
 from ...api.app import app
 from ...api_utils import api_inner_wrapper
 
@@ -26,7 +27,8 @@ class ItemV2ResponseModel(ResponseModel):
 )
 async def item_detail_v2(request: HttpRequest, item_id: str) -> ItemV2ResponseModel:
     logger = get_logger()
-    ztk = await get_ztk_api_v2(logger)
+
+    ztk = await sync_to_async(get_ztk_api)(logger)
 
     @api_inner_wrapper(logger)
     async def inner():

@@ -9,10 +9,10 @@ from qiyu_api.ztk_api import ZTKStd
 from tbk.s_config import SConfig
 from ...logger import get_logger
 
-__all__ = ["get_ztk_api_v2"]
+__all__ = ["get_ztk_std_api"]
 
 
-async def get_ztk_api_v2(logger: Optional[structlog.stdlib.BoundLogger] = None):
+async def get_ztk_std_api(logger: Optional[structlog.stdlib.BoundLogger] = None):
     if logger is None:
         logger = get_logger()
 
