@@ -36,8 +36,11 @@ class SearchView(TemplateView):
         ztk = ZTKStd(SConfig.ZTKSid, logger=logger)
         args = SearchArgs(q=name, page=page)
         ret = async_to_sync(ztk.search)(args)
+
+        show_coupon = SConfig.WEB_SHOW_COUPON
+
         return self.render_to_response(
             super().get_context_data(
-                data_list=ret, page=page, args=args, form=form, **kwargs
+                data_list=ret, show_coupon=show_coupon, page=page, args=args, form=form, **kwargs
             )
         )
