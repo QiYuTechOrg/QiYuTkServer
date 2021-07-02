@@ -259,7 +259,7 @@ class GrabOrderDtkCronBase(object):
         logger.bind(ret=ret).info("get data")
         if ret is None:
             return None
-        return OrderDetailsResp(**ret)
+        return OrderDetailsResp.from_result(ret)
 
     @staticmethod
     def _fmt_time(ne: datetime) -> str:
