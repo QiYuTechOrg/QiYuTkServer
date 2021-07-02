@@ -73,6 +73,14 @@ LOGGING = {
             "when": "d",
             "backupCount": backupCount,
         },
+        "webhook": {
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "level": "DEBUG",
+            "filename": log_file_path("webhook.log"),
+            "utc": False,
+            "when": "d",
+            "backupCount": backupCount,
+        },
         "file": {
             "class": "logging.handlers.TimedRotatingFileHandler",
             "level": "INFO",
@@ -104,6 +112,7 @@ LOGGING = {
         "django": {"handlers": ["django"], "propagate": False},
         "error": {"handlers": ["error"], "propagate": False},
         "event": {"handlers": ["event"], "propagate": False},
+        "webhook": {"handlers": ["webhook"], "propagate": False},
         "file": {"handlers": ["file"], "propagate": False},
         "time": {"handlers": ["time"], "propagate": False},
     },
