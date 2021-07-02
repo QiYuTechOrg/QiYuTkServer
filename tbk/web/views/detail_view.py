@@ -26,4 +26,6 @@ class DetailView(TemplateView):
 
         detail: Optional[TbkItemInfo] = async_to_sync(logic.gao_yong)(args)
 
-        return super().get_context_data(detail=detail, **kwargs)
+        show_coupon = SConfig.WEB_SHOW_COUPON
+
+        return super().get_context_data(detail=detail, show_coupon=show_coupon, **kwargs)
