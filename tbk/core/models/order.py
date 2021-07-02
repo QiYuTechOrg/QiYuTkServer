@@ -1,12 +1,17 @@
-from typing import List, Optional, Awaitable
+from typing import List
+from typing import Optional, Awaitable
 
 from asgiref.sync import sync_to_async
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
 
 from core.shared import OrderType
+from core.webhook import send_webhook_request
+from tbk.s_config import SConfig
 from .model_utils import MyJsonEncoder
 
 __all__ = ["OrderModel", "OrderStatusEnum"]
@@ -217,3 +222,28 @@ class OrderModel(models.Model):
 
     def __str__(self) -> str:
         return f"{self.order_no}({self.user}:{self.item_title})"
+
+
+# noinspection PyUnusedLocal
+@receiver(post_save, sender=OrderModel)
+def order_model_handler(sender, instance: OrderModel, created: bool, **kwargs):
+    if not created:
+        return
+
+    json_data = {
+        "username": instance.user.username,
+        "income": float(instance.income),
+        "item": {
+            "title": instance.item_title,
+            "pic": instance.item_pic,
+            "price": instance.item_price,
+        },
+        "pay": {
+            "price": instance.pay_price,
+            "time": str(instance.pay_time),
+        },
+        "order_no": instance.order_no,
+        "shop_title": instance.shop_title,
+    }
+
+    send_webhook_request(SConfig.WEBHOOK_NEW_ORDER, json_data=json_data)
