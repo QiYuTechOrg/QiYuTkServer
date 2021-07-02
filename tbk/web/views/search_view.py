@@ -41,6 +41,11 @@ class SearchView(TemplateView):
 
         return self.render_to_response(
             super().get_context_data(
-                data_list=ret, show_coupon=show_coupon, page=page, args=args, form=form, **kwargs
+                data_list=ret,
+                show_coupon=show_coupon,
+                page=page,
+                args=args,
+                form=form,
+                **kwargs,
             )
         )

@@ -38,7 +38,9 @@ class DetailView(TemplateView):
             else:
                 detail = ztk_detail
 
-        return super().get_context_data(detail=detail, show_coupon=show_coupon, **kwargs)
+        return super().get_context_data(
+            detail=detail, show_coupon=show_coupon, **kwargs
+        )
 
     @staticmethod
     def _get_ztk_info(item_id: str) -> Optional[TbkItemInfo]:
