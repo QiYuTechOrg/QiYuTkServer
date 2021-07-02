@@ -239,7 +239,7 @@ def order_model_handler(sender, instance: OrderModel, created: bool, **kwargs):
             "price": float(instance.item_price),
         },
         "pay": {
-            "price": instance.pay_price,
+            "price": float(instance.pay_price),
             "time": str(instance.pay_time),
         },
         "order_no": instance.order_no,
