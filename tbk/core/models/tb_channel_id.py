@@ -1,10 +1,16 @@
 from typing import Optional, Awaitable
 
+import requests
 from asgiref.sync import sync_to_async
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
+from structlog.stdlib import get_logger
+
+from tbk.s_config import SConfig
 
 __all__ = ["TBChannelIdModel"]
 
@@ -90,3 +96,23 @@ class TBChannelIdModel(models.Model):
 
     def __str__(self) -> str:
         return f"{self.user}({self.relation_id})"
+
+
+# noinspection PyUnusedLocal
+@receiver(post_save, sender=TBChannelIdModel)
+def tb_channel_id_model_handler(sender, instance: TBChannelIdModel, created: bool, **kwargs):
+    if not created:
+        return
+
+    webhook = SConfig.WEBHOOK_NEW_BIND
+    if webhook is None or webhook == "":
+        return
+
+    logger = get_logger("webhook")
+    try:
+        resp = requests.post(webhook, json={}, timeout=(5.0, 5.0))
+        if resp.ok:
+            return
+        logger.warning(f"channel bind {webhook=} failed: {resp=}")
+    except Exception as e:
+        logger.error(f"channel id webhook exception: {e=}")

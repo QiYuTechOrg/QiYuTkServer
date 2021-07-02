@@ -55,7 +55,7 @@ class MyMetaClass(type):
 
     @property
     def WEBHOOK_NEW_BIND(cls) -> str:
-        return config.WEBHOOK_NEW_USER
+        return config.WEBHOOK_NEW_BIND
 
     @property
     def WEB_SHOW_COUPON(cls) -> bool:

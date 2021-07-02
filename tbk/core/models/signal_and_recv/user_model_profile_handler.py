@@ -24,8 +24,10 @@ def user_model_handler(sender, instance: User, created: bool, **kwargs):
             new_user_webhook = SConfig.WEBHOOK_NEW_USER
             if new_user_webhook is None or new_user_webhook == "":
                 return
+
+            user = instance
             # send request to webhook
-            resp = requests.post(new_user_webhook, json={}, timeout=(5.0, 5.0))
+            resp = requests.post(new_user_webhook, json={"username": user.username}, timeout=(5.0, 5.0))
             if resp.ok:
                 return
             logger.warning(f"{new_user_webhook=} {resp=}")
