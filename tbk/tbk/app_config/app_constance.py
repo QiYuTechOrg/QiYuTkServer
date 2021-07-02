@@ -27,22 +27,26 @@ CONSTANCE_CONFIG = {
     "ZTKAppKey": (EnvHelper.get_from_env("ZTK_APP_KEY"), "折淘客 App Key", str),
     # 其他配置
     "WEBHOOK_NEW_ORDER": (
-        EnvHelper.get_from_env("WEBHOOK_NEW_ORDER"),
+        EnvHelper.get_from_env("WEBHOOK_NEW_ORDER", ""),
         "新订单 WebHook",
         str,
     ),
     "WEBHOOK_NEW_USER": (
-        EnvHelper.get_from_env("WEBHOOK_NEW_USER"),
+        EnvHelper.get_from_env("WEBHOOK_NEW_USER", ""),
         "新用户 WebHook",
         str,
     ),
     "WEBHOOK_NEW_BIND": (
-        EnvHelper.get_from_env("WEBHOOK_NEW_BIND"),
+        EnvHelper.get_from_env("WEBHOOK_NEW_BIND", ""),
         "渠道ID绑定 WebHook",
         str,
     ),
     # Web 配置
-    "WEB_SHOW_COUPON": (bool(EnvHelper.get_from_env("WEB_SHOW_COUPON")), "Web展示预估佣金", bool),
+    "WEB_SHOW_COUPON": (
+        bool(EnvHelper.get_from_env("WEB_SHOW_COUPON", "")),
+        "Web展示预估佣金",
+        bool,
+    ),
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {
@@ -59,5 +63,5 @@ CONSTANCE_CONFIG_FIELDSETS = {
     "网页端": {
         "fields": ("WEB_SHOW_COUPON",),
         "collapse": True,
-    }
+    },
 }
