@@ -30,13 +30,8 @@ body {
     margin-right: 0.5rem;
 
     overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-
-    font-family: sans-serif-med sans-serif;
-
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    line-height: 2.5ex;
+    height: 6ex;
 }
 
 .shop-item-pict {
@@ -96,6 +91,17 @@ body {
     background: rgb(249, 233, 230);
     padding-left: 0.4rem;
     padding-right: 0.4rem;
+}
+
+.coupon-money {
+    margin-left: var(--shop-detail-margin-left);
+    padding-top: var(--shop-detail-padding-top);
+    color: var(--my-red);
+    font-size: 1.2em;
+}
+
+.coupon-money:before {
+    content: "预估佣金:";
 }
 
 .item-price {

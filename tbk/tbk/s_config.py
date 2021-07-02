@@ -45,6 +45,22 @@ class MyMetaClass(type):
     def ZTKAppKey(cls):
         return config.ZTKAppKey
 
+    @property
+    def WEBHOOK_NEW_ORDER(cls) -> str:
+        return config.WEBHOOK_NEW_ORDER
+
+    @property
+    def WEBHOOK_NEW_USER(cls) -> str:
+        return config.WEBHOOK_NEW_USER
+
+    @property
+    def WEBHOOK_NEW_BIND(cls) -> str:
+        return config.WEBHOOK_NEW_USER
+
+    @property
+    def WEB_SHOW_COUPON(cls) -> bool:
+        return config.WEB_SHOW_COUPON
+
 
 class SConfig(metaclass=MyMetaClass):
     """

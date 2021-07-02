@@ -23,4 +23,8 @@ class IndexView(TemplateView):
         ztk = ZTKStd(SConfig.ZTKSid, logger)
         ret = async_to_sync(ztk.guess_you_like)(args)
 
-        return super().get_context_data(data_list=ret, page=page, args=args, **kwargs)
+        show_coupon = SConfig.WEB_SHOW_COUPON
+
+        return super().get_context_data(
+            data_list=ret, show_coupon=show_coupon, page=page, args=args, **kwargs
+        )
