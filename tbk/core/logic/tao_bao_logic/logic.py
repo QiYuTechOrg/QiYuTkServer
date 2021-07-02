@@ -4,11 +4,11 @@ from urllib.parse import unquote
 
 from asgiref.sync import sync_to_async
 from django.contrib.auth.models import User
+from qiyu_api.ali_top.args import TopAuthTokenCreateArgs, TBKScPublisherInfoSaveArgs
+from qiyu_api.ali_top.sync_api import TopApi
 from structlog.stdlib import BoundLogger
 
 from core.models import TBChannelBindModel, TBChannelIdModel
-from core.vendor.top import TopApi
-from core.vendor.top.args import TopAuthTokenCreateArgs, TBKScPublisherInfoSaveArgs
 from tbk.s_config import SConfig
 from .get_url import GetBindChannelIdUrl
 

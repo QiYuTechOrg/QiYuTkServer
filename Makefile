@@ -27,3 +27,9 @@ comby-async-def-dry-run:
 
 comby-async-def-in-place:
 	comby -in-place -config comby/async_def.toml -directory tbk/core/api/api -matcher .py
+
+comby-get-ztk-api-v2-dry-run:
+	comby -config comby/get_ztk_api_v2.toml -directory tbk -matcher .py
+
+comby-get-ztk-api-v2-in-place:
+	comby -in-place -config comby/get_ztk_api_v2.toml -directory tbk -matcher .py

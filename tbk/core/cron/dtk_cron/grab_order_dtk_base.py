@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Optional, List
+from typing import Optional
 from uuid import uuid4
 
 from django.db import transaction
@@ -132,7 +132,7 @@ class GrabOrderDtkCronBase(object):
             income=order.income(),
             score=int(order.income() * 100),
             status=OrderStatusEnum.wait,
-            detail=order.to_dict(),
+            detail=order.dict(by_alias=True),
         )
 
         # noinspection PyArgumentList
@@ -170,7 +170,7 @@ class GrabOrderDtkCronBase(object):
         model.end_time = order.end_time()
         model.income = order.income()
         model.score = (int(order.income() * 100),)
-        model.detail = order.to_dict()
+        model.detail = order.dict(by_alias=True)
 
         if order.is_order_paid():  # 默认状态
             model.status = OrderStatusEnum.wait
@@ -253,11 +253,13 @@ class GrabOrderDtkCronBase(object):
     @staticmethod
     def _do_get_order_list(
         args: TbServiceGetOrderDetailsArgs, logger: BoundLogger
-    ) -> Optional[List[dict]]:
+    ) -> Optional[OrderDetailsResp]:
         dtk = DtkSyncApi(SConfig.DTKAppKey, SConfig.DTKAppSecret)
-        ret_list = dtk.tb_service_get_order_details(args)
-        logger.bind(ret_list=ret_list).info("get data")
-        return ret_list
+        ret = dtk.tb_service_get_order_details(args)
+        logger.bind(ret=ret).info("get data")
+        if ret is None:
+            return None
+        return OrderDetailsResp.from_result(ret)
 
     @staticmethod
     def _fmt_time(ne: datetime) -> str:

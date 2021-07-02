@@ -7,7 +7,7 @@ from qiyu_api.ztk_api import SearchArgs
 
 from core.logger import get_logger
 from core.resp.base import ResponseModel, ApiResp
-from core.vendor.ztk import get_ztk_api_v2
+from core.vendor.ztk import get_ztk_std_api
 from ...api import fields
 from ...api.app import app
 from ...api_utils import api_inner_wrapper
@@ -31,7 +31,7 @@ class SearchForm(BaseModel):
     youquan: Optional[int] = Field(None, title="是否有券", description="1 为有券，其它值为全部商品")
 
     def to_data(self) -> SearchArgs:
-        return SearchArgs.from_dict(self.dict())
+        return SearchArgs(**self.dict(by_alias=True))
 
 
 @app.post(
@@ -42,7 +42,7 @@ class SearchForm(BaseModel):
 )
 async def ztk_search(request: HttpRequest, f: SearchForm) -> SearchResponseModel:
     logger = get_logger()
-    ztk = get_ztk_api_v2(logger)
+    ztk = await get_ztk_std_api(logger)
 
     @api_inner_wrapper(logger)
     async def inner():

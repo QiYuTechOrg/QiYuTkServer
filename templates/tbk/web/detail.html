@@ -36,7 +36,11 @@ detail : GaoYongModel
 
             <div class="item-detail-price">
                 <div>{{ detail.price_actual }}</div>
-                <div><s id="tao-bao-jia-ge">{{ detail.price_origin }}</s></div>
+                <div><s id="tao-bao-jia-ge">{{ detail.price_origin }}</s>
+                    {% if show_coupon %}
+                        <span style="color: red; font-size: 1.2em; margin-left: 1em;">预估佣金: {{ detail.commission_money|floatformat:2 }}</span>
+                    {% endif %}
+                </div>
                 <div>月销: &nbsp; <span>{{ detail.sale_month }}</span></div>
             </div>
 

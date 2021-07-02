@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tbk"
-version = "v0.4.2"
+version = "v0.5.0"
 description = "奇遇淘客"
 authors = ["dev <dev@qiyutech.tech>"]
 readme = "README.md"
@@ -16,7 +16,7 @@ apscheduler = ">=3.6,<4.0"
 django = ">=3.2.4,<3.3"
 
 # for django database
-psycopg2-binary = ">=2.8,<2.9"
+psycopg2-binary = ">=2.9,<2.10"
 # add MySQL if use MySQL database
 
 # 线上环境展示
@@ -40,9 +40,6 @@ gunicorn = ">=20.0,<21"
 # for log
 django-structlog = ">=2.1,<2.2"
 
-# dataclass <-> dict <-> json converter
-dataclasses-json = ">=0.5,<0.6"
-
 ###################################################
 # API 接口 依赖
 django-ninja = ">=0.13,<0.14"
@@ -53,7 +50,7 @@ django-ninja = ">=0.13,<0.14"
 django-dotenv = ">=1.4,<2.0"
 
 dj-qiyu-tpl = ">=0.4,<0.5"
-qiyu-api = ">=0.3.4,<0.4"
+qiyu-api = ">=0.7,<0.8"
 
 [tool.poetry.dev-dependencies]
 pytest = "*"

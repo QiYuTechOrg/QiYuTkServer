@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandParser
+from qiyu_api.ali_top import TopApi
 
-from core.vendor.top import TopApi
 from tbk.s_config import SConfig
 
 

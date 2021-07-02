@@ -6,7 +6,7 @@ from qiyu_api.ztk_api import SuggestArgs
 
 from core.logger import get_logger
 from core.resp.base import ApiResp, ResponseModel
-from core.vendor.ztk import get_ztk_api_v2
+from core.vendor.ztk import get_ztk_std_api
 from ...api.app import app
 from ...api_utils import api_inner_wrapper
 
@@ -23,7 +23,7 @@ class SuggestResponseModel(ResponseModel):
 )
 async def ztk_suggest(request: HttpRequest, content: str) -> SuggestResponseModel:
     logger = get_logger()
-    ztk = get_ztk_api_v2(logger)
+    ztk = await get_ztk_std_api(logger)
 
     @api_inner_wrapper(logger)
     async def inner():

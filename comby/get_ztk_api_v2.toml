@@ -1,0 +1,5 @@
+[get_ztk_api_v2]
+
+match = "= get_ztk_api_v2(logger)"
+
+rewrite = """= await get_ztk_api_v2(logger)"""

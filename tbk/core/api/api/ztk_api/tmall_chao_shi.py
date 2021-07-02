@@ -7,7 +7,7 @@ from qiyu_api.ztk_api import TMallChaoShiArgs
 
 from core.logger import get_logger
 from core.resp.base import ResponseModel, ApiResp
-from core.vendor.ztk import get_ztk_api_v2
+from core.vendor.ztk import get_ztk_std_api
 from ...api import fields
 from ...api.app import app
 from ...api_utils import api_inner_wrapper
@@ -29,7 +29,7 @@ class TMallChaoShiForm(BaseModel):
     price: str = Field("0.0-9.9", title="商品价格", description="")
 
     def to_data(self) -> TMallChaoShiArgs:
-        return TMallChaoShiArgs.from_dict(self.dict())
+        return TMallChaoShiArgs(**self.dict(by_alias=True))
 
 
 @app.post(
@@ -42,7 +42,7 @@ async def tmall_chao_shi(
     request: HttpRequest, g: TMallChaoShiForm
 ) -> TMallChaoShiResponseModel:
     logger = get_logger()
-    ztk = get_ztk_api_v2(logger)
+    ztk = await get_ztk_std_api(logger)
 
     @api_inner_wrapper(logger)
     async def inner():

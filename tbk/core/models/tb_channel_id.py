@@ -4,7 +4,12 @@ from asgiref.sync import sync_to_async
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
+
+from core.webhook import send_webhook_request
+from tbk.s_config import SConfig
 
 __all__ = ["TBChannelIdModel"]
 
@@ -90,3 +95,21 @@ class TBChannelIdModel(models.Model):
 
     def __str__(self) -> str:
         return f"{self.user}({self.relation_id})"
+
+
+# noinspection PyUnusedLocal
+@receiver(post_save, sender=TBChannelIdModel)
+def tb_channel_id_model_handler(
+    sender, instance: TBChannelIdModel, created: bool, **kwargs
+):
+    if not created:
+        return
+
+    json_data = {
+        "username": instance.user.username,
+        "relation_id": instance.relation_id,
+        "special_id": instance.special_id,
+        "ctime": str(instance.ctime),
+    }
+
+    send_webhook_request(SConfig.WEBHOOK_NEW_BIND, json_data=json_data)

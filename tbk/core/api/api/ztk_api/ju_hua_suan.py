@@ -7,7 +7,7 @@ from qiyu_api.ztk_api import JuHuaSuanArgs
 
 from core.logger import get_logger
 from core.resp.base import ResponseModel, ApiResp
-from core.vendor.ztk import get_ztk_api_v2
+from core.vendor.ztk import get_ztk_std_api
 from ...api import fields
 from ...api.app import app
 from ...api_utils import api_inner_wrapper
@@ -28,7 +28,7 @@ class JuHuaSuanForm(BaseModel):
     cid: Optional[int] = fields.cid_field
 
     def to_data(self) -> JuHuaSuanArgs:
-        return JuHuaSuanArgs.from_dict(self.dict())
+        return JuHuaSuanArgs(**self.dict(by_alias=True))
 
 
 @app.post(
@@ -41,7 +41,7 @@ async def ju_hua_suan(
     request: HttpRequest, g: JuHuaSuanForm
 ) -> JuHuanSuanResponseModel:
     logger = get_logger()
-    ztk = get_ztk_api_v2(logger)
+    ztk = await get_ztk_std_api(logger)
 
     @api_inner_wrapper(logger)
     async def inner():
