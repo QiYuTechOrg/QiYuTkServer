@@ -110,7 +110,12 @@ def tb_channel_id_model_handler(sender, instance: TBChannelIdModel, created: boo
 
     logger = get_logger("webhook")
     try:
-        resp = requests.post(webhook, json={}, timeout=(5.0, 5.0))
+        resp = requests.post(webhook, json={
+            "username": instance.user.username,
+            "relation_id": instance.relation_id,
+            "special_id": instance.special_id,
+            "ctime": str(instance.ctime),
+        }, timeout=(5.0, 5.0))
         if resp.ok:
             return
         logger.warning(f"channel bind {webhook=} failed: {resp=}")
