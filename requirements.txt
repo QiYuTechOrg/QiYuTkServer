@@ -1,13 +1,13 @@
 aiohttp==3.7.4.post0; python_version >= "3.9" and python_version < "4.0"
 apscheduler==3.7.0; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0" and python_version < "4")
-asgiref==3.4.0; python_version >= "3.6"
+asgiref==3.4.1; python_version >= "3.6"
 async-timeout==3.0.1; python_version >= "3.9" and python_version < "4.0" and python_full_version >= "3.5.3"
 attrs==21.2.0; python_version >= "3.9" and python_full_version < "3.0.0" and python_version < "4.0" or python_version >= "3.9" and python_version < "4.0" and python_full_version >= "3.5.0"
 certifi==2021.5.30; python_version >= "3.9" and python_full_version < "3.0.0" and python_version < "4.0" or python_version >= "3.9" and python_version < "4.0" and python_full_version >= "3.5.0"
 cffi==1.14.5; python_version >= "3.9" and python_version < "4.0"
 chardet==4.0.0; python_version >= "3.9" and python_full_version < "3.0.0" and python_version < "4.0" or python_version >= "3.9" and python_version < "4.0" and python_full_version >= "3.5.0"
 cryptography==3.4.7; python_version >= "3.9" and python_version < "4.0"
-dj-qiyu-tpl==0.4.0; python_version >= "3.9" and python_version < "4.0"
+dj-qiyu-tpl==0.4.1; python_version >= "3.9" and python_version < "4.0"
 django-admin-env-notice==0.4
 django-constance==2.8.0; python_version >= "3.6"
 django-dotenv==1.4.2
