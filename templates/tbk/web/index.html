@@ -65,6 +65,12 @@ data_list : Optional[List[TbkItemInfo]]
                 <input type="submit" class="button is-primary" value="搜索商品"/>
             </div>
         </div>
+        <div class="field">
+            <label class="checkbox">
+                <input type="checkbox" name="tkl" {% if tkl %}checked="{{ tkl }}"{% endif %}>
+                &nbsp;搜索内容是一个淘口令
+            </label>
+        </div>
     </form>
     <div style="height: 2em;"></div>
 

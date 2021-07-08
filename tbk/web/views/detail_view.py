@@ -28,9 +28,17 @@ class DetailView(TemplateView):
 
         if ztk_detail is None and dtk_detail is None:
             detail = None
-        elif ztk_detail is None or ztk_detail.coupon_link is None or ztk_detail.coupon_link == "":
+        elif (
+            ztk_detail is None
+            or ztk_detail.coupon_link is None
+            or ztk_detail.coupon_link == ""
+        ):
             detail = dtk_detail
-        elif dtk_detail is None or dtk_detail.coupon_link is None or dtk_detail.coupon_link == "":
+        elif (
+            dtk_detail is None
+            or dtk_detail.coupon_link is None
+            or dtk_detail.coupon_link == ""
+        ):
             detail = ztk_detail
         else:
             if float(dtk_detail.commission_money) > float(ztk_detail.commission_money):
