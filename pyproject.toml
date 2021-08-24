@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tbk"
-version = "v0.5.6"
+version = "v0.5.7"
 description = "奇遇淘客"
 authors = ["dev <dev@qiyutech.tech>"]
 readme = "README.md"
@@ -42,7 +42,7 @@ django-structlog = ">=2.1,<2.2"
 
 ###################################################
 # API 接口 依赖
-django-ninja = ">=0.13,<0.14"
+django-ninja = ">=0.14,<0.15"
 ###################################################
 
 
