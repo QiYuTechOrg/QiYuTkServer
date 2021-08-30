@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tbk"
-version = "v0.5.7"
+version = "v0.5.8"
 description = "奇遇淘客"
 authors = ["dev <dev@qiyutech.tech>"]
 readme = "README.md"
