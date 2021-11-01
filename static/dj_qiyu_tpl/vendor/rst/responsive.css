@@ -3,7 +3,7 @@
 /*                                                                         */
 /* :Author: Günter Milde                                                   */
 /*                                                                         */
-/* :Id: $Id: responsive.css 8642 2021-03-26 13:51:14Z milde $                                                               */
+/* :Id: $Id: responsive.css 8856 2021-10-15 16:03:47Z milde $                                                               */
 /* :Copyright: © 2021 Günter Milde.                                        */
 /* :License: Released under the terms of the `2-Clause BSD license`_,      */
 /*    in short:                                                            */
@@ -40,27 +40,27 @@ body > * {
   margin: auto;
   max-width: 100rem;
 }
+sup, sub { /* avoid additional inter-line space for lines with sup/sub */
+  line-height: 1;
+}
 
 /* Vertical Space (Parskip) */
 p, ol, ul, dl, li,
 div.line-block,
-div.topic,
+.topic,
+.footnote, .citation,
+div > math,
 table {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
 h1, h2, h3, h4, h5, h6,
-dl > dd {
+dl > dd, details > p:last-child {
   margin-bottom: 0.5em;
-}
-blockquote > table,
-div.topic > table {
-  margin-top: 0;
-  margin-bottom: 0;
 }
 
 /* Indented Blocks */
-blockquote, figure, div.topic {
+blockquote, figure, .topic {
   margin: 1em 2%;
   padding-left: 1em;
 }
@@ -72,13 +72,12 @@ pre, dd, dl.option-list {
 /* Object styling */
 /* ============== */
 
-footer, header,
-.sidebar, .marginal {
+footer, header {
   font-size: small;
 }
 
 /* Frontmatter */
-div.topic.dedication {
+div.dedication {
   padding: 0;
   margin: 1.4em 0;
   font-style: italic;
@@ -89,42 +88,36 @@ div.topic.dedication {
 }
 
 blockquote p.attribution,
-div.topic p.attribution {
+.topic p.attribution {
   text-align: right;
 }
 
 /* Table of Contents */
-nav.contents,
-div.topic.contents {
-  padding: 0;
+nav.contents ul {
+  padding-left: 1em;
 }
-ul.auto-toc > li > p {
+ul.auto-toc > li > p { /* hanging indent */
   padding-left: 1em;
   text-indent: -1em;
 }
-nav.contents ul,
-div.topic.contents ul {
-  padding-left: 1em;
-}
-main > div.topic.contents  ul:not(.auto-toc) {
+main > nav.contents  ul:not(.auto-toc) {
   list-style-type: square;
 }
-main > div.topic.contents  ul ul:not(.auto-toc) {
+main > nav.contents  ul ul:not(.auto-toc) {
   list-style-type: disc;
 }
-main > div.topic.contents  ul ul ul:not(.auto-toc) {
-  list-style-type: '\2023\ ';
-}
-main > div.topic.contents  ul ul ul ul:not(.auto-toc) {
+main > nav.contents  ul ul ul:not(.auto-toc) {
   list-style-type: '\2B29\ ';
 }
-main > div.topic.contents  ul ul ul ul ul:not(.auto-toc) {
-  list-style-type: '\00B7\ ';
+main > nav.contents  ul ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B1D\ ';
 }
-div.topic.contents ul > li::marker {
+main > nav.contents  ul ul ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B2A\ ';
+}
+nav.contents ul > li::marker {
   color: grey;
 }
-
 
 /* Transitions */
 hr {
@@ -148,35 +141,36 @@ dl.field-list.run-in > dd p {
   display: block;
 }
 /* "description style" like in most dictionaries, encyclopedias etc. */
+dl.description {
+  display: flow-root;
+}
 dl.description > dt {
   clear: left;
   float: left;
   margin: 0;
   padding: 0;
-  padding-right: 0.5em;
+  padding-right: 0.3em;
   font-weight: bold;
 }
 dl.description > dd:after {
-  display: block;
+  display: table;
   content: "";
-  clear: both;
+  clear: left; /* clearfix for empty descriptions */
 }
 /* start lists nested in description/field lists on new line */
 dd > dl:first-child,
 dd > ul:first-child,
 dd > ol:first-child {
-    clear: left;
+  clear: left;
 }
 
+/* disclosures */
+details { padding-left: 1em; }
+summary { margin-left: -1em; }
+
 /* Footnotes and Citations */
-/* TODO: use <aside> */
-dl.footnote {
+.footnote {
   font-size: small;
-  padding-left: 0.5em;
-  border-left: solid;
-  border-left-width: thin;
-}
-dt.label > span.fn-backref {
 }
 
 /* Images, Figures, and Tables */
@@ -244,6 +238,16 @@ div.system-message > p > span.literal {
 }
 
 /* Literal and Code */
+pre.literal-block, pre.doctest{
+  padding: 0.2em;
+}
+.literal-block, .doctest, span.literal {
+  background-color: #f6f9f8;
+}
+.system-message span.literal {
+  background-color: inherit;
+}
+
 /* basic highlighting: for a complete scheme, see */
 /* http://docutils.sourceforge.net/sandbox/stylesheets/ */
 pre.code .comment, code .comment { color: #5C6576 }
@@ -255,27 +259,40 @@ pre.code .inserted, code .inserted { background-color: #A3D289}
 
 /* Hyperlink References */
 a {
-  text-decoration: none;
-  /* text-decoration-skip-ink: auto; !!nonstandard, default in modern browsers */
-}
-/* Wrap links at any place, if this is the only way to prevent overflow */
-a:link{
+  text-decoration: none; /* for chromium */
+  /* Wrap links at any place, if this is the only way to prevent overflow */
   overflow-wrap: break-word;
 }
 .contents a, a.toc-backref, a.citation-reference {
   overflow-wrap: inherit;
 }
-/* Undecorated Links */
-/* a.footnote-reference, a.fn-backref, .fn-backref a, */
+/* Undecorated Links (see also minimal.css) */
 /* a.citation-reference, */
-.citation a.fn-backref,
-.contents a, a.toc-backref {
+.citation a.fn-backref {
   color: inherit;
 }
-a:link:hover {
-  text-decoration: underline;}
-/* highlight the active ToC entry */
-.topic.contents :target {
+a:hover {
+  text-decoration: underline;
+}
+*:hover > a.toc-backref:after {
+  content: " \2191"; /* ↑ UPWARDS ARROW */
+  color: grey;
+}
+*:hover > a.self-link:after {
+  content: "\1F517"; /* LINK SYMBOL */
+  color: grey;
+  font-size: smaller;
+  margin-left: 0.2em;
+}
+/* highlight the target of the current URL */
+/* section:target > h2, section:target > h3, section:target > h4, */
+/* section:target > h5, section:target > h6,			  */
+.contents :target,
+.contents:target > .topic-title,
+[role="doc-biblioentry"]:target > .label,
+[role="doc-biblioref"]:target,
+[role="note"]:target > .label,
+[role="doc-noteref"]:target {
   background-color: #d2e6ec;
 }
 
@@ -283,7 +300,6 @@ a:link:hover {
 /* Let content flow to the side of aligned images and figures */
 
 /* no floats around this elements */
-dl.footnote, dl.citation, /* errors with internal floats */
 footer, header, hr,
 h1, h2, h3 {
   clear: both;
@@ -319,11 +335,22 @@ table.align-right {
   background-color: #efefea;
   margin: 0.5em var(--sidebar-margin-right) 0.5em 1em;
   padding: 0.5em;
+  padding-left: 0.7em;
   clear: right;
   float: right;
+  font-size: small;
 }
 .sidebar {
   width: 40%;
+}
+
+/* Math */
+/* for math-output=MathML (for math-output=HTML, see math.css) */
+math .boldsymbol {
+  font-weight: bold;
+}
+mstyle.mathscr, mi.mathscr {
+  font-family: STIX;
 }
 
 /* Adaptive page layout */
@@ -372,7 +399,7 @@ table.align-right {
     padding-left: min(22%, 22rem);
     padding-right: 7%;
   }
-  main > div.topic.contents { /* exclude local ToCs */
+  main > nav.contents { /* global ToC */
     position: fixed;
     top: 0;
     left: 0;
@@ -383,8 +410,12 @@ table.align-right {
     padding: 1em 2% 0 2%;
     overflow: auto;
   }
-  main > div.topic.contents > * {
+  main > nav.contents > * {
     padding-left: 0;
+    line-height: 1.4;
+  }
+  main > nav.contents a {
+  color: inherit;
   }
 }
 
