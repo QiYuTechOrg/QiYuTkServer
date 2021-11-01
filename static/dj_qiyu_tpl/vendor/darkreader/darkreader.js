@@ -1,5 +1,5 @@
 /**
- * Dark Reader v4.9.31
+ * Dark Reader v4.9.39
  * https://darkreader.org/
  */
 
@@ -102,11 +102,55 @@
         return ar;
     }
 
-    function __spreadArray(to, from) {
-        for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-            to[j] = from[i];
-        return to;
+    function __spreadArray(to, from, pack) {
+        if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+            if (ar || !(i in from)) {
+                if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+                ar[i] = from[i];
+            }
+        }
+        return to.concat(ar || from);
     }
+
+    var MessageType = {
+        UI_GET_DATA: 'ui-get-data',
+        UI_GET_ACTIVE_TAB_INFO: 'ui-get-active-tab-info',
+        UI_SUBSCRIBE_TO_CHANGES: 'ui-subscribe-to-changes',
+        UI_UNSUBSCRIBE_FROM_CHANGES: 'ui-unsubscribe-from-changes',
+        UI_CHANGE_SETTINGS: 'ui-change-settings',
+        UI_SET_THEME: 'ui-set-theme',
+        UI_SET_SHORTCUT: 'ui-set-shortcut',
+        UI_TOGGLE_URL: 'ui-toggle-url',
+        UI_MARK_NEWS_AS_READ: 'ui-mark-news-as-read',
+        UI_LOAD_CONFIG: 'ui-load-config',
+        UI_APPLY_DEV_DYNAMIC_THEME_FIXES: 'ui-apply-dev-dynamic-theme-fixes',
+        UI_RESET_DEV_DYNAMIC_THEME_FIXES: 'ui-reset-dev-dynamic-theme-fixes',
+        UI_APPLY_DEV_INVERSION_FIXES: 'ui-apply-dev-inversion-fixes',
+        UI_RESET_DEV_INVERSION_FIXES: 'ui-reset-dev-inversion-fixes',
+        UI_APPLY_DEV_STATIC_THEMES: 'ui-apply-dev-static-themes',
+        UI_RESET_DEV_STATIC_THEMES: 'ui-reset-dev-static-themes',
+        UI_SAVE_FILE: 'ui-save-file',
+        UI_REQUEST_EXPORT_CSS: 'ui-request-export-css',
+        BG_CHANGES: 'bg-changes',
+        BG_ADD_CSS_FILTER: 'bg-add-css-filter',
+        BG_ADD_STATIC_THEME: 'bg-add-static-theme',
+        BG_ADD_SVG_FILTER: 'bg-add-svg-filter',
+        BG_ADD_DYNAMIC_THEME: 'bg-add-dynamic-theme',
+        BG_EXPORT_CSS: 'bg-export-css',
+        BG_UNSUPPORTED_SENDER: 'bg-unsupported-sender',
+        BG_CLEAN_UP: 'bg-clean-up',
+        BG_RELOAD: 'bg-reload',
+        BG_FETCH_RESPONSE: 'bg-fetch-response',
+        BG_UI_UPDATE: 'bg-ui-update',
+        BG_CSS_UPDATE: 'bg-css-update',
+        CS_COLOR_SCHEME_CHANGE: 'cs-color-scheme-change',
+        CS_FRAME_CONNECT: 'cs-frame-connect',
+        CS_FRAME_FORGET: 'cs-frame-forget',
+        CS_FRAME_FREEZE: 'cs-frame-freeze',
+        CS_FRAME_RESUME: 'cs-frame-resume',
+        CS_EXPORT_CSS_RESPONSE: 'cs-export-css-response',
+        CS_FETCH: 'cs-fetch',
+    };
 
     var userAgent = typeof navigator === 'undefined' ? 'some useragent' : navigator.userAgent.toLowerCase();
     var platform = typeof navigator === 'undefined' ? 'some platform' : navigator.platform.toLowerCase();
@@ -129,9 +173,7 @@
         if (m && m[1]) {
             return m[1];
         }
-        else {
-            return '';
-        }
+        return '';
     }))();
     var isDefinedSelectorSupported = (function () {
         try {
@@ -142,17 +184,9 @@
             return false;
         }
     })();
-    ((function () {
-        try {
-            new CSSStyleSheet();
-            return true;
-        }
-        catch (err) {
-            return false;
-        }
-    }))();
+    globalThis.chrome && globalThis.chrome.runtime && globalThis.chrome.runtime.getManifest && globalThis.chrome.runtime.getManifest().manifest_version === 3;
 
-    function getOKResponse(url, mimeType) {
+    function getOKResponse(url, mimeType, origin) {
         return __awaiter(this, void 0, void 0, function () {
             var response;
             return __generator(this, function (_a) {
@@ -160,6 +194,7 @@
                     case 0: return [4, fetch(url, {
                             cache: 'force-cache',
                             credentials: 'omit',
+                            referrer: origin
                         })];
                     case 1:
                         response = _a.sent();
@@ -225,7 +260,7 @@
         });
     }); };
     var fetcher = throwCORSError;
-    function setFetchMethod(fetch) {
+    function setFetchMethod$1(fetch) {
         if (fetch) {
             fetcher = fetch;
         }
@@ -257,11 +292,11 @@
             args[_i] = arguments[_i];
         }
         return __awaiter(this, void 0, void 0, function () {
-            var id_1, _a, url, responseType, response, text_1, err_1;
+            var id_1, _a, url, responseType, response, text_1, error_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        if (!(args[0] && args[0].type === 'fetch')) return [3, 8];
+                        if (!(args[0] && args[0].type === MessageType.CS_FETCH)) return [3, 8];
                         id_1 = args[0].id;
                         _b.label = 1;
                     case 1:
@@ -280,12 +315,12 @@
                         text_1 = _b.sent();
                         _b.label = 6;
                     case 6:
-                        messageListeners.forEach(function (cb) { return cb({ type: 'fetch-response', data: text_1, error: null, id: id_1 }); });
+                        messageListeners.forEach(function (cb) { return cb({ type: MessageType.BG_FETCH_RESPONSE, data: text_1, error: null, id: id_1 }); });
                         return [3, 8];
                     case 7:
-                        err_1 = _b.sent();
-                        console.error(err_1);
-                        messageListeners.forEach(function (cb) { return cb({ type: 'fetch-response', data: null, err: err_1, id: id_1 }); });
+                        error_1 = _b.sent();
+                        console.error(error_1);
+                        messageListeners.forEach(function (cb) { return cb({ type: MessageType.BG_FETCH_RESPONSE, data: null, error: error_1, id: id_1 }); });
                         return [3, 8];
                     case 8: return [2];
                 }
@@ -600,12 +635,26 @@
     function removeDOMReadyListener(listener) {
         readyStateListeners.delete(listener);
     }
+    function isReadyStateComplete() {
+        return document.readyState === 'complete';
+    }
+    var readyStateCompleteListeners = new Set();
+    function addReadyStateCompleteListener(listener) {
+        readyStateCompleteListeners.add(listener);
+    }
+    function cleanReadyStateCompleteListeners() {
+        readyStateCompleteListeners.clear();
+    }
     if (!isDOMReady()) {
         var onReadyStateChange_1 = function () {
             if (isDOMReady()) {
-                document.removeEventListener('readystatechange', onReadyStateChange_1);
                 readyStateListeners.forEach(function (listener) { return listener(); });
                 readyStateListeners.clear();
+                if (isReadyStateComplete()) {
+                    document.removeEventListener('readystatechange', onReadyStateChange_1);
+                    readyStateCompleteListeners.forEach(function (listener) { return listener(); });
+                    readyStateCompleteListeners.clear();
+                }
             }
         };
         document.addEventListener('readystatechange', onReadyStateChange_1);
@@ -683,15 +732,13 @@
                             return onHugeMutations(root);
                         });
                     }
-                    else {
-                        if (!subscribedForReadyState_1) {
-                            domReadyListener = function () { return observerCallbacks.forEach(function (_a) {
-                                var onHugeMutations = _a.onHugeMutations;
-                                return onHugeMutations(root);
-                            }); };
-                            addDOMReadyListener(domReadyListener);
-                            subscribedForReadyState_1 = true;
-                        }
+                    else if (!subscribedForReadyState_1) {
+                        domReadyListener = function () { return observerCallbacks.forEach(function (_a) {
+                            var onHugeMutations = _a.onHugeMutations;
+                            return onHugeMutations(root);
+                        }); };
+                        addDOMReadyListener(domReadyListener);
+                        subscribedForReadyState_1 = true;
                     }
                     hadHugeMutationsBefore_1 = true;
                 }
@@ -735,7 +782,7 @@
     }
     function parseURL($url, $base) {
         if ($base === void 0) { $base = null; }
-        var key = "" + $url + ($base ? ';' + $base : '');
+        var key = "" + $url + ($base ? ";" + $base : '');
         if (parsedURLCache.has(key)) {
             return parsedURLCache.get(key);
         }
@@ -749,38 +796,42 @@
         return parsedURL;
     }
     function getAbsoluteURL($base, $relative) {
-        if ($relative.match(/^data\:/)) {
+        if ($relative.match(/^data\\?\:/)) {
             return $relative;
+        }
+        if (/^\/\//.test($relative)) {
+            return "" + location.protocol + $relative;
         }
         var b = parseURL($base);
         var a = parseURL($relative, b.href);
         return a.href;
     }
 
-    function iterateCSSRules(rules, iterate) {
+    function iterateCSSRules(rules, iterate, onMediaRuleError) {
         forEach(rules, function (rule) {
-            if (rule instanceof CSSMediaRule) {
+            if (rule.selectorText) {
+                iterate(rule);
+            }
+            else if (rule.href) {
+                try {
+                    iterateCSSRules(rule.styleSheet.cssRules, iterate, onMediaRuleError);
+                }
+                catch (err) {
+                    logInfo("Found a non-loaded link.");
+                    onMediaRuleError && onMediaRuleError();
+                }
+            }
+            else if (rule.media) {
                 var media = Array.from(rule.media);
                 var isScreenOrAll = media.some(function (m) { return m.startsWith('screen') || m.startsWith('all'); });
                 var isPrintOrSpeech = media.some(function (m) { return m.startsWith('print') || m.startsWith('speech'); });
                 if (isScreenOrAll || !isPrintOrSpeech) {
-                    iterateCSSRules(rule.cssRules, iterate);
+                    iterateCSSRules(rule.cssRules, iterate, onMediaRuleError);
                 }
             }
-            else if (rule instanceof CSSStyleRule) {
-                iterate(rule);
-            }
-            else if (rule instanceof CSSImportRule) {
-                try {
-                    iterateCSSRules(rule.styleSheet.cssRules, iterate);
-                }
-                catch (err) {
-                    logWarn(err);
-                }
-            }
-            else if (rule instanceof CSSSupportsRule) {
+            else if (rule.conditionText) {
                 if (CSS.supports(rule.conditionText)) {
-                    iterateCSSRules(rule.cssRules, iterate);
+                    iterateCSSRules(rule.cssRules, iterate, onMediaRuleError);
                 }
             }
             else {
@@ -800,7 +851,7 @@
         'outline-color',
     ];
     var shorthandVarDepPropRegexps = isSafari ? shorthandVarDependantProperties.map(function (prop) {
-        var regexp = new RegExp(prop + ":s*(.*?)s*;");
+        var regexp = new RegExp(prop + ":\\s*(.*?)\\s*;");
         return [prop, regexp];
     }) : null;
     function iterateCSSDeclarations(style, iterate) {
@@ -811,29 +862,32 @@
             }
             iterate(property, value);
         });
-        if (isSafari && style.cssText.includes('var(')) {
-            shorthandVarDepPropRegexps.forEach(function (_a) {
-                var _b = __read(_a, 2), prop = _b[0], regexp = _b[1];
-                var match = style.cssText.match(regexp);
-                if (match && match[1]) {
-                    var val = match[1].trim();
-                    iterate(prop, val);
-                }
-            });
-        }
-        else {
-            shorthandVarDependantProperties.forEach(function (prop) {
-                var val = style.getPropertyValue(prop);
-                if (val && val.includes('var(')) {
-                    iterate(prop, val);
-                }
-            });
+        var cssText = style.cssText;
+        if (cssText.includes('var(')) {
+            if (isSafari) {
+                shorthandVarDepPropRegexps.forEach(function (_a) {
+                    var _b = __read(_a, 2), prop = _b[0], regexp = _b[1];
+                    var match = cssText.match(regexp);
+                    if (match && match[1]) {
+                        var val = match[1].trim();
+                        iterate(prop, val);
+                    }
+                });
+            }
+            else {
+                shorthandVarDependantProperties.forEach(function (prop) {
+                    var val = style.getPropertyValue(prop);
+                    if (val && val.includes('var(')) {
+                        iterate(prop, val);
+                    }
+                });
+            }
         }
     }
     var cssURLRegex = /url\((('.+?')|(".+?")|([^\)]*?))\)/g;
     var cssImportRegex = /@import\s*(url\()?(('.+?')|(".+?")|([^\)]*?))\)?;?/g;
     function getCSSURLValue(cssURL) {
-        return cssURL.replace(/^url\((.*)\)$/, '$1').replace(/^"(.*)"$/, '$1').replace(/^'(.*)'$/, '$1');
+        return cssURL.replace(/^url\((.*)\)$/, '$1').trim().replace(/^"(.*)"$/, '$1').replace(/^'(.*)'$/, '$1');
     }
     function getCSSBaseBath(url) {
         var cssURL = parseURL(url);
@@ -955,8 +1009,33 @@
         }
         throw new Error("Unable to parse " + $color);
     }
-    function getNumbersFromString(str, splitter, range, units) {
-        var raw = str.split(splitter).filter(function (x) { return x; });
+    function getNumbers($color) {
+        var numbers = [];
+        var prevPos = 0;
+        var isMining = false;
+        var startIndex = $color.indexOf('(');
+        $color = $color.substring(startIndex + 1, $color.length - 1);
+        for (var i = 0; i < $color.length; i++) {
+            var c = $color[i];
+            if (c >= '0' && c <= '9' || c === '.' || c === '+' || c === '-') {
+                isMining = true;
+            }
+            else if (isMining && (c === ' ' || c === ',')) {
+                numbers.push($color.substring(prevPos, i));
+                isMining = false;
+                prevPos = i + 1;
+            }
+            else if (!isMining) {
+                prevPos = i + 1;
+            }
+        }
+        if (isMining) {
+            numbers.push($color.substring(prevPos, $color.length));
+        }
+        return numbers;
+    }
+    function getNumbersFromString(str, range, units) {
+        var raw = getNumbers(str);
         var unitsList = Object.entries(units);
         var numbers = raw.map(function (r) { return r.trim(); }).map(function (r, i) {
             var n;
@@ -977,18 +1056,16 @@
         });
         return numbers;
     }
-    var rgbSplitter = /rgba?|\(|\)|\/|,|\s/ig;
     var rgbRange = [255, 255, 255, 1];
     var rgbUnits = { '%': 100 };
     function parseRGB($rgb) {
-        var _a = __read(getNumbersFromString($rgb, rgbSplitter, rgbRange, rgbUnits), 4), r = _a[0], g = _a[1], b = _a[2], _b = _a[3], a = _b === void 0 ? 1 : _b;
+        var _a = __read(getNumbersFromString($rgb, rgbRange, rgbUnits), 4), r = _a[0], g = _a[1], b = _a[2], _b = _a[3], a = _b === void 0 ? 1 : _b;
         return { r: r, g: g, b: b, a: a };
     }
-    var hslSplitter = /hsla?|\(|\)|\/|,|\s/ig;
     var hslRange = [360, 1, 1, 1];
     var hslUnits = { '%': 100, 'deg': 360, 'rad': 2 * Math.PI, 'turn': 1 };
     function parseHSL($hsl) {
-        var _a = __read(getNumbersFromString($hsl, hslSplitter, hslRange, hslUnits), 4), h = _a[0], s = _a[1], l = _a[2], _b = _a[3], a = _b === void 0 ? 1 : _b;
+        var _a = __read(getNumbersFromString($hsl, hslRange, hslUnits), 4), h = _a[0], s = _a[1], l = _a[2], _b = _a[3], a = _b === void 0 ? 1 : _b;
         return hslToRGB({ h: h, s: s, l: l, a: a });
     }
     function parseHex($hex) {
@@ -1252,9 +1329,11 @@
             }
             return ' '.repeat(4 * depth);
         }
-        var emptyRuleRegexp = /[^{}]+{\s*}/g;
-        while (emptyRuleRegexp.test(text)) {
-            text = text.replace(emptyRuleRegexp, '');
+        if (text.length < 50000) {
+            var emptyRuleRegexp = /[^{}]+{\s*}/;
+            while (emptyRuleRegexp.test(text)) {
+                text = text.replace(emptyRuleRegexp, '');
+            }
         }
         var css = (text
             .replace(/\s{2,}/g, ' ')
@@ -1267,11 +1346,11 @@
         var depth = 0;
         var formatted = [];
         for (var x = 0, len = css.length; x < len; x++) {
-            var line = css[x] + '\n';
-            if (line.match(/\{/)) {
+            var line = css[x] + "\n";
+            if (line.includes('{')) {
                 formatted.push(getIndent(depth++) + trimLeft(line));
             }
-            else if (line.match(/\}/)) {
+            else if (line.includes('\}')) {
                 formatted.push(getIndent(--depth) + trimLeft(line));
             }
             else {
@@ -1411,26 +1490,31 @@
         return theme[prop];
     }
     var colorModificationCache = new Map();
-    var colorParseCache = new Map();
+    var colorParseCache$1 = new Map();
     function parseToHSLWithCache(color) {
-        if (colorParseCache.has(color)) {
-            return colorParseCache.get(color);
+        if (colorParseCache$1.has(color)) {
+            return colorParseCache$1.get(color);
         }
         var rgb = parse(color);
         var hsl = rgbToHSL(rgb);
-        colorParseCache.set(color, hsl);
+        colorParseCache$1.set(color, hsl);
         return hsl;
     }
     function clearColorModificationCache() {
         colorModificationCache.clear();
-        colorParseCache.clear();
+        colorParseCache$1.clear();
     }
     var rgbCacheKeys = ['r', 'g', 'b', 'a'];
-    var themeCacheKeys = ['mode', 'brightness', 'contrast', 'grayscale', 'sepia', 'darkSchemeBackgroundColor', 'darkSchemeTextColor', 'lightSchemeBackgroundColor', 'lightSchemeTextColor'];
+    var themeCacheKeys$1 = ['mode', 'brightness', 'contrast', 'grayscale', 'sepia', 'darkSchemeBackgroundColor', 'darkSchemeTextColor', 'lightSchemeBackgroundColor', 'lightSchemeTextColor'];
     function getCacheId(rgb, theme) {
-        return rgbCacheKeys.map(function (k) { return rgb[k]; })
-            .concat(themeCacheKeys.map(function (k) { return theme[k]; }))
-            .join(';');
+        var resultId = '';
+        rgbCacheKeys.forEach(function (key) {
+            resultId += rgb[key] + ";";
+        });
+        themeCacheKeys$1.forEach(function (key) {
+            resultId += theme[key] + ";";
+        });
+        return resultId;
     }
     function modifyColorWithCache(rgb, theme, modifyHSL, poleColor, anotherPoleColor) {
         var fnCache;
@@ -1618,7 +1702,7 @@
 
     function createTextStyle(config) {
         var lines = [];
-        lines.push('*:not(pre) {');
+        lines.push('*:not(pre, pre *, code, .far, .fa, .glyphicon, [class*="vjs-"], .fab, .fa-github, .fas, .material-icons, .icofont, .typcn, mu, [class*="mu-"], .glyphicon, .icon) {');
         if (config.useFont && config.fontFamily) {
             lines.push("  font-family: " + config.fontFamily + " !important;");
         }
@@ -1666,26 +1750,26 @@
     }
 
     var counter = 0;
-    var resolvers = new Map();
+    var resolvers$1 = new Map();
     var rejectors = new Map();
     function bgFetch(request) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2, new Promise(function (resolve, reject) {
                         var id = ++counter;
-                        resolvers.set(id, resolve);
+                        resolvers$1.set(id, resolve);
                         rejectors.set(id, reject);
-                        chrome.runtime.sendMessage({ type: 'fetch', data: request, id: id });
+                        chrome.runtime.sendMessage({ type: MessageType.CS_FETCH, data: request, id: id });
                     })];
             });
         });
     }
     chrome.runtime.onMessage.addListener(function (_a) {
         var type = _a.type, data = _a.data, error = _a.error, id = _a.id;
-        if (type === 'fetch-response') {
-            var resolve = resolvers.get(id);
+        if (type === MessageType.BG_FETCH_RESPONSE) {
+            var resolve = resolvers$1.get(id);
             var reject = rejectors.get(id);
-            resolvers.delete(id);
+            resolvers$1.delete(id);
             rejectors.delete(id);
             if (error) {
                 reject && reject(error);
@@ -1696,25 +1780,84 @@
         }
     });
 
+    var AsyncQueue = (function () {
+        function AsyncQueue() {
+            this.queue = [];
+            this.timerId = null;
+            this.frameDuration = 1000 / 60;
+        }
+        AsyncQueue.prototype.addToQueue = function (entry) {
+            this.queue.push(entry);
+            this.startQueue();
+        };
+        AsyncQueue.prototype.stopQueue = function () {
+            if (this.timerId !== null) {
+                cancelAnimationFrame(this.timerId);
+                this.timerId = null;
+            }
+            this.queue = [];
+        };
+        AsyncQueue.prototype.startQueue = function () {
+            var _this = this;
+            if (this.timerId) {
+                return;
+            }
+            this.timerId = requestAnimationFrame(function () {
+                _this.timerId = null;
+                var start = Date.now();
+                var cb;
+                while ((cb = _this.queue.shift())) {
+                    cb();
+                    if (Date.now() - start >= _this.frameDuration) {
+                        _this.startQueue();
+                        break;
+                    }
+                }
+            });
+        };
+        return AsyncQueue;
+    }());
+
+    var imageManager = new AsyncQueue();
     function getImageDetails(url) {
         return __awaiter(this, void 0, void 0, function () {
-            var dataURL, image, info;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!url.startsWith('data:')) return [3, 1];
-                        dataURL = url;
-                        return [3, 3];
-                    case 1: return [4, getImageDataURL(url)];
-                    case 2:
-                        dataURL = _a.sent();
-                        _a.label = 3;
-                    case 3: return [4, urlToImage(dataURL)];
-                    case 4:
-                        image = _a.sent();
-                        info = analyzeImage(image);
-                        return [2, __assign({ src: url, dataURL: dataURL, width: image.naturalWidth, height: image.naturalHeight }, info)];
-                }
+                return [2, new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+                        var dataURL, error_1, image_1, error_2;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    if (!url.startsWith('data:')) return [3, 1];
+                                    dataURL = url;
+                                    return [3, 4];
+                                case 1:
+                                    _a.trys.push([1, 3, , 4]);
+                                    return [4, getImageDataURL(url)];
+                                case 2:
+                                    dataURL = _a.sent();
+                                    return [3, 4];
+                                case 3:
+                                    error_1 = _a.sent();
+                                    reject(error_1);
+                                    return [3, 4];
+                                case 4:
+                                    _a.trys.push([4, 6, , 7]);
+                                    return [4, urlToImage(dataURL)];
+                                case 5:
+                                    image_1 = _a.sent();
+                                    imageManager.addToQueue(function () {
+                                        resolve(__assign({ src: url, dataURL: dataURL, width: image_1.naturalWidth, height: image_1.naturalHeight }, analyzeImage(image_1)));
+                                    });
+                                    return [3, 7];
+                                case 6:
+                                    error_2 = _a.sent();
+                                    reject(error_2);
+                                    return [3, 7];
+                                case 7: return [2];
+                            }
+                        });
+                    }); })];
             });
         });
     }
@@ -1762,6 +1905,7 @@
         canvas = null;
         context = null;
     }
+    var MAX_IMAGE_SIZE = 5 * 1024 * 1024;
     function analyzeImage(image) {
         if (!canvas) {
             createCanvas();
@@ -1770,6 +1914,17 @@
         if (naturalHeight === 0 || naturalWidth === 0) {
             logWarn("logWarn(Image is empty " + image.currentSrc + ")");
             return null;
+        }
+        var size = naturalWidth * naturalHeight * 4;
+        if (size > MAX_IMAGE_SIZE) {
+            logInfo('Skipped large image analyzing(Larger than 5mb in memory)');
+            return {
+                isDark: false,
+                isLight: false,
+                isTransparent: false,
+                isLarge: false,
+                isTooLarge: true,
+            };
         }
         var naturalPixelsCount = naturalWidth * naturalHeight;
         var k = Math.min(1, Math.sqrt(MAX_ANALIZE_PIXELS_COUNT / naturalPixelsCount));
@@ -1820,12 +1975,12 @@
             isLight: ((lightPixelsCount / opaquePixelsCount) >= LIGHT_IMAGE_THRESHOLD),
             isTransparent: ((transparentPixelsCount / totalPixelsCount) >= TRANSPARENT_IMAGE_THRESHOLD),
             isLarge: (naturalPixelsCount >= LARGE_IMAGE_PIXELS_COUNT),
+            isTooLarge: false,
         };
     }
-    var objectURLs = new Set();
-    function getFilteredImageDataURL(_a, filter) {
+    function getFilteredImageDataURL(_a, theme) {
         var dataURL = _a.dataURL, width = _a.width, height = _a.height;
-        var matrix = getSVGFilterMatrixValue(filter);
+        var matrix = getSVGFilterMatrixValue(theme);
         var svg = [
             "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"" + width + "\" height=\"" + height + "\">",
             '<defs>',
@@ -1836,34 +1991,27 @@
             "<image width=\"" + width + "\" height=\"" + height + "\" filter=\"url(#darkreader-image-filter)\" xlink:href=\"" + dataURL + "\" />",
             '</svg>',
         ].join('');
-        var bytes = new Uint8Array(svg.length);
-        for (var i = 0; i < svg.length; i++) {
-            bytes[i] = svg.charCodeAt(i);
-        }
-        var blob = new Blob([bytes], { type: 'image/svg+xml' });
-        var objectURL = URL.createObjectURL(blob);
-        objectURLs.add(objectURL);
-        return objectURL;
+        return "data:image/svg+xml;base64," + btoa(svg);
     }
     function cleanImageProcessingCache() {
+        imageManager && imageManager.stopQueue();
         removeCanvas();
-        objectURLs.forEach(function (u) { return URL.revokeObjectURL(u); });
-        objectURLs.clear();
     }
 
+    function getPriority(ruleStyle, property) {
+        return Boolean(ruleStyle && ruleStyle.getPropertyPriority(property));
+    }
     function getModifiableCSSDeclaration(property, value, rule, variablesStore, ignoreImageSelectors, isCancelled) {
-        var important = Boolean(rule && rule.style && rule.style.getPropertyPriority(property));
-        var sourceValue = value;
         if (property.startsWith('--')) {
             var modifier = getVariableModifier(variablesStore, property, value, rule, ignoreImageSelectors, isCancelled);
             if (modifier) {
-                return { property: property, value: modifier, important: important, sourceValue: sourceValue };
+                return { property: property, value: modifier, important: getPriority(rule.style, property), sourceValue: value };
             }
         }
         else if (value.includes('var(')) {
             var modifier = getVariableDependantModifier(variablesStore, property, value);
             if (modifier) {
-                return { property: property, value: modifier, important: important, sourceValue: sourceValue };
+                return { property: property, value: modifier, important: getPriority(rule.style, property), sourceValue: value };
             }
         }
         else if ((property.includes('color') && property !== '-webkit-print-color-adjust') ||
@@ -1872,19 +2020,19 @@
             property === 'stop-color') {
             var modifier = getColorModifier(property, value);
             if (modifier) {
-                return { property: property, value: modifier, important: important, sourceValue: sourceValue };
+                return { property: property, value: modifier, important: getPriority(rule.style, property), sourceValue: value };
             }
         }
         else if (property === 'background-image' || property === 'list-style-image') {
             var modifier = getBgImageModifier(value, rule, ignoreImageSelectors, isCancelled);
             if (modifier) {
-                return { property: property, value: modifier, important: important, sourceValue: sourceValue };
+                return { property: property, value: modifier, important: getPriority(rule.style, property), sourceValue: value };
             }
         }
         else if (property.includes('shadow')) {
             var modifier = getShadowModifier(value);
             if (modifier) {
-                return { property: property, value: modifier, important: important, sourceValue: sourceValue };
+                return { property: property, value: modifier, important: getPriority(rule.style, property), sourceValue: value };
             }
         }
         return null;
@@ -2028,14 +2176,14 @@
         'none',
         'unset',
     ]);
-    var colorParseCache$1 = new Map();
+    var colorParseCache = new Map();
     function parseColorWithCache($color) {
         $color = $color.trim();
-        if (colorParseCache$1.has($color)) {
-            return colorParseCache$1.get($color);
+        if (colorParseCache.has($color)) {
+            return colorParseCache.get($color);
         }
         var color = parse($color);
-        colorParseCache$1.set($color, color);
+        colorParseCache.set($color, color);
         return color;
     }
     function tryParseColor($color) {
@@ -2145,7 +2293,7 @@
                 }
                 var url = getCSSURLValue(urlValue);
                 var parentStyleSheet = rule.parentStyleSheet;
-                var baseURL = parentStyleSheet.href ?
+                var baseURL = (parentStyleSheet && parentStyleSheet.href) ?
                     getCSSBaseBath(parentStyleSheet.href) :
                     ((_a = parentStyleSheet.ownerNode) === null || _a === void 0 ? void 0 : _a.baseURI) || location.origin;
                 url = getAbsoluteURL(baseURL, url);
@@ -2199,9 +2347,12 @@
                 }); };
             };
             var getBgImageValue_1 = function (imageDetails, filter) {
-                var isDark = imageDetails.isDark, isLight = imageDetails.isLight, isTransparent = imageDetails.isTransparent, isLarge = imageDetails.isLarge, width = imageDetails.width;
+                var isDark = imageDetails.isDark, isLight = imageDetails.isLight, isTransparent = imageDetails.isTransparent, isLarge = imageDetails.isLarge, isTooLarge = imageDetails.isTooLarge, width = imageDetails.width;
                 var result;
-                if (isDark && isTransparent && filter.mode === 1 && !isLarge && width > 2) {
+                if (isTooLarge) {
+                    result = "url(\"" + imageDetails.src + "\")";
+                }
+                else if (isDark && isTransparent && filter.mode === 1 && !isLarge && width > 2) {
                     logInfo("Inverting dark image " + imageDetails.src);
                     var inverted = getFilteredImageDataURL(imageDetails, __assign(__assign({}, filter), { sepia: clamp(filter.sepia + 10, 0, 100) }));
                     result = "url(\"" + inverted + "\")";
@@ -2258,7 +2409,7 @@
     function getShadowModifier(value) {
         try {
             var index_2 = 0;
-            var colorMatches_1 = getMatches(/(^|\s)([a-z]+\(.+?\)|#[0-9a-f]+|[a-z]+)(.*?(inset|outset)?($|,))/ig, value, 2);
+            var colorMatches_1 = getMatches(/(^|\s)(?!calc)([a-z]+\(.+?\)|#[0-9a-f]+|[a-z]+)(.*?(inset|outset)?($|,))/ig, value, 2);
             var modifiers_2 = colorMatches_1.map(function (match, i) {
                 var prefixIndex = index_2;
                 var matchIndex = value.indexOf(match, index_2);
@@ -2290,7 +2441,7 @@
         return variablesStore.getModifierForVarDependant(prop, value);
     }
     function cleanModificationCache() {
-        colorParseCache$1.clear();
+        colorParseCache.clear();
         clearColorModificationCache();
         imageDetailsCache.clear();
         cleanImageProcessingCache();
@@ -2340,8 +2491,7 @@
             this.changedTypeVars.clear();
             this.initialVarTypes = new Map(this.varTypes);
             this.collectRootVariables();
-            this.rulesQueue.forEach(function (rules) { return _this.collectVariables(rules); });
-            this.rulesQueue.forEach(function (rules) { return _this.collectVarDependants(rules); });
+            this.collectVariablesAndVarDep(this.rulesQueue);
             this.rulesQueue.splice(0);
             this.collectRootVarDependants();
             this.varRefs.forEach(function (refs, v) {
@@ -2365,7 +2515,16 @@
                 }
             });
             this.unknownBgVars.forEach(function (v) {
-                if (_this.isVarType(v, VAR_TYPE_BGCOLOR | VAR_TYPE_BGIMG)) {
+                var hasColor = _this.findVarRef(v, function (ref) {
+                    return (_this.unknownColorVars.has(ref) ||
+                        _this.isVarType(ref, VAR_TYPE_TEXTCOLOR | VAR_TYPE_BORDERCOLOR));
+                }) != null;
+                if (hasColor) {
+                    _this.itarateVarRefs(v, function (ref) {
+                        _this.resolveVariableType(ref, VAR_TYPE_BGCOLOR);
+                    });
+                }
+                else if (_this.isVarType(v, VAR_TYPE_BGCOLOR | VAR_TYPE_BGIMG)) {
                     _this.unknownBgVars.delete(v);
                 }
                 else {
@@ -2457,7 +2616,7 @@
             var _this = this;
             if (sourceValue.match(/^\s*(rgb|hsl)a?\(/)) {
                 var isBg_1 = property.startsWith('background');
-                var isText_1 = property === 'color';
+                var isText_1 = (property === 'color' || property === 'caret-color');
                 return function (theme) {
                     var value = insertVarValues(sourceValue, _this.unstableVarValues);
                     if (!value) {
@@ -2472,7 +2631,7 @@
                     return replaceCSSVariablesNames(sourceValue, function (v) { return wrapBgColorVariableName(v); }, function (fallback) { return tryModifyBgColor(fallback, theme); });
                 };
             }
-            if (property === 'color') {
+            if (property === 'color' || property === 'caret-color') {
                 return function (theme) {
                     return replaceCSSVariablesNames(sourceValue, function (v) { return wrapTextColorVariableName(v); }, function (fallback) { return tryModifyTextColor(fallback, theme); });
                 };
@@ -2480,16 +2639,23 @@
             if (property === 'background' || property === 'background-image' || property === 'box-shadow') {
                 return function (theme) {
                     var unknownVars = new Set();
-                    var modify = function () { return replaceCSSVariablesNames(sourceValue, function (v) {
-                        if (_this.isVarType(v, VAR_TYPE_BGCOLOR)) {
-                            return wrapBgColorVariableName(v);
+                    var modify = function () {
+                        var variableReplaced = replaceCSSVariablesNames(sourceValue, function (v) {
+                            if (_this.isVarType(v, VAR_TYPE_BGCOLOR)) {
+                                return wrapBgColorVariableName(v);
+                            }
+                            if (_this.isVarType(v, VAR_TYPE_BGIMG)) {
+                                return wrapBgImgVariableName(v);
+                            }
+                            unknownVars.add(v);
+                            return v;
+                        }, function (fallback) { return tryModifyBgColor(fallback, theme); });
+                        if (property === 'box-shadow') {
+                            var shadowModifier = getShadowModifier(variableReplaced);
+                            return shadowModifier(theme) || variableReplaced;
                         }
-                        if (_this.isVarType(v, VAR_TYPE_BGIMG)) {
-                            return wrapBgImgVariableName(v);
-                        }
-                        unknownVars.add(v);
-                        return v;
-                    }, function (fallback) { return tryModifyBgColor(fallback, theme); }); };
+                        return variableReplaced;
+                    };
                     var modified = modify();
                     if (unknownVars.size > 0) {
                         return new Promise(function (resolve) {
@@ -2533,17 +2699,29 @@
             if (!this.typeChangeSubscriptions.has(varName)) {
                 this.typeChangeSubscriptions.set(varName, new Set());
             }
-            this.typeChangeSubscriptions.get(varName).add(callback);
+            var rootStore = this.typeChangeSubscriptions.get(varName);
+            if (!rootStore.has(callback)) {
+                rootStore.add(callback);
+            }
         };
         VariablesStore.prototype.unsubscribeFromVariableTypeChanges = function (varName, callback) {
             if (this.typeChangeSubscriptions.has(varName)) {
                 this.typeChangeSubscriptions.get(varName).delete(callback);
             }
         };
-        VariablesStore.prototype.collectVariables = function (rules) {
+        VariablesStore.prototype.collectVariablesAndVarDep = function (ruleList) {
             var _this = this;
-            iterateVariables(rules, function (varName, value) {
-                _this.inspectVariable(varName, value);
+            ruleList.forEach(function (rules) {
+                iterateCSSRules(rules, function (rule) {
+                    rule.style && iterateCSSDeclarations(rule.style, function (property, value) {
+                        if (isVariable(property)) {
+                            _this.inspectVariable(property, value);
+                        }
+                        if (isVarDependant(value)) {
+                            _this.inspectVarDependant(property, value);
+                        }
+                    });
+                });
             });
         };
         VariablesStore.prototype.collectRootVariables = function () {
@@ -2586,21 +2764,15 @@
             this.unknownColorVars.delete(varName);
             this.unknownBgVars.delete(varName);
         };
-        VariablesStore.prototype.collectVarDependants = function (rules) {
-            var _this = this;
-            iterateVarDependants(rules, function (property, value) {
-                _this.inspectVerDependant(property, value);
-            });
-        };
         VariablesStore.prototype.collectRootVarDependants = function () {
             var _this = this;
             iterateCSSDeclarations(document.documentElement.style, function (property, value) {
                 if (isVarDependant(value)) {
-                    _this.inspectVerDependant(property, value);
+                    _this.inspectVarDependant(property, value);
                 }
             });
         };
-        VariablesStore.prototype.inspectVerDependant = function (property, value) {
+        VariablesStore.prototype.inspectVarDependant = function (property, value) {
             var _this = this;
             if (isVariable(property)) {
                 this.iterateVarDeps(value, function (ref) {
@@ -2613,7 +2785,7 @@
             else if (property === 'background-color' || property === 'box-shadow') {
                 this.iterateVarDeps(value, function (v) { return _this.resolveVariableType(v, VAR_TYPE_BGCOLOR); });
             }
-            else if (property === 'color') {
+            else if (property === 'color' || property === 'caret-color') {
                 this.iterateVarDeps(value, function (v) { return _this.resolveVariableType(v, VAR_TYPE_TEXTCOLOR); });
             }
             else if (property.startsWith('border') || property.startsWith('outline')) {
@@ -2683,6 +2855,9 @@
                 return false;
             });
         };
+        VariablesStore.prototype.setOnRootVariableChange = function (callback) {
+            this.onRootVariableDefined = callback;
+        };
         VariablesStore.prototype.putRootVars = function (styleElement, theme) {
             var e_2, _a;
             var _this = this;
@@ -2702,6 +2877,7 @@
                     if (_this.isVarType(property, VAR_TYPE_BORDERCOLOR)) {
                         declarations.set(wrapBorderColorVariableName(property), tryModifyBorderColor(value, theme));
                     }
+                    _this.subscribeForVarTypeChange(property, _this.onRootVariableDefined);
                 }
             });
             var cssLines = [];
@@ -2775,21 +2951,21 @@
             fallback = match.substring(commaIndex + 1, match.length - 1).trim();
         }
         else {
-            name = match.substring(4, match.length - 1);
+            name = match.substring(4, match.length - 1).trim();
             fallback = '';
         }
         return { name: name, fallback: fallback };
     }
-    function replaceCSSVariablesNames(value, nemeReplacer, fallbackReplacer) {
+    function replaceCSSVariablesNames(value, nameReplacer, fallbackReplacer) {
         var matchReplacer = function (match) {
             var _a = getVariableNameAndFallback(match), name = _a.name, fallback = _a.fallback;
-            var newName = nemeReplacer(name);
+            var newName = nameReplacer(name);
             if (!fallback) {
                 return "var(" + newName + ")";
             }
             var newFallback;
             if (isVarDependant(fallback)) {
-                newFallback = replaceCSSVariablesNames(fallback, nemeReplacer, fallbackReplacer);
+                newFallback = replaceCSSVariablesNames(fallback, nameReplacer, fallbackReplacer);
             }
             else if (fallbackReplacer) {
                 newFallback = fallbackReplacer(fallback);
@@ -2800,24 +2976,6 @@
             return "var(" + newName + ", " + newFallback + ")";
         };
         return replaceVariablesMatches(value, matchReplacer);
-    }
-    function iterateVariables(rules, iterator) {
-        iterateCSSRules(rules, function (rule) {
-            rule.style && iterateCSSDeclarations(rule.style, function (property, value) {
-                if (property.startsWith('--')) {
-                    iterator(property, value);
-                }
-            });
-        });
-    }
-    function iterateVarDependants(rules, iterator) {
-        iterateCSSRules(rules, function (rule) {
-            rule.style && iterateCSSDeclarations(rule.style, function (property, value) {
-                if (isVarDependant(value)) {
-                    iterator(property, value);
-                }
-            });
-        });
     }
     function iterateVarDependencies(value, iterator) {
         replaceCSSVariablesNames(value, function (varName) {
@@ -2959,6 +3117,11 @@
         },
     };
     var overridesList = Object.values(overrides);
+    var normalizedPropList = {};
+    overridesList.forEach(function (_a) {
+        var cssProp = _a.cssProp, customProp = _a.customProp;
+        return normalizedPropList[customProp] = cssProp;
+    });
     var INLINE_STYLE_ATTRS = ['style', 'fill', 'stop-color', 'stroke', 'bgcolor', 'color'];
     var INLINE_STYLE_SELECTOR = INLINE_STYLE_ATTRS.map(function (attr) { return "[" + attr + "]"; }).join(', ');
     function getInlineOverrideStyle() {
@@ -3105,7 +3268,7 @@
         var unsetProps = new Set(Object.keys(overrides));
         function setCustomProp(targetCSSProp, modifierCSSProp, cssVal) {
             var _a = overrides[targetCSSProp], customProp = _a.customProp, dataAttr = _a.dataAttr;
-            var mod = getModifiableCSSDeclaration(modifierCSSProp, cssVal, null, variablesStore, ignoreImageSelectors, null);
+            var mod = getModifiableCSSDeclaration(modifierCSSProp, cssVal, {}, variablesStore, ignoreImageSelectors, null);
             if (!mod) {
                 return;
             }
@@ -3134,7 +3297,7 @@
             }
             setCustomProp('background-color', 'background-color', value);
         }
-        if (element.hasAttribute('color')) {
+        if (element.hasAttribute('color') && element.rel !== 'mask-icon') {
             var value = element.getAttribute('color');
             if (value.match(/^[0-9a-f]{3}$/i) || value.match(/^[0-9a-f]{6}$/i)) {
                 value = "#" + value;
@@ -3143,14 +3306,26 @@
         }
         if (element instanceof SVGElement) {
             if (element.hasAttribute('fill')) {
-                var SMALL_SVG_LIMIT = 32;
-                var value = element.getAttribute('fill');
-                var isBg = false;
-                if (!(element instanceof SVGTextElement)) {
-                    var _a = element.getBoundingClientRect(), width = _a.width, height = _a.height;
-                    isBg = (width > SMALL_SVG_LIMIT || height > SMALL_SVG_LIMIT);
+                var SMALL_SVG_LIMIT_1 = 32;
+                var value_1 = element.getAttribute('fill');
+                if (value_1 !== 'none') {
+                    if (!(element instanceof SVGTextElement)) {
+                        var handleSVGElement = function () {
+                            var _a = element.getBoundingClientRect(), width = _a.width, height = _a.height;
+                            var isBg = (width > SMALL_SVG_LIMIT_1 || height > SMALL_SVG_LIMIT_1);
+                            setCustomProp('fill', isBg ? 'background-color' : 'color', value_1);
+                        };
+                        if (isReadyStateComplete()) {
+                            handleSVGElement();
+                        }
+                        else {
+                            addReadyStateCompleteListener(handleSVGElement);
+                        }
+                    }
+                    else {
+                        setCustomProp('fill', 'color', value_1);
+                    }
                 }
-                setCustomProp('fill', isBg ? 'background-color' : 'color', value);
             }
             if (element.hasAttribute('stop-color')) {
                 setCustomProp('stop-color', 'background-color', element.getAttribute('stop-color'));
@@ -3166,6 +3341,12 @@
             }
             if (overrides.hasOwnProperty(property)) {
                 setCustomProp(property, property, value);
+            }
+            else {
+                var overridenProp = normalizedPropList[property];
+                if (overridenProp && (!element.style.getPropertyValue(overridenProp) && !element.hasAttribute(overridenProp))) {
+                    element.style.setProperty(property, '');
+                }
             }
         });
         if (element.style && element instanceof SVGTextElement && element.style.fill) {
@@ -3228,7 +3409,7 @@
         }
     }
 
-    var themeCacheKeys$1 = [
+    var themeCacheKeys = [
         'mode',
         'brightness',
         'contrast',
@@ -3240,15 +3421,20 @@
         'lightSchemeTextColor',
     ];
     function getThemeKey(theme) {
-        return themeCacheKeys$1.map(function (p) { return p + ":" + theme[p]; }).join(';');
+        return themeCacheKeys.map(function (p) { return p + ":" + theme[p]; }).join(';');
     }
     var asyncQueue = createAsyncTasksQueue();
     function createStyleSheetModifier() {
         var renderId = 0;
-        var rulesTextCache = new Map();
+        var rulesTextCache = new Set();
         var rulesModCache = new Map();
         var varTypeChangeCleaners = new Set();
         var prevFilterKey = null;
+        var hasNonLoadedLink = false;
+        var wasRebuilt = false;
+        function shouldRebuildStyle() {
+            return hasNonLoadedLink && !wasRebuilt;
+        }
         function modifySheet(options) {
             var rules = options.sourceCSSRules;
             var theme = options.theme, ignoreImageAnalysis = options.ignoreImageAnalysis, force = options.force, prepareSheet = options.prepareSheet, isAsyncCancelled = options.isAsyncCancelled;
@@ -3256,13 +3442,19 @@
             var notFoundCacheKeys = new Set(rulesModCache.keys());
             var themeKey = getThemeKey(theme);
             var themeChanged = (themeKey !== prevFilterKey);
+            if (hasNonLoadedLink) {
+                wasRebuilt = true;
+            }
             var modRules = [];
             iterateCSSRules(rules, function (rule) {
                 var cssText = rule.cssText;
                 var textDiffersFromPrev = false;
                 notFoundCacheKeys.delete(cssText);
+                if (rule.parentRule instanceof CSSMediaRule) {
+                    cssText += ";" + rule.parentRule.media.mediaText;
+                }
                 if (!rulesTextCache.has(cssText)) {
-                    rulesTextCache.set(cssText, cssText);
+                    rulesTextCache.add(cssText);
                     textDiffersFromPrev = true;
                 }
                 if (textDiffersFromPrev) {
@@ -3286,6 +3478,8 @@
                     modRules.push(modRule);
                 }
                 rulesModCache.set(cssText, modRule);
+            }, function () {
+                hasNonLoadedLink = true;
             });
             notFoundCacheKeys.forEach(function (key) {
                 rulesTextCache.delete(key);
@@ -3454,7 +3648,7 @@
             }
             buildStyleSheet();
         }
-        return { modifySheet: modifySheet };
+        return { modifySheet: modifySheet, shouldRebuildStyle: shouldRebuildStyle };
     }
 
     var STYLE_SELECTOR = 'style, link[rel*="stylesheet" i]:not([disabled])';
@@ -3466,7 +3660,7 @@
                 element.rel.toLowerCase().includes('stylesheet') &&
                 !element.disabled)) &&
             !element.classList.contains('darkreader') &&
-            element.media !== 'print' &&
+            element.media.toLowerCase() !== 'print' &&
             !element.classList.contains('stylus'));
     }
     function getManageableStyles(node, results, deep) {
@@ -3485,10 +3679,15 @@
     }
     var syncStyleSet = new WeakSet();
     var corsStyleSet = new WeakSet();
-    var canOptimizeUsingProxy = false;
+    var canOptimizeUsingProxy$1 = false;
     document.addEventListener('__darkreader__inlineScriptsAllowed', function () {
-        canOptimizeUsingProxy = true;
+        canOptimizeUsingProxy$1 = true;
     });
+    var loadingLinkCounter = 0;
+    var rejectorsForLoadingLinks = new Map();
+    function cleanLoadingLinks() {
+        rejectorsForLoadingLinks.clear();
+    }
     function manageStyle(element, _a) {
         var update = _a.update, loadingStart = _a.loadingStart, loadingEnd = _a.loadingEnd;
         var prevStyles = [];
@@ -3510,6 +3709,22 @@
         function containsCSSImport() {
             return element instanceof HTMLStyleElement && element.textContent.trim().match(cssImportRegex);
         }
+        function hasCrossOriginImports(cssRules) {
+            var result = false;
+            if (cssRules) {
+                var rule = void 0;
+                cssRulesLoop: for (var i = 0, len = cssRules.length; i < len; i++) {
+                    rule = cssRules[i];
+                    if (rule.href) {
+                        if (rule.href.startsWith('http') && !rule.href.startsWith(location.origin)) {
+                            result = true;
+                            break cssRulesLoop;
+                        }
+                    }
+                }
+            }
+            return result;
+        }
         function getRulesSync() {
             if (corsCopy) {
                 return corsCopy.sheet.cssRules;
@@ -3517,7 +3732,11 @@
             if (containsCSSImport()) {
                 return null;
             }
-            return safeGetSheetRules();
+            var cssRules = safeGetSheetRules();
+            if (hasCrossOriginImports(cssRules)) {
+                return null;
+            }
+            return cssRules;
         }
         function insertStyle() {
             if (corsCopy) {
@@ -3546,9 +3765,10 @@
         }
         var isLoadingRules = false;
         var wasLoadingError = false;
+        var loadingLinkId = ++loadingLinkCounter;
         function getRulesAsync() {
             return __awaiter(this, void 0, void 0, function () {
-                var cssText, cssBasePath, _a, cssRules, accessError, err_1, fullCSSText, err_2;
+                var cssText, cssBasePath, _a, cssRules, accessError, err_1, crossOriginImport, fullCSSText, err_2;
                 var _b;
                 return __generator(this, function (_c) {
                     switch (_c.label) {
@@ -3564,7 +3784,8 @@
                             _c.label = 1;
                         case 1:
                             _c.trys.push([1, 3, , 4]);
-                            return [4, linkLoading(element)];
+                            logInfo("Linkelement " + loadingLinkId + " is not loaded yet and thus will be await for", element);
+                            return [4, linkLoading(element, loadingLinkId)];
                         case 2:
                             _c.sent();
                             return [3, 4];
@@ -3583,7 +3804,8 @@
                             }
                             _c.label = 5;
                         case 5:
-                            if (cssRules != null) {
+                            crossOriginImport = hasCrossOriginImports(cssRules);
+                            if (cssRules != null && !crossOriginImport) {
                                 return [2, cssRules];
                             }
                             return [4, loadText(element.href)];
@@ -3694,6 +3916,9 @@
                     isAsyncCancelled: function () { return cancelAsyncOperations; },
                 });
                 isOverrideEmpty = syncStyle.sheet.cssRules.length === 0;
+                if (sheetModifier.shouldRebuildStyle()) {
+                    addReadyStateCompleteListener(function () { return update(); });
+                }
             }
             buildOverrides();
         }
@@ -3721,7 +3946,7 @@
         }
         function watchForSheetChanges() {
             watchForSheetChangesUsingProxy();
-            if (!isThunderbird && !(canOptimizeUsingProxy && element.sheet)) {
+            if (!isThunderbird && !(canOptimizeUsingProxy$1 && element.sheet)) {
                 watchForSheetChangesUsingRAF();
             }
         }
@@ -3742,7 +3967,7 @@
                     rulesChangeKey = getRulesChangeKey();
                     update();
                 }
-                if (canOptimizeUsingProxy && element.sheet) {
+                if (canOptimizeUsingProxy$1 && element.sheet) {
                     stopWatchingForSheetChangesUsingRAF();
                     return;
                 }
@@ -3755,7 +3980,7 @@
         }
         var areSheetChangesPending = false;
         function onSheetChange() {
-            canOptimizeUsingProxy = true;
+            canOptimizeUsingProxy$1 = true;
             stopWatchingForSheetChangesUsingRAF();
             if (areSheetChangesPending) {
                 return;
@@ -3796,6 +4021,12 @@
             pause();
             removeNode(corsCopy);
             removeNode(syncStyle);
+            loadingEnd();
+            if (rejectorsForLoadingLinks.has(loadingLinkId)) {
+                var reject = rejectorsForLoadingLinks.get(loadingLinkId);
+                rejectorsForLoadingLinks.delete(loadingLinkId);
+                reject && reject();
+            }
         }
         function watch() {
             observer.observe(element, observerOptions);
@@ -3832,30 +4063,39 @@
             restore: restore,
         };
     }
-    function linkLoading(link) {
+    function linkLoading(link, loadingId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2, new Promise(function (resolve, reject) {
                         var cleanUp = function () {
                             link.removeEventListener('load', onLoad);
                             link.removeEventListener('error', onError);
+                            rejectorsForLoadingLinks.delete(loadingId);
                         };
                         var onLoad = function () {
                             cleanUp();
+                            logInfo("Linkelement " + loadingId + " has been loaded");
                             resolve();
                         };
                         var onError = function () {
                             cleanUp();
-                            reject("Link loading failed " + link.href);
+                            reject("Linkelement " + loadingId + " couldn't be loaded. " + link.href);
                         };
+                        rejectorsForLoadingLinks.set(loadingId, function () {
+                            cleanUp();
+                            reject();
+                        });
                         link.addEventListener('load', onLoad);
                         link.addEventListener('error', onError);
+                        if (!link.href) {
+                            onError();
+                        }
                     })];
             });
         });
     }
     function getCSSImportURL(importDeclaration) {
-        return getCSSURLValue(importDeclaration.substring(8).replace(/;$/, ''));
+        return getCSSURLValue(importDeclaration.substring(7).trim().replace(/;$/, ''));
     }
     function loadText(url) {
         return __awaiter(this, void 0, void 0, function () {
@@ -3866,7 +4106,7 @@
                         return [4, fetch(url)];
                     case 1: return [4, (_a.sent()).text()];
                     case 2: return [2, _a.sent()];
-                    case 3: return [4, bgFetch({ url: url, responseType: 'text', mimeType: 'text/css' })];
+                    case 3: return [4, bgFetch({ url: url, responseType: 'text', mimeType: 'text/css', origin: window.location.origin })];
                     case 4: return [2, _a.sent()];
                 }
             });
@@ -3962,6 +4202,15 @@
         }
         forEach(root.querySelectorAll(':not(:defined)'), function (el) {
             var tag = el.tagName.toLowerCase();
+            if (!tag.includes('-')) {
+                var extendedTag = el.getAttribute('is');
+                if (extendedTag) {
+                    tag = extendedTag;
+                }
+                else {
+                    return;
+                }
+            }
             if (!undefinedGroups.has(tag)) {
                 undefinedGroups.set(tag, new Set());
                 customElementsWhenDefined(tag).then(function () {
@@ -3975,15 +4224,15 @@
             undefinedGroups.get(tag).add(el);
         });
     }
-    var canOptimizeUsingProxy$1 = false;
+    var canOptimizeUsingProxy = false;
     document.addEventListener('__darkreader__inlineScriptsAllowed', function () {
-        canOptimizeUsingProxy$1 = true;
+        canOptimizeUsingProxy = true;
     });
-    var resolvers$1 = new Map();
+    var resolvers = new Map();
     function handleIsDefined(e) {
-        canOptimizeUsingProxy$1 = true;
-        if (resolvers$1.has(e.detail.tag)) {
-            var resolve = resolvers$1.get(e.detail.tag);
+        canOptimizeUsingProxy = true;
+        if (resolvers.has(e.detail.tag)) {
+            var resolve = resolvers.get(e.detail.tag);
             resolve();
         }
     }
@@ -3994,8 +4243,8 @@
                         if (window.customElements && typeof customElements.whenDefined === 'function') {
                             customElements.whenDefined(tag).then(resolve);
                         }
-                        else if (canOptimizeUsingProxy$1) {
-                            resolvers$1.set(tag, resolve);
+                        else if (canOptimizeUsingProxy) {
+                            resolvers.set(tag, resolve);
                             document.dispatchEvent(new CustomEvent('__darkreader__addUndefinedResolver', { detail: { tag: tag } }));
                         }
                         else {
@@ -4170,6 +4419,10 @@
         return ((number < 16 ? '0' : '') + number.toString(16));
     }
     function generateUID() {
+        if ('randomUUID' in crypto) {
+            var uuid = crypto.randomUUID();
+            return uuid.substring(0, 8) + uuid.substring(9, 13) + uuid.substring(14, 18) + uuid.substring(19, 23) + uuid.substring(24);
+        }
         return Array.from(crypto.getRandomValues(new Uint8Array(16))).map(function (x) { return hexify(x); }).join('');
     }
 
@@ -4244,8 +4497,10 @@
         var insertRuleDescriptor = Object.getOwnPropertyDescriptor(CSSStyleSheet.prototype, 'insertRule');
         var deleteRuleDescriptor = Object.getOwnPropertyDescriptor(CSSStyleSheet.prototype, 'deleteRule');
         var removeRuleDescriptor = Object.getOwnPropertyDescriptor(CSSStyleSheet.prototype, 'removeRule');
-        var shouldWrapDocStyleSheets = location.hostname.endsWith('pushbullet.com');
-        var documentStyleSheetsDescriptor = shouldWrapDocStyleSheets ? Object.getOwnPropertyDescriptor(Document.prototype, 'styleSheets') : null;
+        var documentStyleSheetsDescriptor = Object.getOwnPropertyDescriptor(Document.prototype, 'styleSheets');
+        var shouldWrapHTMLElement = location.hostname.endsWith('baidu.com');
+        var getElementsByTagNameDescriptor = shouldWrapHTMLElement ?
+            Object.getOwnPropertyDescriptor(Element.prototype, 'getElementsByTagName') : null;
         var cleanUp = function () {
             Object.defineProperty(CSSStyleSheet.prototype, 'addRule', addRuleDescriptor);
             Object.defineProperty(CSSStyleSheet.prototype, 'insertRule', insertRuleDescriptor);
@@ -4253,8 +4508,9 @@
             Object.defineProperty(CSSStyleSheet.prototype, 'removeRule', removeRuleDescriptor);
             document.removeEventListener('__darkreader__cleanUp', cleanUp);
             document.removeEventListener('__darkreader__addUndefinedResolver', addUndefinedResolver);
-            if (shouldWrapDocStyleSheets) {
-                Object.defineProperty(Document.prototype, 'styleSheets', documentStyleSheetsDescriptor);
+            Object.defineProperty(Document.prototype, 'styleSheets', documentStyleSheetsDescriptor);
+            if (shouldWrapHTMLElement) {
+                Object.defineProperty(Element.prototype, 'getElementsByTagName', getElementsByTagNameDescriptor);
             }
         };
         var addUndefinedResolver = function (e) {
@@ -4298,12 +4554,33 @@
             });
             return Object.setPrototypeOf(filtered, StyleSheetList.prototype);
         }
+        function proxyGetElementsByTagName(tagName) {
+            var _this = this;
+            var getCurrentElementValue = function () {
+                var elements = getElementsByTagNameDescriptor.value.call(_this, tagName);
+                if (tagName === 'style') {
+                    elements = Object.setPrototypeOf(__spreadArray([], __read(elements)).filter(function (element) {
+                        return !element.classList.contains('darkreader');
+                    }), NodeList.prototype);
+                }
+                return elements;
+            };
+            var elements = getCurrentElementValue();
+            var NodeListBehavior = {
+                get: function (_, property) {
+                    return getCurrentElementValue()[property];
+                }
+            };
+            elements = new Proxy(elements, NodeListBehavior);
+            return elements;
+        }
         Object.defineProperty(CSSStyleSheet.prototype, 'addRule', Object.assign({}, addRuleDescriptor, { value: proxyAddRule }));
         Object.defineProperty(CSSStyleSheet.prototype, 'insertRule', Object.assign({}, insertRuleDescriptor, { value: proxyInsertRule }));
         Object.defineProperty(CSSStyleSheet.prototype, 'deleteRule', Object.assign({}, deleteRuleDescriptor, { value: proxyDeleteRule }));
         Object.defineProperty(CSSStyleSheet.prototype, 'removeRule', Object.assign({}, removeRuleDescriptor, { value: proxyRemoveRule }));
-        if (shouldWrapDocStyleSheets) {
-            Object.defineProperty(Document.prototype, 'styleSheets', Object.assign({}, documentStyleSheetsDescriptor, { get: proxyDocumentStyleSheets }));
+        Object.defineProperty(Document.prototype, 'styleSheets', Object.assign({}, documentStyleSheetsDescriptor, { get: proxyDocumentStyleSheets }));
+        if (shouldWrapHTMLElement) {
+            Object.defineProperty(Element.prototype, 'getElementsByTagName', Object.assign({}, getElementsByTagNameDescriptor, { value: proxyGetElementsByTagName }));
         }
     }
 
@@ -4312,7 +4589,7 @@
     var adoptedStyleManagers = [];
     var filter = null;
     var fixes = null;
-    var isIFrame = null;
+    var isIFrame$1 = null;
     var ignoredImageAnalysisSelectors = null;
     var ignoredInlineSelectors = null;
     function createOrUpdateStyle(className, root) {
@@ -4323,6 +4600,7 @@
             element.classList.add('darkreader');
             element.classList.add(className);
             element.media = 'screen';
+            element.textContent = '';
         }
         return element;
     }
@@ -4351,7 +4629,7 @@
         document.head.insertBefore(fallbackStyle, document.head.firstChild);
         setupNodePositionWatcher(fallbackStyle, 'fallback');
         var userAgentStyle = createOrUpdateStyle('darkreader--user-agent');
-        userAgentStyle.textContent = getModifiedUserAgentStyle(filter, isIFrame, filter.styleSystemControls);
+        userAgentStyle.textContent = getModifiedUserAgentStyle(filter, isIFrame$1, filter.styleSystemControls);
         document.head.insertBefore(userAgentStyle, fallbackStyle.nextSibling);
         setupNodePositionWatcher(userAgentStyle, 'user-agent');
         var textStyle = createOrUpdateStyle('darkreader--text');
@@ -4404,8 +4682,9 @@
         var rootVarsStyle = createOrUpdateStyle('darkreader--root-vars');
         document.head.insertBefore(rootVarsStyle, variableStyle.nextSibling);
         var proxyScript = createOrUpdateScript('darkreader--proxy');
-        proxyScript.textContent = "(" + injectProxy + ")()";
+        proxyScript.append("(" + injectProxy + ")()");
         document.head.insertBefore(proxyScript, rootVarsStyle.nextSibling);
+        proxyScript.remove();
     }
     var shadowRootsWithOverrides = new Set();
     function createShadowStaticStyleOverrides(root) {
@@ -4415,18 +4694,28 @@
         var overrideStyle = createOrUpdateStyle('darkreader--override', root);
         overrideStyle.textContent = fixes && fixes.css ? replaceCSSTemplates(fixes.css) : '';
         root.insertBefore(overrideStyle, inlineStyle.nextSibling);
+        var invertStyle = createOrUpdateStyle('darkreader--invert', root);
+        if (fixes && Array.isArray(fixes.invert) && fixes.invert.length > 0) {
+            invertStyle.textContent = [
+                fixes.invert.join(', ') + " {",
+                "    filter: " + getCSSFilterValue(__assign(__assign({}, filter), { contrast: filter.mode === 0 ? filter.contrast : clamp(filter.contrast - 10, 0, 100) })) + " !important;",
+                '}',
+            ].join('\n');
+        }
+        else {
+            invertStyle.textContent = '';
+        }
+        root.insertBefore(invertStyle, overrideStyle.nextSibling);
         shadowRootsWithOverrides.add(root);
     }
     function replaceCSSTemplates($cssText) {
-        return $cssText.replace(/\${(.+?)}/g, function (m0, $color) {
-            try {
-                var color = parseColorWithCache($color);
+        return $cssText.replace(/\${(.+?)}/g, function (_, $color) {
+            var color = tryParseColor($color);
+            if (color) {
                 return modifyColor(color, filter);
             }
-            catch (err) {
-                logWarn(err);
-                return $color;
-            }
+            logWarn("Couldn't parse CSSTemplate's color.");
+            return $color;
         });
     }
     function cleanFallbackStyle() {
@@ -4448,6 +4737,9 @@
             variablesStore.addRulesForMatching(detail.rules);
         });
         variablesStore.matchVariablesAndDependants();
+        variablesStore.setOnRootVariableChange(function () {
+            variablesStore.putRootVars(document.head.querySelector('.darkreader--root-vars'), filter);
+        });
         variablesStore.putRootVars(document.head.querySelector('.darkreader--root-vars'), filter);
         styleManagers.forEach(function (manager) { return manager.render(filter, ignoredImageAnalysisSelectors); });
         if (loadingStyles.size === 0) {
@@ -4469,9 +4761,11 @@
     var loadingStyles = new Set();
     function createManager(element) {
         var loadingStyleId = ++loadingStylesCounter;
+        logInfo("New manager for element, with loadingStyleID " + loadingStyleId, element);
         function loadingStart() {
             if (!isDOMReady() || !didDocumentShowUp) {
                 loadingStyles.add(loadingStyleId);
+                logInfo("Current amount of styles loading: " + loadingStyles.size);
                 var fallbackStyle = document.querySelector('.darkreader--fallback');
                 if (!fallbackStyle.textContent) {
                     fallbackStyle.textContent = getModifiedFallbackStyle(filter, { strict: false });
@@ -4480,6 +4774,8 @@
         }
         function loadingEnd() {
             loadingStyles.delete(loadingStyleId);
+            logInfo("Removed loadingStyle " + loadingStyleId + ", now awaiting: " + loadingStyles.size);
+            logInfo("To-do to be loaded", loadingStyles);
             if (loadingStyles.size === 0 && isDOMReady()) {
                 cleanFallbackStyle();
             }
@@ -4515,7 +4811,9 @@
     function onDOMReady() {
         if (loadingStyles.size === 0) {
             cleanFallbackStyle();
+            return;
         }
+        logWarn("DOM is ready, but still have styles being loaded.", loadingStyles);
     }
     var documentVisibilityListener = null;
     var didDocumentShowUp = !document.hidden;
@@ -4568,6 +4866,7 @@
                 .filter(function (style) { return !styleManagers.has(style); });
             var stylesToRestore = moved
                 .filter(function (style) { return styleManagers.has(style); });
+            logInfo("Styles to be removed:", stylesToRemove);
             stylesToRemove.forEach(function (style) { return removeManager(style); });
             var newManagers = stylesToManage
                 .map(function (style) { return createManager(style); });
@@ -4609,6 +4908,7 @@
         stopWatchingForStyleChanges();
         stopWatchingForInlineStyles();
         removeDOMReadyListener(onDOMReady);
+        cleanReadyStateCompleteListeners();
     }
     function createDarkReaderInstanceMarker() {
         var metaElement = document.createElement('meta');
@@ -4624,10 +4924,8 @@
             }
             return false;
         }
-        else {
-            createDarkReaderInstanceMarker();
-            return false;
-        }
+        createDarkReaderInstanceMarker();
+        return false;
     }
     function createOrUpdateDynamicTheme(filterConfig, dynamicThemeFixes, iframe) {
         filter = filterConfig;
@@ -4640,7 +4938,7 @@
             ignoredImageAnalysisSelectors = [];
             ignoredInlineSelectors = [];
         }
-        isIFrame = iframe;
+        isIFrame$1 = iframe;
         if (document.head) {
             if (isAnotherDarkReaderInstanceActive()) {
                 return;
@@ -4695,6 +4993,8 @@
         });
         shadowRootsWithOverrides.clear();
         forEach(styleManagers.keys(), function (el) { return removeManager(el); });
+        loadingStyles.clear();
+        cleanLoadingLinks();
         forEach(document.querySelectorAll('.darkreader'), removeNode);
         adoptedStyleManagers.forEach(function (manager) {
             manager.destroy();
@@ -4730,7 +5030,7 @@
             });
         });
     }
-    var banner = "/*\n                        _______\n                       /       \\\n                      .==.    .==.\n                     ((  ))==((  ))\n                    / \"==\"    \"==\"\\\n                   /____|| || ||___\\\n       ________     ____    ________  ___    ___\n       |  ___  \\   /    \\   |  ___  \\ |  |  /  /\n       |  |  \\  \\ /  /\\  \\  |  |  \\  \\|  |_/  /\n       |  |   )  /  /__\\  \\ |  |__/  /|  ___  \\\n       |  |__/  /  ______  \\|  ____  \\|  |  \\  \\\n_______|_______/__/ ____ \\__\\__|___\\__\\__|___\\__\\____\n|  ___  \\ |  ____/ /    \\   |  ___  \\ |  ____|  ___  \\\n|  |  \\  \\|  |___ /  /\\  \\  |  |  \\  \\|  |___|  |  \\  \\\n|  |__/  /|  ____/  /__\\  \\ |  |   )  |  ____|  |__/  /\n|  ____  \\|  |__/  ______  \\|  |__/  /|  |___|  ____  \\\n|__|   \\__\\____/__/      \\__\\_______/ |______|__|   \\__\\\n                https://darkreader.org\n*/";
+    var banner = "/*\n                        _______\n                       /       \\\n                      .==.    .==.\n                     ((  ))==((  ))\n                    / \"==\"    \"==\"\\\n                   /____|| || ||___\\\n       ________     ____    ________  ___    ___\n       |  ___  \\   /    \\   |  ___  \\ |  |  /  /\n       |  |  \\  \\ /  /\\  \\  |  |  \\  \\|  |_/  /\n       |  |   )  /  /__\\  \\ |  |__/  /|  ___  \\\n       |  |__/  /  ______  \\|  ____  \\|  |  \\  \\\n_______|_______/__/ ____ \\__\\__|___\\__\\__|___\\__\\____\n|  ___  \\ |  ____/ /    \\   |  ___  \\ |  ____|  ___  \\\n|  |  \\  \\|  |___ /  /\\  \\  |  |  \\  \\|  |___|  |  \\  \\\n|  |__/  /|  ____/  /__\\  \\ |  |   )  |  ____|  |__/  /\n|  ____  \\|  |__/  ______  \\|  |__/  /|  |___|  ____  \\\n|__|   \\__\\____/__/      \\__\\_______/ |______|__|   \\__\\\n                https://darkreader.org\n*/\n\n/*! Dark reader generated CSS | Licensed under MIT https://github.com/darkreader/darkreader/blob/master/LICENSE */\n";
     function collectCSS() {
         return __awaiter(this, void 0, void 0, function () {
             function addStaticCSS(selector, comment) {
@@ -4757,7 +5057,7 @@
                                 rule && rule.cssText && modifiedCSS.push(rule.cssText);
                             });
                         });
-                        if (!(modifiedCSS.length != 0)) return [3, 2];
+                        if (!modifiedCSS.length) return [3, 2];
                         formattedCSS = formatCSS(modifiedCSS.join('\n'));
                         css.push('/* Modified CSS */');
                         _b = (_a = css).push;
@@ -4775,7 +5075,7 @@
     }
 
     var isDarkReaderEnabled = false;
-    var isIFrame$1 = (function () {
+    var isIFrame = (function () {
         try {
             return window.self !== window.top;
         }
@@ -4791,7 +5091,7 @@
         if (theme.engine !== ThemeEngines.dynamicTheme) {
             throw new Error('Theme engine is not supported.');
         }
-        createOrUpdateDynamicTheme(theme, fixes, isIFrame$1);
+        createOrUpdateDynamicTheme(theme, fixes, isIFrame);
         isDarkReaderEnabled = true;
     }
     function isEnabled() {
@@ -4847,14 +5147,14 @@
             });
         });
     }
-    var setFetchMethod$1 = setFetchMethod;
+    var setFetchMethod = setFetchMethod$1;
 
     exports.auto = auto;
     exports.disable = disable;
     exports.enable = enable;
     exports.exportGeneratedCSS = exportGeneratedCSS;
     exports.isEnabled = isEnabled;
-    exports.setFetchMethod = setFetchMethod$1;
+    exports.setFetchMethod = setFetchMethod;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

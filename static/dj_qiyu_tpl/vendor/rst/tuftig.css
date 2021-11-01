@@ -5,7 +5,7 @@
 /*          based on tufte.css_ by Dave Liepmann                           */
 /*          and the tufte-latex_ package.                                  */
 /*                                                                         */
-/* :Id: $Id: tuftig.css 8636 2021-03-19 00:23:33Z milde $                                                               */
+/* :Id: $Id: tuftig.css 8780 2021-06-25 20:59:26Z milde $                                                               */
 /* :Copyright: © 2020 Günter Milde.                                        */
 /* :License: Released under the terms of the `2-Clause BSD license`_,      */
 /*    in short:                                                            */
@@ -46,7 +46,8 @@ main, header, footer {
 /* vertical space (parskip) */
 p, ol, ul, dl, li,
 div.line-block,
-div.topic,
+.topic,
+.footnote, .citation,
 table {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -62,15 +63,10 @@ p:first-child {
 p:last-child {
   margin-bottom: 0;
 }
-blockquote > table,
-div.topic > table {
-  margin-top: 0;
-  margin-bottom: 0;
-}
 
 /* Indented Blocks */
 blockquote,
-div.topic {
+.topic {
   /* background-color: Honeydew; */
   margin: 0.5em 2%;
   padding-left: 1em;
@@ -137,7 +133,7 @@ p.section-subtitle {
 }
 
 /* Dedication and Abstract */
-div.topic.dedication {
+div.dedication {
   padding: 0;
   margin-left: 0;
   font-style: italic;
@@ -150,12 +146,12 @@ div.dedication p.topic-title {
 
 /* Attribution */
 blockquote p.attribution,
-div.topic p.attribution {
+.topic p.attribution {
   text-align: right;
 }
 
 /* Table of Contents */
-div.topic.contents {
+nav.contents {
   padding: 0;
   font-style: italic;
 }
@@ -163,7 +159,7 @@ ul.auto-toc > li > p {
   padding-left: 1em;
   text-indent: -1em;
 }
-div.topic.contents ul { 
+nav.contents ul { 
   padding-left: 1em;
 }
 
@@ -249,6 +245,9 @@ figure.fullwidth > img {
 figcaption {
   font-size: 0.8em;
 }
+.fullwidth > figcaption {
+  font-size: inherit;
+}
 figure.numbered > figcaption > p:before {
   counter-increment: figure;
   content: "Figure " counter(figure) ": ";
@@ -276,8 +275,7 @@ table.numbered > caption:before {
 }
 
 /* Admonitions and System Messages */
-.admonition,
-div.system-message {
+.admonition, .system-message {
   border-style: solid;
   border-color: silver;
   border-width: thin;
@@ -324,7 +322,7 @@ a:link {
 }
 /* undecorated links */
 .contents a:link, a.toc-backref:link, a.image-reference:link,
-a.footnote-reference:link, a.fn-backref:link, .fn-backref a:link,
+a[role="doc-noteref"]:link, a[role="doc-backlink"]:link, .backrefs a:link,
 a.citation-reference:link,
 a[href^="#system-message"] {
   text-decoration: none;
@@ -388,12 +386,6 @@ figure.align-center > img {
 
 /* Margin Elements */
 /* see below for screen size dependent rules */
-aside.sidebar {
-  /* overwrite minimal.css */
-  width: auto;
-  max-width: 100%;
-  float: none;
-}
 aside.sidebar,
 .marginal,
 .admonition.marginal,
@@ -405,14 +397,14 @@ aside.sidebar,
   padding: 0.5em;
   font-size: 0.8em;
 }
+aside.sidebar {
+  background-color: inherit;
+}
 figure.marginal > figcaption {
   font-size: 1em;
 }
-dl.footnote {
-  font-size: 0.8em;
-  padding-left: 1ex;
-  border-left: solid;
-  border-left-width: thin;
+.footnote {
+  font-size: smaller;
   overflow: auto;
 }
 
@@ -463,11 +455,11 @@ dl.footnote {
   /* Main text elements */
   main > *, section > *,
   figure > img,
-  dl.footnote.align-left, /* override the placement in the margin */
-  dl.citation.align-left {
+  .footnote.align-left, /* override the placement in the margin */
+  .citation.align-left {
     grid-column: content-start / content-end;
   }
-  dl.citation.align-left {
+  .citation.align-left {
     font-size: 1em;
   }
   figure > img { /* indent */
@@ -478,8 +470,8 @@ dl.footnote {
   /* Margin Elements */
   /* Sidebar, Footnotes, Citations, Captions */
   aside.sidebar,
-  dl.footnote,
-  dl.citation,
+  .footnote,
+  .citation,
   figcaption,
   /* table > caption,  does not work :(*/
   .marginal,
@@ -490,6 +482,7 @@ dl.footnote {
     width: auto;
     max-width: 55em;
     margin: 0.5em 0;
+    border: none;
     padding: 0;
     font-size: 0.8em;
     text-align: initial; /* overwrite align-* */
@@ -502,25 +495,28 @@ dl.footnote {
     display: block;
     margin: 0.5em 0;
   }
-  dl.footnote {
+  .footnote {
     padding-left: 0;
     border-left: none;
   }
-  dl.citation > dd,
-  dl.footnote.superscript > dd {
-    margin-left: 0;
+  .citation {
+    padding-left: 1em;
+  }
+  .citation .label {
+    margin-left: -1em;
   }
 
   /* Fullwidth Elements */
   h1.title, p.subtitle,
   dl.docinfo,
-  div.topic.abstract,
-  div.topic.dedication,
-  div.topic.contents,
-  div.system-message,
+  div.abstract,
+  div.dedication,
+  nav.contents,
+  aside.system-message,
   pre,
   .fullwidth,
-  .fullwidth img {
+  .fullwidth img,
+  .fullwidth figcaption {
     /* background-color: Linen; */
     grid-column: content-start / end;
     margin-right: calc(10% - 3rem);
@@ -534,7 +530,7 @@ dl.footnote {
   main, header, footer {
     padding-left: 30%;
   }
-  main > div.topic.contents {
+  main > nav.contents {
     position: fixed;
     top: 0;
     left: 0;
@@ -546,7 +542,7 @@ dl.footnote {
     padding: 5.5em 2%;
     overflow: auto;
   }
-  main > div.topic.contents > * {
+  main > nav.contents > * {
     padding-left: 0;
   }
 }
