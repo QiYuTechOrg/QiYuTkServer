@@ -22,10 +22,9 @@ window.addEventListener("DOMContentLoaded", function () {
                 }
             });
 
-            [
-                "/static/dj_qiyu_tpl/vendor/rst/minimal.css",
-                "/static/dj_qiyu_tpl/vendor/rst/plain.css",
-            ].forEach(function (href) {
+            const static_url = globalThis['_django_static_url'];
+
+            [`${static_url}dj_qiyu_tpl/vendor/rst/minimal.css`, `${static_url}dj_qiyu_tpl/vendor/rst/plain.css`,].forEach(function (href) {
                 let style = document.createElement("link");
                 style.rel = "stylesheet";
                 style.type = "text/css";
