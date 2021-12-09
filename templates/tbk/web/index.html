@@ -8,6 +8,7 @@ data_list : Optional[List[TbkItemInfo]]
 {% endcomment %}
 
 {% load device_render %}
+{% load static %}
 
 {% block title %}
     {% with name=request.GET.name %}
@@ -17,7 +18,7 @@ data_list : Optional[List[TbkItemInfo]]
 
 
 {% block content %}
-    <link rel="stylesheet" href="/static/web/css/list.css">
+    <link rel="stylesheet" href="{% get_static_prefix %}/web/css/list.css">
     <style>
         {% pc_render %}
             #main-content {

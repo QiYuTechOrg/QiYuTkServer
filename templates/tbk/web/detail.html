@@ -7,12 +7,13 @@ detail : GaoYongModel
 {% endcomment %}
 
 {% load device_render %}
+{% load static %}
 
 {% block title %}奇遇淘客 {{ detail.title }} 商品详情{% endblock %}
 
 
 {% block content %}
-    <link rel="stylesheet" href="/static/web/css/detail.css">
+    <link rel="stylesheet" href="{% get_static_prefix %}/web/css/detail.css">
     <style>
         {% pc_render %}
             #main-content {
