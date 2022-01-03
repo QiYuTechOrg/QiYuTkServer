@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tbk"
-version = "v0.5.13"
+version = "v0.6.1"
 description = "奇遇淘客"
 authors = ["dev <dev@qiyutech.tech>"]
 readme = "README.md"
@@ -13,7 +13,7 @@ python = "^3.9"
 apscheduler = ">=3.6,<4.0"
 
 # web framework
-django = ">=3.2.4,<3.3"
+django = ">=3.2,<4.0"
 
 # for django database
 psycopg2-binary = ">=2.9,<2.10"
@@ -28,7 +28,7 @@ django-constance = ">=2.8,<2.9"
 django-picklefield = ">=3,<3.1"
 
 # for django image field
-pillow = ">=8.1,<9"
+pillow = ">=9,<10"
 
 # for time zone
 pytz = ">=2021,<2022"
@@ -49,7 +49,7 @@ django-ninja = ">=0.16,<0.17"
 # for dot env files
 django-dotenv = ">=1.4,<2.0"
 
-dj-qiyu-tpl = ">=0.5,<0.6"
+dj-qiyu-tpl = ">=0.6,<0.7"
 qiyu-api = ">=0.7,<0.8"
 
 [tool.poetry.dev-dependencies]
