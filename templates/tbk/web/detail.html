@@ -1,15 +1,9 @@
 {% extends "tbk/web/base.html" %}
 
-{% comment %}
-
-参数:
-detail : GaoYongModel
-{% endcomment %}
-
 {% load device_render %}
 {% load static %}
 
-{% block title %}奇遇淘客 {{ detail.title }} 商品详情{% endblock %}
+{% block title %}奇遇淘客 {{ detail.title_short }} 商品详情{% endblock %}
 
 
 {% block content %}
