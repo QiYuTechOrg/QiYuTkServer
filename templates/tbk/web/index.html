@@ -4,9 +4,7 @@
 {% load static %}
 
 {% block title %}
-    {% with name=request.GET.name %}
-        {% if name %}奇遇淘客 -- {{ name }} 搜索结果{% else %}奇遇淘客 Web 端 -- 首页{% endif %}
-    {% endwith %}
+    {% if name %}奇遇淘客 -- {{ name }} 搜索结果{% else %}奇遇淘客 Web 端 -- 首页{% endif %}
 {% endblock %}
 
 
@@ -50,10 +48,8 @@
     <form id="search-form" class="form" method="get" action="{% url "search" %}">
         <div class="field has-addons">
             <div class="control is-expanded">
-                {% with name=request.GET.name %}
-                    <input class="input" name="name" type="text" placeholder="输入要搜索的商品名称..."
-                           {% if name %}value="{{ name }}"{% endif %}>
-                {% endwith %}
+                <input class="input" name="name" type="text" placeholder="输入要搜索的商品名称..."
+                       {% if name %}value="{{ name }}"{% endif %}>
             </div>
             <div class="control">
                 <input type="submit" class="button is-primary" value="搜索商品"/>
@@ -104,15 +100,13 @@
     <div style="height: 2em;"></div>
 
     <div class="container has-text-centered">
-        {% with name=request.GET.name %}
-            {% if page > 1 %}
-                <a class="pagination-link is-current"
-                   href="?{% if name %}name={{ name }}&{% endif %}page={{ page|add:"-1" }}">上一页</a>
-            {% endif %}
-            {% if data_list|length > 0 %}
-                <a class="pagination-link is-current"
-                   href="?{% if name %}name={{ name }}&{% endif %}page={{ page|add:"1" }}">下一页</a>
-            {% endif %}
-        {% endwith %}
+        {% if page > 1 %}
+            <a class="pagination-link is-current"
+               href="?{% if name %}name={{ name }}&{% endif %}page={{ page|add:"-1" }}">上一页</a>
+        {% endif %}
+        {% if data_list|length > 0 %}
+            <a class="pagination-link is-current"
+               href="?{% if name %}name={{ name }}&{% endif %}page={{ page|add:"1" }}">下一页</a>
+        {% endif %}
     </div>
 {% endblock %}

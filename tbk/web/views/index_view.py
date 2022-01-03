@@ -15,6 +15,8 @@ class IndexView(TemplateView):
     def get_context_data(self, **kwargs):
         page = int(self.request.GET.get("page", 1))
 
+        name = self.request.GET.get("name", None)
+
         assert isinstance(self.request, HttpRequest)
         logger = get_logger("django")
 
@@ -26,5 +28,10 @@ class IndexView(TemplateView):
         show_coupon = SConfig.WEB_SHOW_COUPON
 
         return super().get_context_data(
-            data_list=ret, show_coupon=show_coupon, page=page, args=args, **kwargs
+            data_list=ret,
+            show_coupon=show_coupon,
+            page=page,
+            name=name,
+            args=args,
+            **kwargs
         )
