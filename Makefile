@@ -37,4 +37,4 @@ comby-get-ztk-api-v2-in-place:
 
 copy-static-to-cdn-git:TARGET_DIR=~/QiYuTechDev/QiYuStatic/tbk
 copy-static-to-cdn-git:
-	cp -r static/ $(TARGET_DIR)/v1
+	cp -r static/ $(TARGET_DIR)/v2
