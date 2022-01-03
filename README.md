@@ -32,3 +32,8 @@
 
 * [代码](https://github.com/QiYuTechOrg/QiYuTkDeploy)
 * [教程](https://tbk.qiyutech.tech/server/deploy.html)
+
+## 开发
+
+Django 模版的自动补全以及 `pyi` 文件分析依赖 PyCharm
+插件: [Typed Django Template](https://plugins.jetbrains.com/plugin/18232-typed-django-template)
