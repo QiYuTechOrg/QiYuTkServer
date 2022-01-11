@@ -13,7 +13,7 @@ python = "^3.9"
 apscheduler = ">=3.6,<4.0"
 
 # web framework
-django = ">=3.2,<4.0"
+django = ">=4.0,<4.1"
 
 # for django database
 psycopg2-binary = ">=2.9,<2.10"
