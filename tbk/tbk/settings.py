@@ -80,17 +80,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "tbk.wsgi.application"
 
-DATABASES = {
-    "default": {
-        "ENGINE": DB_ENGINE,  # noqa
-        "NAME": DB_NAME,  # noqa
-        "USER": DB_USER,  # noqa
-        "PASSWORD": DB_PASSWORD,  # noqa
-        "HOST": DB_HOST,  # noqa
-        "PORT": DB_PORT,  # noqa
-        "DBNAME": DB_NAME,  # noqa
-    }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
