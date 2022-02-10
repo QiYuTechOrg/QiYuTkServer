@@ -37,9 +37,9 @@ comby-get-ztk-api-v2-in-place:
 	comby -in-place -config comby/get_ztk_api_v2.toml -directory tbk -matcher .py
 
 
-copy-static-to-cdn-git:TARGET_DIR=~/QiYuTechDev/QiYuStatic/tbk
+copy-static-to-cdn-git:TARGET_DIR=~/QiYuTechDev/QiYuStatic/tbk2
 copy-static-to-cdn-git:
-	cp -r static/ $(TARGET_DIR)/v3
+	cp -r static/* $(TARGET_DIR)
 
 
 format:
