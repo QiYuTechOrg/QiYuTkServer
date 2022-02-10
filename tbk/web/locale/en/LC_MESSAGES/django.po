@@ -150,4 +150,4 @@ msgstr "Next Page"
 
 #: web/templates/tbk/web/nav.html:10
 msgid "主页"
-msgstr "Index Page"
+msgstr "Home"
