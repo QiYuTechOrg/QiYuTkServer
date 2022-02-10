@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-10 11:09+0800\n"
+"POT-Creation-Date: 2022-02-10 11:28+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,93 +57,97 @@ msgstr ""
 
 #: web/templates/tbk/web/base.html:10
 msgid "奇遇淘客网页版"
-msgstr ""
+msgstr "奇遇淘客网页版"
 
 #: web/templates/tbk/web/base.html:19
 msgid "内容正在 建设中 ......"
-msgstr ""
+msgstr "内容正在 建设中 ......"
 
 #: web/templates/tbk/web/detail.html:8
 msgid "商品详情"
-msgstr ""
+msgstr "商品详情"
 
 #: web/templates/tbk/web/detail.html:32
 msgid "商品图片"
-msgstr ""
+msgstr "商品图片"
 
 #: web/templates/tbk/web/detail.html:40
 msgid "预估佣金"
-msgstr ""
+msgstr "预估佣金"
 
 #: web/templates/tbk/web/detail.html:44 web/templates/tbk/web/index.html:87
 msgid "月销"
-msgstr ""
+msgstr "月销"
 
 #: web/templates/tbk/web/detail.html:56
 msgid "优惠券"
-msgstr ""
+msgstr "优惠券"
 
 #: web/templates/tbk/web/detail.html:68
 msgid "立刻购买"
-msgstr ""
+msgstr "立刻购买"
 
 #: web/templates/tbk/web/detail.html:75
 msgid "商家图标"
-msgstr ""
+msgstr "商家图标"
 
 #: web/templates/tbk/web/detail.html:81
 msgid "宝贝描述"
-msgstr ""
+msgstr "宝贝描述"
 
 #: web/templates/tbk/web/detail.html:82
 msgid "卖家服务"
-msgstr ""
+msgstr "卖家服务"
 
 #: web/templates/tbk/web/detail.html:83
 msgid "物流服务"
-msgstr ""
+msgstr "物流服务"
 
 #: web/templates/tbk/web/detail.html:90
 msgid "内容介绍"
-msgstr ""
+msgstr "内容介绍"
 
 #: web/templates/tbk/web/index.html:9
 #, python-format
 msgid "奇遇淘客 -- %(name)s 搜索结果"
-msgstr ""
+msgstr "奇遇淘客 -- %(name)s 搜索结果"
 
 #: web/templates/tbk/web/index.html:11
 msgid "奇遇淘客 Web 端 -- 首页"
-msgstr ""
+msgstr "奇遇淘客 Web 端 -- 首页"
 
 #: web/templates/tbk/web/index.html:56
 msgid "输入要搜索的商品名称..."
-msgstr ""
+msgstr "输入要搜索的商品名称..."
 
 #: web/templates/tbk/web/index.html:60
 msgid "搜索商品"
-msgstr ""
+msgstr "搜索商品"
 
 #: web/templates/tbk/web/index.html:66
 msgid "搜索内容是一个淘口令"
-msgstr ""
+msgstr "搜索内容是一个淘口令"
 
 #: web/templates/tbk/web/index.html:76
 msgid "背景图片"
-msgstr ""
+msgstr "背景图片"
 
 #: web/templates/tbk/web/index.html:84
 msgid "券"
-msgstr ""
+msgstr "券"
 
 #: web/templates/tbk/web/index.html:85
 msgid "元"
-msgstr ""
+msgstr "元"
 
 #: web/templates/tbk/web/index.html:111
 msgid "上一页"
-msgstr ""
+msgstr "上一页"
 
 #: web/templates/tbk/web/index.html:117
 msgid "下一页"
-msgstr ""
+msgstr "下一页"
+
+#: web/templates/tbk/web/nav.html:10
+msgid "主页"
+msgstr "主页"

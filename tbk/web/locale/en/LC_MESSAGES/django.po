@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-10 11:09+0800\n"
+"POT-Creation-Date: 2022-02-10 11:28+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -147,3 +147,7 @@ msgstr "Previous Page"
 #: web/templates/tbk/web/index.html:117
 msgid "下一页"
 msgstr "Next Page"
+
+#: web/templates/tbk/web/nav.html:10
+msgid "主页"
+msgstr "Index Page"

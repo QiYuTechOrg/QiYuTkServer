@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from dj_qiyu_tpl.views import ChangeLanguageView
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin import AdminSite
@@ -48,6 +49,8 @@ urlpatterns = [
     path("privacy/", PrivacyView.as_view(), name="privacy"),
     path("taobao/cb", taobao.TaoBaoCB.as_view()),
     path("ping/", PingView.as_view(), name="ping"),
+    # 语言设置
+    path("language/<str:language>", ChangeLanguageView.as_view(), name="language"),
     # 管理后台
     path("admin/", admin.site.urls),
 ]
