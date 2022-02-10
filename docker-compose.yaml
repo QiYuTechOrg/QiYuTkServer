@@ -18,9 +18,6 @@ services:
       - "8001:8001"
     env_file:
       - dev.env
-    depends_on:
-      db:
-        condition: service_started
     healthcheck:
       test: curl --fail http://127.0.0.1:8001/ping/ || exit 1
       interval: 10s
@@ -42,6 +39,9 @@ services:
       - type: bind
         source: ./templates
         target: /app/templates
+      - type: bind
+        source: ./sqlite
+        target: /app/sqlite
 
 
   cron:
@@ -66,17 +66,9 @@ services:
       - type: bind
         source: ./tbk
         target: /app/tbk
-
-
-  db:
-    image: postgres:12.6
-    restart: always
-    environment:
-      - POSTGRES_USER=tbk
-      - POSTGRES_PASSWORD=tbk
-      - POSTGRES_DB=tbk
-    networks:
-      - tbk
+      - type: bind
+        source: ./sqlite
+        target: /app/sqlite
 
 networks:
   tbk:
