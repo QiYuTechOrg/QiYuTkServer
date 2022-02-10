@@ -1,7 +1,8 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <title>奇遇淘客隐私协议</title>
+    <title>{% trans "奇遇淘客隐私协议" %}</title>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,14 +14,14 @@
 <div class="page-group">
     <div class="page page-current">
         <div class="content content-padded">
-            您的隐私协议
+            {% trans "您的隐私协议" %}
         </div>
     </div>
 </div>
 
 <div style="display: flex; justify-content: center;">
-    版权所有 &copy 2022 <a href="https://www.qiyutech.tech/">奇遇淘客 APP</a> &nbsp;
-    <a href="http://www.beian.miit.gov.cn/">您的备案号</a>
+    {% trans "版权所有" %} &copy 2022 <a href="https://www.qiyutech.tech/">{% trans "奇遇淘客" %} APP</a> &nbsp;
+    <a href="http://www.beian.miit.gov.cn/">{% trans "您的备案号" %}</a>
 </div>
 
 </body>

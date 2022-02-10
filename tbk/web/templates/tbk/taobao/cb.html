@@ -1,17 +1,21 @@
+{% load i18n %}
+
+{% get_current_language as lang %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ lang | language_name }}">
 <head>
     <meta charset="UTF-8">
-    <title>绑定渠道ID</title>
+    <title>{% trans "绑定渠道ID" %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 
 <body>
 
 {% if success %}
-    <div style="color: green;">绑定渠道 ID 成功!</div>
+    <div style="color: green;">{% trans "绑定渠道 ID 成功!" %}</div>
 {% else %}
-    <div style="color: red;">绑定渠道 ID 失败!</div>
+    <div style="color: red;">{% trans "绑定渠道 ID 失败!" %}</div>
 {% endif %}
 
 </body>
