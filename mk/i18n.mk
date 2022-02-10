@@ -11,4 +11,3 @@ i18n-extract:
 # i18n 编译翻译后的字符串
 i18n-compile:
 	$(djangoRun) compilemessages
-	$(djangoRun) compilejsi18n
