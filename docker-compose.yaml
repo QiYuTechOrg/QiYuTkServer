@@ -9,7 +9,6 @@ services:
       dockerfile: docker/Dockerfile
       context: .
     image: tbk:latest
-    container_name: tbk_admin
     restart: always
     networks:
       - tbk
@@ -47,7 +46,6 @@ services:
 
   cron:
     image: tbk:latest
-    container_name: tbk_cron
     restart: always
     networks:
       - tbk
@@ -73,7 +71,6 @@ services:
   db:
     image: postgres:12.6
     restart: always
-    container_name: tbk_db
     environment:
       - POSTGRES_USER=tbk
       - POSTGRES_PASSWORD=tbk
