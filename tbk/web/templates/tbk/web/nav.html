@@ -1,0 +1,19 @@
+{% load static %}
+{% load i18n %}
+
+
+<div style="width: 61.8vw; margin: auto;">
+    <link rel="stylesheet" href="{% static "dj_qiyu_tpl/vendor/fa5/css/all.min.css" %}">
+    <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color: transparent;">
+        <div class="navbar-start">
+            <a class="navbar-item" href="/">
+                <i class="fa fa-home"> </i>&nbsp;{% trans "主页" %}
+            </a>
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                {% include "dj_qiyu_tpl/language.html" %}
+            </div>
+        </div>
+    </nav>
+</div>

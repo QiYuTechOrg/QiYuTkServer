@@ -1,0 +1,25 @@
+{% load static %}
+{% load i18n %}
+
+{% get_current_language as lang %}
+
+<!DOCTYPE html>
+<html lang="{{ lang | language_name }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% trans "奇遇淘客网页版" %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static "dj_qiyu_tpl/vendor/bulma/bulma.min.css" %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+
+{% include "tbk/web/nav.html" %}
+
+{% block content %}
+    <p>{% trans "内容正在 建设中 ......" %}</p>
+{% endblock %}
+
+{% include "dj_qiyu_tpl/footer.html" with icp="津ICP备20005561号-3" %}
+
+</body>
+</html>

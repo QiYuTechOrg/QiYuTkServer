@@ -52,6 +52,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -118,3 +119,12 @@ if DEBUG:  # noqa
 else:
     ENVIRONMENT_NAME = "线上环境"
     ENVIRONMENT_COLOR = "#FF2222"
+
+# 语言 cookie 名称设置
+LANGUAGE_COOKIE_NAME = "language"
+
+# i18n 设置 (当前仅 支持 英文 和 简体中文)
+LANGUAGES = [
+    ("en", "English"),
+    ("zh-hans", "Simplified Chinese"),
+]

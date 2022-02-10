@@ -1,0 +1,13 @@
+{% load i18n %}
+
+{% get_current_language as lang %}
+<!DOCTYPE html>
+<html lang="{{ lang | language_name }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "奇遇淘客" %}</title>
+</head>
+<body>
+{% trans "请使用奇遇淘客APP访问" %}
+</body>
+</html>

@@ -1,0 +1,153 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-10 11:28+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: web/templates/tbk/html/index.html:8 web/templates/tbk/html/privacy.html:23
+#: web/templates/tbk/web/detail.html:8
+msgid "奇遇淘客"
+msgstr ""
+
+#: web/templates/tbk/html/index.html:11
+msgid "请使用奇遇淘客APP访问"
+msgstr ""
+
+#: web/templates/tbk/html/privacy.html:5
+msgid "奇遇淘客隐私协议"
+msgstr ""
+
+#: web/templates/tbk/html/privacy.html:17
+msgid "您的隐私协议"
+msgstr ""
+
+#: web/templates/tbk/html/privacy.html:23
+msgid "版权所有"
+msgstr ""
+
+#: web/templates/tbk/html/privacy.html:24
+msgid "您的备案号"
+msgstr ""
+
+#: web/templates/tbk/taobao/cb.html:9
+msgid "绑定渠道ID"
+msgstr ""
+
+#: web/templates/tbk/taobao/cb.html:16
+msgid "绑定渠道 ID 成功!"
+msgstr ""
+
+#: web/templates/tbk/taobao/cb.html:18
+msgid "绑定渠道 ID 失败!"
+msgstr ""
+
+#: web/templates/tbk/web/base.html:10
+msgid "奇遇淘客网页版"
+msgstr "奇遇淘客网页版"
+
+#: web/templates/tbk/web/base.html:19
+msgid "内容正在 建设中 ......"
+msgstr "内容正在 建设中 ......"
+
+#: web/templates/tbk/web/detail.html:8
+msgid "商品详情"
+msgstr "商品详情"
+
+#: web/templates/tbk/web/detail.html:32
+msgid "商品图片"
+msgstr "商品图片"
+
+#: web/templates/tbk/web/detail.html:40
+msgid "预估佣金"
+msgstr "预估佣金"
+
+#: web/templates/tbk/web/detail.html:44 web/templates/tbk/web/index.html:87
+msgid "月销"
+msgstr "月销"
+
+#: web/templates/tbk/web/detail.html:56
+msgid "优惠券"
+msgstr "优惠券"
+
+#: web/templates/tbk/web/detail.html:68
+msgid "立刻购买"
+msgstr "立刻购买"
+
+#: web/templates/tbk/web/detail.html:75
+msgid "商家图标"
+msgstr "商家图标"
+
+#: web/templates/tbk/web/detail.html:81
+msgid "宝贝描述"
+msgstr "宝贝描述"
+
+#: web/templates/tbk/web/detail.html:82
+msgid "卖家服务"
+msgstr "卖家服务"
+
+#: web/templates/tbk/web/detail.html:83
+msgid "物流服务"
+msgstr "物流服务"
+
+#: web/templates/tbk/web/detail.html:90
+msgid "内容介绍"
+msgstr "内容介绍"
+
+#: web/templates/tbk/web/index.html:9
+#, python-format
+msgid "奇遇淘客 -- %(name)s 搜索结果"
+msgstr "奇遇淘客 -- %(name)s 搜索结果"
+
+#: web/templates/tbk/web/index.html:11
+msgid "奇遇淘客 Web 端 -- 首页"
+msgstr "奇遇淘客 Web 端 -- 首页"
+
+#: web/templates/tbk/web/index.html:56
+msgid "输入要搜索的商品名称..."
+msgstr "输入要搜索的商品名称..."
+
+#: web/templates/tbk/web/index.html:60
+msgid "搜索商品"
+msgstr "搜索商品"
+
+#: web/templates/tbk/web/index.html:66
+msgid "搜索内容是一个淘口令"
+msgstr "搜索内容是一个淘口令"
+
+#: web/templates/tbk/web/index.html:76
+msgid "背景图片"
+msgstr "背景图片"
+
+#: web/templates/tbk/web/index.html:84
+msgid "券"
+msgstr "券"
+
+#: web/templates/tbk/web/index.html:85
+msgid "元"
+msgstr "元"
+
+#: web/templates/tbk/web/index.html:111
+msgid "上一页"
+msgstr "上一页"
+
+#: web/templates/tbk/web/index.html:117
+msgid "下一页"
+msgstr "下一页"
+
+#: web/templates/tbk/web/nav.html:10
+msgid "主页"
+msgstr "主页"

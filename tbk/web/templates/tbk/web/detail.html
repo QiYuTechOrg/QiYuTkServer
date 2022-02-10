@@ -1,13 +1,16 @@
 {% extends "tbk/web/base.html" %}
 
+{% load i18n %}
 {% load device_render %}
 {% load static %}
 
-{% block title %}奇遇淘客 {{ detail.title_short }} 商品详情{% endblock %}
+{% block title %}
+    {% trans "奇遇淘客" %} {{ detail.title_short }} {% trans "商品详情" %}
+{% endblock %}
 
 
 {% block content %}
-    <link rel="stylesheet" href="{% get_static_prefix %}/web/css/detail.css">
+    <link rel="stylesheet" href="{% static "web/css/detail.css" %}">
     <style>
         {% pc_render %}
             #main-content {
@@ -26,17 +29,19 @@
     <div id="main-content">
         <div style="background: white; padding-bottom: .5em;">
             <div class="overlay">
-                <img src="{{ detail.tao_img }}" alt="商品图片" width="100%" height="100%"/>
+                <img src="{{ detail.tao_img }}" alt="{% trans "商品图片" %}" width="100%" height="100%"/>
             </div>
 
             <div class="item-detail-price">
                 <div>{{ detail.price_actual }}</div>
                 <div><s id="tao-bao-jia-ge">{{ detail.price_origin }}</s>
                     {% if show_coupon %}
-                        <span style="color: red; font-size: 1.2em; margin-left: 1em;">预估佣金: {{ detail.commission_money|floatformat:2 }}</span>
+                        <span style="color: red; font-size: 1.2em; margin-left: 1em;">
+                            {% trans "预估佣金" %}: {{ detail.commission_money|floatformat:2 }}
+                        </span>
                     {% endif %}
                 </div>
-                <div>月销: &nbsp; <span>{{ detail.sale_month }}</span></div>
+                <div>{% trans "月销" %}: &nbsp; <span>{{ detail.sale_month }}</span></div>
             </div>
 
             <div>{{ detail.title_long }}</div>
@@ -48,7 +53,7 @@
                     <div id="you-hui-xin-xi-money">
                         <div>¥&nbsp;</div>
                         <div>{{ detail.price_coupon }}</div>
-                        <div>&nbsp;优惠券</div>
+                        <div>&nbsp;{% trans "优惠券" %}</div>
                     </div>
                 </div>
                 <div id="you-hui-xin-xi-second">
@@ -60,29 +65,29 @@
         {% endif %}
 
         <div class="has-text-centered" style="margin-top: .5em;">
-            <a href="{{ detail.coupon_link }}" class="button is-danger">立刻购买</a>
+            <a href="{{ detail.coupon_link }}" class="button is-danger">{% trans "立刻购买" %}</a>
         </div>
 
         <div style="height: 0.5rem"></div>
 
         <div id="shop-info">
             <div id="shop-info-summary">
-                <div><img src="{{ detail.seller_logo }}" alt="商家图标"/></div>
+                <div><img src="{{ detail.seller_logo }}" alt="{% trans "商家图标" %}"/></div>
                 <div>{{ detail.seller_name }}</div>
                 <div></div>
             </div>
             <div style="height: 1px; background: rgb(240, 240, 240); margin-top: .5em; margin-bottom: .5em;"></div>
             <div id="shop-score-summary">
-                <div>宝贝描述:<span>{{ detail.score_dsr }}</span></div>
-                <div>卖家服务:<span>{{ detail.score_service }}</span></div>
-                <div>物流服务:<span>{{ detail.score_ship }}</span></div>
+                <div>{% trans "宝贝描述" %}:<span>{{ detail.score_dsr }}</span></div>
+                <div>{% trans "卖家服务" %}:<span>{{ detail.score_service }}</span></div>
+                <div>{% trans "物流服务" %}:<span>{{ detail.score_ship }}</span></div>
             </div>
         </div>
 
         <div id="desc-id">
             {% for img in detail.tao_details %}
                 {% if img != "" %}
-                    <img src="{{ img }}" alt="内容介绍"/>
+                    <img src="{{ img }}" alt="{% trans "内容介绍" %}"/>
                 {% endif %}
             {% endfor %}
         </div>
