@@ -1,0 +1,149 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-10 11:09+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: web/templates/tbk/html/index.html:8 web/templates/tbk/html/privacy.html:23
+#: web/templates/tbk/web/detail.html:8
+msgid "奇遇淘客"
+msgstr "QiYu Taobao Spreader"
+
+#: web/templates/tbk/html/index.html:11
+msgid "请使用奇遇淘客APP访问"
+msgstr "Please use QiYu Taobao Spreader APP visit"
+
+#: web/templates/tbk/html/privacy.html:5
+msgid "奇遇淘客隐私协议"
+msgstr "QiYu Taobao Spreader APP Privacy Policy"
+
+#: web/templates/tbk/html/privacy.html:17
+msgid "您的隐私协议"
+msgstr "Your custom privacy policy"
+
+#: web/templates/tbk/html/privacy.html:23
+msgid "版权所有"
+msgstr "Copyright"
+
+#: web/templates/tbk/html/privacy.html:24
+msgid "您的备案号"
+msgstr "Your ICP License"
+
+#: web/templates/tbk/taobao/cb.html:9
+msgid "绑定渠道ID"
+msgstr "Bind channel ID"
+
+#: web/templates/tbk/taobao/cb.html:16
+msgid "绑定渠道 ID 成功!"
+msgstr "Bind channel ID success"
+
+#: web/templates/tbk/taobao/cb.html:18
+msgid "绑定渠道 ID 失败!"
+msgstr "Bind channel ID failed"
+
+#: web/templates/tbk/web/base.html:10
+msgid "奇遇淘客网页版"
+msgstr "QiYu Taobao Spreader Web Edition"
+
+#: web/templates/tbk/web/base.html:19
+msgid "内容正在 建设中 ......"
+msgstr "Content are under construction ......"
+
+#: web/templates/tbk/web/detail.html:8
+msgid "商品详情"
+msgstr "Goods detail"
+
+#: web/templates/tbk/web/detail.html:32
+msgid "商品图片"
+msgstr "Goods image"
+
+#: web/templates/tbk/web/detail.html:40
+msgid "预估佣金"
+msgstr "Estimated commission"
+
+#: web/templates/tbk/web/detail.html:44 web/templates/tbk/web/index.html:87
+msgid "月销"
+msgstr "Month Sales"
+
+#: web/templates/tbk/web/detail.html:56
+msgid "优惠券"
+msgstr "Coupon"
+
+#: web/templates/tbk/web/detail.html:68
+msgid "立刻购买"
+msgstr "Buy Now"
+
+#: web/templates/tbk/web/detail.html:75
+msgid "商家图标"
+msgstr "Shop Icon"
+
+#: web/templates/tbk/web/detail.html:81
+msgid "宝贝描述"
+msgstr "Goods Description"
+
+#: web/templates/tbk/web/detail.html:82
+msgid "卖家服务"
+msgstr "Seller Service"
+
+#: web/templates/tbk/web/detail.html:83
+msgid "物流服务"
+msgstr "Delivery Service"
+
+#: web/templates/tbk/web/detail.html:90
+msgid "内容介绍"
+msgstr "Content"
+
+#: web/templates/tbk/web/index.html:9
+#, python-format
+msgid "奇遇淘客 -- %(name)s 搜索结果"
+msgstr "QiYu Taobao Spreader -- %(name)s Search Result"
+
+#: web/templates/tbk/web/index.html:11
+msgid "奇遇淘客 Web 端 -- 首页"
+msgstr "QiYu Taobao Spreader Web Edition -- Index Page"
+
+#: web/templates/tbk/web/index.html:56
+msgid "输入要搜索的商品名称..."
+msgstr "Product name to be searched ..."
+
+#: web/templates/tbk/web/index.html:60
+msgid "搜索商品"
+msgstr "Search"
+
+#: web/templates/tbk/web/index.html:66
+msgid "搜索内容是一个淘口令"
+msgstr "Search Content is Taobao Secret Code"
+
+#: web/templates/tbk/web/index.html:76
+msgid "背景图片"
+msgstr "Background Image"
+
+#: web/templates/tbk/web/index.html:84
+msgid "券"
+msgstr "Coupon"
+
+#: web/templates/tbk/web/index.html:85
+msgid "元"
+msgstr "Yuan"
+
+#: web/templates/tbk/web/index.html:111
+msgid "上一页"
+msgstr "Previous Page"
+
+#: web/templates/tbk/web/index.html:117
+msgid "下一页"
+msgstr "Next Page"
