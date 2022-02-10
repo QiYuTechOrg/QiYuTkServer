@@ -2,6 +2,8 @@
 include mk/code.mk
 # 本地开发相关
 include mk/local.mk
+# i18n 命令
+include mk/i18n.mk
 
 download-open-api-file:
 	rm -f openapi.json || true
