@@ -23,15 +23,15 @@ psycopg2-binary = ">=2.9,<2.10"
 django-admin-env-notice = ">=0.2"
 
 # 系统动态配置
-django-constance = ">=2.8,<2.9"
+django-constance = ">=2.9,<2.10"
 # django-constance 依赖
-django-picklefield = ">=3,<3.1"
+django-picklefield = ">=3.1,<3.2"
 
 # for django image field
 pillow = ">=9,<10"
 
 # for time zone
-pytz = ">=2021,<2022"
+pytz = ">=2022,<2023"
 
 # django production deployment
 # should use uvicorn and use ASGI mod run python django
@@ -42,7 +42,7 @@ django-structlog = ">=2.2,<2.3"
 
 ###################################################
 # API 接口 依赖
-django-ninja = ">=0.16,<0.17"
+django-ninja = ">=0.18,<0.19"
 ###################################################
 
 

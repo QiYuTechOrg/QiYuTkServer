@@ -1,0 +1,8 @@
+{
+    "extensions": [
+		"ms-python.python",
+		"bungcip.better-toml",
+		"EditorConfig.EditorConfig"
+	],
+    "postStartCommand": "pip install poetry --user && poetry update"
+}
