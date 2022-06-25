@@ -9,3 +9,4 @@ demo.xml
 poetry.lock
 # 开发环境配置
 dev.env
+.vscode

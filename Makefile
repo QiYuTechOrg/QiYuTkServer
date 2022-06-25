@@ -44,3 +44,6 @@ copy-static-to-cdn-git:
 
 format:
 	poetry run black tbk
+
+lock:
+	poetry export --without-hashes -o requirements.txt
