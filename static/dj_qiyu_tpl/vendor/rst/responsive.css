@@ -1,9 +1,9 @@
-/* CSS3_ style sheet for the output of Docutils HTML writers.              */
+/* CSS3_ style sheet for the output of Docutils HTML5 writer.  */
 /* Generic responsive design for all screen sizes.                         */
 /*                                                                         */
 /* :Author: Günter Milde                                                   */
 /*                                                                         */
-/* :Id: $Id: responsive.css 8856 2021-10-15 16:03:47Z milde $                                                               */
+/* :Id: $Id: responsive.css 9079 2022-06-19 14:00:56Z milde $                                                               */
 /* :Copyright: © 2021 Günter Milde.                                        */
 /* :License: Released under the terms of the `2-Clause BSD license`_,      */
 /*    in short:                                                            */
@@ -15,7 +15,12 @@
 /*    This file is offered as-is, without any warranty.                    */
 /*                                                                         */
 /* .. _2-Clause BSD license: http://www.spdx.org/licenses/BSD-2-Clause     */
-/* .. _CSS3: http://www.w3.org/TR/CSS3                                     */
+/* .. _CSS3: https://www.w3.org/Style/CSS/                                 */
+
+/* Note:     								   */
+/* This style sheet is provisional:					   */
+/* the API is not settled and may change with any minor Docutils version.  */
+
 
 
 /* General Settings */
@@ -240,6 +245,7 @@ div.system-message > p > span.literal {
 /* Literal and Code */
 pre.literal-block, pre.doctest{
   padding: 0.2em;
+  overflow-x: auto;
 }
 .literal-block, .doctest, span.literal {
   background-color: #f6f9f8;
@@ -249,7 +255,7 @@ pre.literal-block, pre.doctest{
 }
 
 /* basic highlighting: for a complete scheme, see */
-/* http://docutils.sourceforge.net/sandbox/stylesheets/ */
+/* https://docutils.sourceforge.io/sandbox/stylesheets/ */
 pre.code .comment, code .comment { color: #5C6576 }
 pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
 pre.code .literal.string, code .literal.string { color: #0C5404 }
@@ -285,13 +291,14 @@ a:hover {
   margin-left: 0.2em;
 }
 /* highlight the target of the current URL */
-/* section:target > h2, section:target > h3, section:target > h4, */
-/* section:target > h5, section:target > h6,			  */
+section:target > h2, section:target > h3, section:target > h4,
+section:target > h5, section:target > h6,
 .contents :target,
 .contents:target > .topic-title,
 [role="doc-biblioentry"]:target > .label,
 [role="doc-biblioref"]:target,
-[role="note"]:target > .label,
+[role="note"]:target, /* Docutils 0.18 ... 0.19 */
+[role="doc-footnote"]:target, /* Docutils >= 0.20 */
 [role="doc-noteref"]:target {
   background-color: #d2e6ec;
 }

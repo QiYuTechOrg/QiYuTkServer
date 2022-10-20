@@ -5,7 +5,7 @@
 /*          based on tufte.css_ by Dave Liepmann                           */
 /*          and the tufte-latex_ package.                                  */
 /*                                                                         */
-/* :Id: $Id: tuftig.css 8780 2021-06-25 20:59:26Z milde $                                                               */
+/* :Id: $Id: tuftig.css 9081 2022-06-19 20:23:12Z milde $                                                               */
 /* :Copyright: © 2020 Günter Milde.                                        */
 /* :License: Released under the terms of the `2-Clause BSD license`_,      */
 /*    in short:                                                            */
@@ -17,7 +17,7 @@
 /*    This file is offered as-is, without any warranty.                    */
 /*                                                                         */
 /* .. _2-Clause BSD license: http://www.spdx.org/licenses/BSD-2-Clause     */
-/* .. _CSS3: http://www.w3.org/TR/CSS3                                     */
+/* .. _CSS3: https://www.w3.org/Style/CSS/                                 */
 /* .. _tufte.css: https://edwardtufte.github.io/tufte-css/                 */
 /* .. _tufte-latex_: https://www.ctan.org/pkg/tufte-latex                  */
 
@@ -45,6 +45,7 @@ main, header, footer {
 
 /* vertical space (parskip) */
 p, ol, ul, dl, li,
+h1, h2, h3, h4, h5, h6,
 div.line-block,
 .topic,
 .footnote, .citation,
@@ -52,7 +53,6 @@ table {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
-h1, h2, h3, h4, h5, h6,
 dl > dd {
   margin-bottom: 0.5em;
 }
@@ -110,8 +110,8 @@ h1 + p.subtitle {
   margin-bottom: 2em;
   font-size: 2.0em;
 }
-h2, h3, h4 {
-  margin-top: 2.0em;
+section {
+  margin-top: 2em;
 }
 h2, .contents > p.topic-title {
   font-size: 2.2em;
@@ -159,7 +159,7 @@ ul.auto-toc > li > p {
   padding-left: 1em;
   text-indent: -1em;
 }
-nav.contents ul { 
+nav.contents ul {
   padding-left: 1em;
 }
 
@@ -173,7 +173,7 @@ hr {
 
 /* Lists */
 /* Less indent per level */
-ul, ol { 
+ul, ol {
   padding-left: 1.1em;
 }
 dd {
@@ -219,6 +219,18 @@ dl.description > dd:after {
   display: block;
   content: "";
   clear: both;
+}
+
+/* Citation list (style as description list) */
+.citation-list,
+.footnote-list {
+  display: contents;
+}
+.citation {
+  padding-left: 1.5em;
+}
+.citation .label {
+  margin-left: -1.5em;
 }
 
 /* Images and Figures */
@@ -298,7 +310,7 @@ pre.math, pre.code {
   overflow: auto;
 }
 /* basic highlighting: for a complete scheme, see */
-/* http://docutils.sourceforge.net/sandbox/stylesheets/ */
+/* https://docutils.sourceforge.io/sandbox/stylesheets/ */
 pre.code .comment, code .comment { color: #5C6576 }
 pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
 pre.code .literal.string, code .literal.string { color: #0C5404 }
@@ -329,7 +341,7 @@ a[href^="#system-message"] {
 }
 a:link:hover {
   text-decoration: underline;
-}  
+}
 
 /* Block Alignment */
 /* Let content flow to the side of aligned images and figures */
@@ -439,8 +451,8 @@ figure.marginal > figcaption {
   /* use the same grid for main, all sections, and figures */
   main, section {
     display: grid;
-    grid-template-columns: [content-start] minmax(0, 6fr)
-    			   [content-end] 3fr [end];
+    grid-template-columns: [content] minmax(0, 6fr)
+    			   [margin] 3fr [end];
     grid-column-gap: calc(3em + 1%);
   }
   main > section, section > section {
@@ -457,10 +469,14 @@ figure.marginal > figcaption {
   figure > img,
   .footnote.align-left, /* override the placement in the margin */
   .citation.align-left {
-    grid-column: content-start / content-end;
+    grid-column: content;
   }
   .citation.align-left {
     font-size: 1em;
+    padding-left: 1.5em;
+  }
+  .citation.align-left .label {
+    margin-left: -1.5em;
   }
   figure > img { /* indent */
     margin: 0.5em 2%;
@@ -470,15 +486,15 @@ figure.marginal > figcaption {
   /* Margin Elements */
   /* Sidebar, Footnotes, Citations, Captions */
   aside.sidebar,
-  .footnote,
   .citation,
+  .footnote,
   figcaption,
   /* table > caption,  does not work :(*/
   .marginal,
   .admonition.marginal,
   .topic.marginal {
-    /* background-color: Lavender; */
-    grid-column: content-end / end;
+    /* color: red; */
+    grid-column: margin;
     width: auto;
     max-width: 55em;
     margin: 0.5em 0;
@@ -495,15 +511,13 @@ figure.marginal > figcaption {
     display: block;
     margin: 0.5em 0;
   }
+  .citation,
   .footnote {
     padding-left: 0;
-    border-left: none;
   }
-  .citation {
-    padding-left: 1em;
-  }
-  .citation .label {
-    margin-left: -1em;
+  .citation .label,
+  .footnote .label {
+    margin-left: 0;
   }
 
   /* Fullwidth Elements */
@@ -518,7 +532,7 @@ figure.marginal > figcaption {
   .fullwidth img,
   .fullwidth figcaption {
     /* background-color: Linen; */
-    grid-column: content-start / end;
+    grid-column: content / end;
     margin-right: calc(10% - 3rem);
     max-width: 55em;
   }
@@ -547,7 +561,7 @@ figure.marginal > figcaption {
   }
 }
 
-/* wrap URLs */ 
+/* wrap URLs */
 /*   a:link {    */
 /*     white-space: normal; */
 /*     hyphens: none;	    */

@@ -1,5 +1,5 @@
 /**
- * Dark Reader v4.9.39
+ * Dark Reader v4.9.57
  * https://darkreader.org/
  */
 
@@ -7,9 +7,9 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.DarkReader = {}));
-}(this, (function (exports) { 'use strict';
+})(this, (function (exports) { 'use strict';
 
-    /*! *****************************************************************************
+    /******************************************************************************
     Copyright (c) Microsoft Corporation.
 
     Permission to use, copy, modify, and/or distribute this software for any
@@ -109,54 +109,64 @@
                 ar[i] = from[i];
             }
         }
-        return to.concat(ar || from);
+        return to.concat(ar || Array.prototype.slice.call(from));
     }
 
-    var MessageType = {
-        UI_GET_DATA: 'ui-get-data',
-        UI_GET_ACTIVE_TAB_INFO: 'ui-get-active-tab-info',
-        UI_SUBSCRIBE_TO_CHANGES: 'ui-subscribe-to-changes',
-        UI_UNSUBSCRIBE_FROM_CHANGES: 'ui-unsubscribe-from-changes',
-        UI_CHANGE_SETTINGS: 'ui-change-settings',
-        UI_SET_THEME: 'ui-set-theme',
-        UI_SET_SHORTCUT: 'ui-set-shortcut',
-        UI_TOGGLE_URL: 'ui-toggle-url',
-        UI_MARK_NEWS_AS_READ: 'ui-mark-news-as-read',
-        UI_LOAD_CONFIG: 'ui-load-config',
-        UI_APPLY_DEV_DYNAMIC_THEME_FIXES: 'ui-apply-dev-dynamic-theme-fixes',
-        UI_RESET_DEV_DYNAMIC_THEME_FIXES: 'ui-reset-dev-dynamic-theme-fixes',
-        UI_APPLY_DEV_INVERSION_FIXES: 'ui-apply-dev-inversion-fixes',
-        UI_RESET_DEV_INVERSION_FIXES: 'ui-reset-dev-inversion-fixes',
-        UI_APPLY_DEV_STATIC_THEMES: 'ui-apply-dev-static-themes',
-        UI_RESET_DEV_STATIC_THEMES: 'ui-reset-dev-static-themes',
-        UI_SAVE_FILE: 'ui-save-file',
-        UI_REQUEST_EXPORT_CSS: 'ui-request-export-css',
-        BG_CHANGES: 'bg-changes',
-        BG_ADD_CSS_FILTER: 'bg-add-css-filter',
-        BG_ADD_STATIC_THEME: 'bg-add-static-theme',
-        BG_ADD_SVG_FILTER: 'bg-add-svg-filter',
-        BG_ADD_DYNAMIC_THEME: 'bg-add-dynamic-theme',
-        BG_EXPORT_CSS: 'bg-export-css',
-        BG_UNSUPPORTED_SENDER: 'bg-unsupported-sender',
-        BG_CLEAN_UP: 'bg-clean-up',
-        BG_RELOAD: 'bg-reload',
-        BG_FETCH_RESPONSE: 'bg-fetch-response',
-        BG_UI_UPDATE: 'bg-ui-update',
-        BG_CSS_UPDATE: 'bg-css-update',
-        CS_COLOR_SCHEME_CHANGE: 'cs-color-scheme-change',
-        CS_FRAME_CONNECT: 'cs-frame-connect',
-        CS_FRAME_FORGET: 'cs-frame-forget',
-        CS_FRAME_FREEZE: 'cs-frame-freeze',
-        CS_FRAME_RESUME: 'cs-frame-resume',
-        CS_EXPORT_CSS_RESPONSE: 'cs-export-css-response',
-        CS_FETCH: 'cs-fetch',
-    };
+    var MessageType;
+    (function (MessageType) {
+        MessageType["UI_GET_DATA"] = "ui-get-data";
+        MessageType["UI_SUBSCRIBE_TO_CHANGES"] = "ui-subscribe-to-changes";
+        MessageType["UI_UNSUBSCRIBE_FROM_CHANGES"] = "ui-unsubscribe-from-changes";
+        MessageType["UI_CHANGE_SETTINGS"] = "ui-change-settings";
+        MessageType["UI_SET_THEME"] = "ui-set-theme";
+        MessageType["UI_SET_SHORTCUT"] = "ui-set-shortcut";
+        MessageType["UI_TOGGLE_ACTIVE_TAB"] = "ui-toggle-active-tab";
+        MessageType["UI_MARK_NEWS_AS_READ"] = "ui-mark-news-as-read";
+        MessageType["UI_MARK_NEWS_AS_DISPLAYED"] = "ui-mark-news-as-displayed";
+        MessageType["UI_LOAD_CONFIG"] = "ui-load-config";
+        MessageType["UI_APPLY_DEV_DYNAMIC_THEME_FIXES"] = "ui-apply-dev-dynamic-theme-fixes";
+        MessageType["UI_RESET_DEV_DYNAMIC_THEME_FIXES"] = "ui-reset-dev-dynamic-theme-fixes";
+        MessageType["UI_APPLY_DEV_INVERSION_FIXES"] = "ui-apply-dev-inversion-fixes";
+        MessageType["UI_RESET_DEV_INVERSION_FIXES"] = "ui-reset-dev-inversion-fixes";
+        MessageType["UI_APPLY_DEV_STATIC_THEMES"] = "ui-apply-dev-static-themes";
+        MessageType["UI_RESET_DEV_STATIC_THEMES"] = "ui-reset-dev-static-themes";
+        MessageType["UI_SAVE_FILE"] = "ui-save-file";
+        MessageType["UI_REQUEST_EXPORT_CSS"] = "ui-request-export-css";
+        MessageType["UI_COLOR_SCHEME_CHANGE"] = "ui-color-scheme-change";
+        MessageType["BG_CHANGES"] = "bg-changes";
+        MessageType["BG_ADD_CSS_FILTER"] = "bg-add-css-filter";
+        MessageType["BG_ADD_STATIC_THEME"] = "bg-add-static-theme";
+        MessageType["BG_ADD_SVG_FILTER"] = "bg-add-svg-filter";
+        MessageType["BG_ADD_DYNAMIC_THEME"] = "bg-add-dynamic-theme";
+        MessageType["BG_EXPORT_CSS"] = "bg-export-css";
+        MessageType["BG_UNSUPPORTED_SENDER"] = "bg-unsupported-sender";
+        MessageType["BG_CLEAN_UP"] = "bg-clean-up";
+        MessageType["BG_RELOAD"] = "bg-reload";
+        MessageType["BG_FETCH_RESPONSE"] = "bg-fetch-response";
+        MessageType["BG_UI_UPDATE"] = "bg-ui-update";
+        MessageType["BG_CSS_UPDATE"] = "bg-css-update";
+        MessageType["CS_COLOR_SCHEME_CHANGE"] = "cs-color-scheme-change";
+        MessageType["CS_FRAME_CONNECT"] = "cs-frame-connect";
+        MessageType["CS_FRAME_FORGET"] = "cs-frame-forget";
+        MessageType["CS_FRAME_FREEZE"] = "cs-frame-freeze";
+        MessageType["CS_FRAME_RESUME"] = "cs-frame-resume";
+        MessageType["CS_EXPORT_CSS_RESPONSE"] = "cs-export-css-response";
+        MessageType["CS_FETCH"] = "cs-fetch";
+        MessageType["CS_DARK_THEME_DETECTED"] = "cs-dark-theme-detected";
+        MessageType["CS_DARK_THEME_NOT_DETECTED"] = "cs-dark-theme-not-detected";
+        MessageType["CS_LOG"] = "cs-log";
+    })(MessageType || (MessageType = {}));
 
-    var userAgent = typeof navigator === 'undefined' ? 'some useragent' : navigator.userAgent.toLowerCase();
-    var platform = typeof navigator === 'undefined' ? 'some platform' : navigator.platform.toLowerCase();
+    var isNavigatorDefined = typeof navigator !== 'undefined';
+    var userAgent = isNavigatorDefined ? (navigator.userAgentData && Array.isArray(navigator.userAgentData.brands)) ?
+        navigator.userAgentData.brands.map(function (brand) { return "".concat(brand.brand.toLowerCase(), " ").concat(brand.version); }).join(' ') : navigator.userAgent.toLowerCase()
+        : 'some useragent';
+    var platform = isNavigatorDefined ? (navigator.userAgentData && typeof navigator.userAgentData.platform === 'string') ?
+        navigator.userAgentData.platform.toLowerCase() : navigator.platform.toLowerCase()
+        : 'some platform';
     var isChromium = userAgent.includes('chrome') || userAgent.includes('chromium');
     var isThunderbird = userAgent.includes('thunderbird');
-    var isFirefox = userAgent.includes('firefox') || isThunderbird;
+    var isFirefox = userAgent.includes('firefox') || userAgent.includes('librewolf') || isThunderbird;
     userAgent.includes('vivaldi');
     userAgent.includes('yabrowser');
     userAgent.includes('opr') || userAgent.includes('opera');
@@ -164,12 +174,19 @@
     var isSafari = userAgent.includes('safari') && !isChromium;
     var isWindows = platform.startsWith('win');
     var isMacOS = platform.startsWith('mac');
-    userAgent.includes('mobile');
+    (isNavigatorDefined && navigator.userAgentData) ? navigator.userAgentData.mobile : userAgent.includes('mobile');
     var isShadowDomSupported = typeof ShadowRoot === 'function';
     var isMatchMediaChangeEventListenerSupported = (typeof MediaQueryList === 'function' &&
         typeof MediaQueryList.prototype.addEventListener === 'function');
     ((function () {
-        var m = userAgent.match(/chrom[e|ium]\/([^ ]+)/);
+        var m = userAgent.match(/chrom(?:e|ium)(?:\/| )([^ ]+)/);
+        if (m && m[1]) {
+            return m[1];
+        }
+        return '';
+    }))();
+    ((function () {
+        var m = userAgent.match(/(?:firefox|librewolf)(?:\/| )([^ ]+)/);
         if (m && m[1]) {
             return m[1];
         }
@@ -184,7 +201,14 @@
             return false;
         }
     })();
-    globalThis.chrome && globalThis.chrome.runtime && globalThis.chrome.runtime.getManifest && globalThis.chrome.runtime.getManifest().manifest_version === 3;
+    var isCSSColorSchemePropSupported = (function () {
+        if (typeof document === 'undefined') {
+            return false;
+        }
+        var el = document.createElement('div');
+        el.setAttribute('style', 'color-scheme: dark');
+        return el.style && el.style.colorScheme === 'dark';
+    })();
 
     function getOKResponse(url, mimeType, origin) {
         return __awaiter(this, void 0, void 0, function () {
@@ -202,10 +226,10 @@
                             return [2, response];
                         }
                         if (mimeType && !response.headers.get('Content-Type').startsWith(mimeType)) {
-                            throw new Error("Mime type mismatch when loading " + url);
+                            throw new Error("Mime type mismatch when loading ".concat(url));
                         }
                         if (!response.ok) {
-                            throw new Error("Unable to load " + url + " " + response.status + " " + response.statusText);
+                            throw new Error("Unable to load ".concat(url, " ").concat(response.status, " ").concat(response.statusText));
                         }
                         return [2, response];
                 }
@@ -337,7 +361,7 @@
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i] = arguments[_i];
             }
-            sendMessage.apply(void 0, __spreadArray([], __read(args)));
+            sendMessage.apply(void 0, __spreadArray([], __read(args), false));
             nativeSendMessage_1.apply(chrome.runtime, args);
         };
     }
@@ -354,12 +378,18 @@
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i] = arguments[_i];
             }
-            addMessageListener.apply(void 0, __spreadArray([], __read(args)));
+            addMessageListener(args[0]);
             nativeAddListener_1.apply(chrome.runtime.onMessage, args);
         };
     }
     else {
-        chrome.runtime.onMessage.addListener = addMessageListener;
+        chrome.runtime.onMessage.addListener = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            return addMessageListener(args[0]);
+        };
     }
 
     var ThemeEngines = {
@@ -396,7 +426,10 @@
         lightSchemeTextColor: DEFAULT_COLORS.lightScheme.text,
         scrollbarColor: isMacOS ? '' : 'auto',
         selectionColor: 'auto',
-        styleSystemControls: true,
+        styleSystemControls: !isCSSColorSchemePropSupported,
+        lightColorScheme: 'Default',
+        darkColorScheme: 'Default',
+        immediateModify: false,
     };
 
     function isArrayLike(items) {
@@ -437,16 +470,8 @@
     }
 
     function logInfo() {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
     }
     function logWarn() {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
     }
 
     function throttle(callback) {
@@ -463,11 +488,11 @@
                 pending = true;
             }
             else {
-                callback.apply(void 0, __spreadArray([], __read(lastArgs)));
+                callback.apply(void 0, __spreadArray([], __read(lastArgs), false));
                 frameId = requestAnimationFrame(function () {
                     frameId = null;
                     if (pending) {
-                        callback.apply(void 0, __spreadArray([], __read(lastArgs)));
+                        callback.apply(void 0, __spreadArray([], __read(lastArgs), false));
                         pending = false;
                     }
                 });
@@ -551,7 +576,6 @@
             }
             else if (attempts >= MAX_ATTEMPTS_COUNT) {
                 if (now - start < ATTEMPTS_INTERVAL) {
-                    logWarn("Node position watcher paused: retry in " + RETRY_TIMEOUT + "ms", node, prevSibling);
                     timeoutId = setTimeout(function () {
                         start = null;
                         attempts = 0;
@@ -565,23 +589,19 @@
             }
             if (mode === 'parent') {
                 if (prevSibling && prevSibling.parentNode !== parent) {
-                    logWarn('Unable to restore node position: sibling parent changed', node, prevSibling, parent);
                     stop();
                     return;
                 }
             }
             if (mode === 'prev-sibling') {
                 if (prevSibling.parentNode == null) {
-                    logWarn('Unable to restore node position: sibling was removed', node, prevSibling, parent);
                     stop();
                     return;
                 }
                 if (prevSibling.parentNode !== parent) {
-                    logWarn('Style was moved to another parent', node, prevSibling, parent);
                     updateParent(prevSibling.parentNode);
                 }
             }
-            logWarn('Restoring node position', node, prevSibling, parent);
             parent.insertBefore(node, prevSibling ? prevSibling.nextSibling : parent.firstChild);
             observer.takeRecords();
             onRestore && onRestore();
@@ -621,16 +641,22 @@
             }
         });
         for (var node = (root.shadowRoot ? walker.currentNode : walker.nextNode()); node != null; node = walker.nextNode()) {
+            if (node.classList.contains('surfingkeys_hints_host')) {
+                continue;
+            }
             iterator(node);
             iterateShadowHosts(node.shadowRoot, iterator);
         }
     }
-    function isDOMReady() {
+    var isDOMReady = function () {
         return document.readyState === 'complete' || document.readyState === 'interactive';
+    };
+    function setIsDOMReady(newFunc) {
+        isDOMReady = newFunc;
     }
     var readyStateListeners = new Set();
     function addDOMReadyListener(listener) {
-        readyStateListeners.add(listener);
+        isDOMReady() ? listener() : readyStateListeners.add(listener);
     }
     function removeDOMReadyListener(listener) {
         readyStateListeners.delete(listener);
@@ -640,7 +666,7 @@
     }
     var readyStateCompleteListeners = new Set();
     function addReadyStateCompleteListener(listener) {
-        readyStateCompleteListeners.add(listener);
+        isReadyStateComplete() ? listener() : readyStateCompleteListeners.add(listener);
     }
     function cleanReadyStateCompleteListeners() {
         readyStateCompleteListeners.clear();
@@ -687,6 +713,7 @@
                 if (n instanceof Element) {
                     if (n.isConnected) {
                         moves.add(n);
+                        additions.delete(n);
                     }
                     else {
                         deletions.add(n);
@@ -694,7 +721,6 @@
                 }
             });
         });
-        moves.forEach(function (n) { return additions.delete(n); });
         var duplicateAdditions = [];
         var duplicateDeletions = [];
         additions.forEach(function (node) {
@@ -782,7 +808,7 @@
     }
     function parseURL($url, $base) {
         if ($base === void 0) { $base = null; }
-        var key = "" + $url + ($base ? ";" + $base : '');
+        var key = "".concat($url).concat($base ? ";".concat($base) : '');
         if (parsedURLCache.has(key)) {
             return parsedURLCache.get(key);
         }
@@ -800,11 +826,27 @@
             return $relative;
         }
         if (/^\/\//.test($relative)) {
-            return "" + location.protocol + $relative;
+            return "".concat(location.protocol).concat($relative);
         }
         var b = parseURL($base);
         var a = parseURL($relative, b.href);
         return a.href;
+    }
+    function isRelativeHrefOnAbsolutePath(href) {
+        if (href.startsWith('data:')) {
+            return true;
+        }
+        var url = parseURL(href);
+        if (url.protocol !== location.protocol) {
+            return false;
+        }
+        if (url.hostname !== location.hostname) {
+            return false;
+        }
+        if (url.port !== location.port) {
+            return false;
+        }
+        return url.pathname === location.pathname;
     }
 
     function iterateCSSRules(rules, iterate, onMediaRuleError) {
@@ -823,9 +865,9 @@
             }
             else if (rule.media) {
                 var media = Array.from(rule.media);
-                var isScreenOrAll = media.some(function (m) { return m.startsWith('screen') || m.startsWith('all'); });
+                var isScreenOrAllOrQuery = media.some(function (m) { return m.startsWith('screen') || m.startsWith('all') || m.startsWith('('); });
                 var isPrintOrSpeech = media.some(function (m) { return m.startsWith('print') || m.startsWith('speech'); });
-                if (isScreenOrAll || !isPrintOrSpeech) {
+                if (isScreenOrAllOrQuery || !isPrintOrSpeech) {
                     iterateCSSRules(rule.cssRules, iterate, onMediaRuleError);
                 }
             }
@@ -851,7 +893,7 @@
         'outline-color',
     ];
     var shorthandVarDepPropRegexps = isSafari ? shorthandVarDependantProperties.map(function (prop) {
-        var regexp = new RegExp(prop + ":\\s*(.*?)\\s*;");
+        var regexp = new RegExp("".concat(prop, ":\\s*(.*?)\\s*;"));
         return [prop, regexp];
     }) : null;
     function iterateCSSDeclarations(style, iterate) {
@@ -884,19 +926,24 @@
             }
         }
     }
-    var cssURLRegex = /url\((('.+?')|(".+?")|([^\)]*?))\)/g;
-    var cssImportRegex = /@import\s*(url\()?(('.+?')|(".+?")|([^\)]*?))\)?;?/g;
+    var cssURLRegex = /url\((('.*?')|(".*?")|([^\)]*?))\)/g;
+    var cssImportRegex = /@import\s*(url\()?(('.+?')|(".+?")|([^\)]*?))\)? ?(screen)?;?/gi;
     function getCSSURLValue(cssURL) {
-        return cssURL.replace(/^url\((.*)\)$/, '$1').trim().replace(/^"(.*)"$/, '$1').replace(/^'(.*)'$/, '$1');
+        return cssURL.trim().replace(/^url\((.*)\)$/, '$1').trim().replace(/^"(.*)"$/, '$1').replace(/^'(.*)'$/, '$1').replace(/(?:\\(.))/g, '$1');
     }
     function getCSSBaseBath(url) {
         var cssURL = parseURL(url);
-        return "" + cssURL.origin + cssURL.pathname.replace(/\?.*$/, '').replace(/(\/)([^\/]+)$/i, '$1');
+        return "".concat(cssURL.origin).concat(cssURL.pathname.replace(/\?.*$/, '').replace(/(\/)([^\/]+)$/i, '$1'));
     }
     function replaceCSSRelativeURLsWithAbsolute($css, cssBasePath) {
         return $css.replace(cssURLRegex, function (match) {
             var pathValue = getCSSURLValue(match);
-            return "url(\"" + getAbsoluteURL(cssBasePath, pathValue) + "\")";
+            try {
+                return "url(\"".concat(getAbsoluteURL(cssBasePath, pathValue), "\")");
+            }
+            catch (err) {
+                return match;
+            }
         });
     }
     var cssCommentsRegex = /\/\*[\s\S]*?\*\//g;
@@ -908,6 +955,189 @@
         return $css.replace(fontFaceRegex, '');
     }
 
+    function evalMath(expression) {
+        var rpnStack = [];
+        var workingStack = [];
+        var lastToken;
+        for (var i = 0, len = expression.length; i < len; i++) {
+            var token = expression[i];
+            if (!token || token === ' ') {
+                continue;
+            }
+            if (operators.has(token)) {
+                var op = operators.get(token);
+                while (workingStack.length) {
+                    var currentOp = operators.get(workingStack[0]);
+                    if (!currentOp) {
+                        break;
+                    }
+                    if (op.lessOrEqualThan(currentOp)) {
+                        rpnStack.push(workingStack.shift());
+                    }
+                    else {
+                        break;
+                    }
+                }
+                workingStack.unshift(token);
+            }
+            else if (!lastToken || operators.has(lastToken)) {
+                rpnStack.push(token);
+            }
+            else {
+                rpnStack[rpnStack.length - 1] += token;
+            }
+            lastToken = token;
+        }
+        rpnStack.push.apply(rpnStack, __spreadArray([], __read(workingStack), false));
+        var stack = [];
+        for (var i = 0, len = rpnStack.length; i < len; i++) {
+            var op = operators.get(rpnStack[i]);
+            if (op) {
+                var args = stack.splice(0, 2);
+                stack.push(op.exec(args[1], args[0]));
+            }
+            else {
+                stack.unshift(parseFloat(rpnStack[i]));
+            }
+        }
+        return stack[0];
+    }
+    var Operator = (function () {
+        function Operator(precedence, method) {
+            this.precendce = precedence;
+            this.execMethod = method;
+        }
+        Operator.prototype.exec = function (left, right) {
+            return this.execMethod(left, right);
+        };
+        Operator.prototype.lessOrEqualThan = function (op) {
+            return this.precendce <= op.precendce;
+        };
+        return Operator;
+    }());
+    var operators = new Map([
+        ['+', new Operator(1, function (left, right) { return left + right; })],
+        ['-', new Operator(1, function (left, right) { return left - right; })],
+        ['*', new Operator(2, function (left, right) { return left * right; })],
+        ['/', new Operator(2, function (left, right) { return left / right; })],
+    ]);
+
+    function getMatches(regex, input, group) {
+        if (group === void 0) { group = 0; }
+        var matches = [];
+        var m;
+        while ((m = regex.exec(input))) {
+            matches.push(m[group]);
+        }
+        return matches;
+    }
+    function formatCSS(text) {
+        function trimLeft(text) {
+            return text.replace(/^\s+/, '');
+        }
+        function getIndent(depth) {
+            if (depth === 0) {
+                return '';
+            }
+            return ' '.repeat(4 * depth);
+        }
+        if (text.length < 50000) {
+            var emptyRuleRegexp = /[^{}]+{\s*}/;
+            while (emptyRuleRegexp.test(text)) {
+                text = text.replace(emptyRuleRegexp, '');
+            }
+        }
+        var css = (text
+            .replace(/\s{2,}/g, ' ')
+            .replace(/\{/g, '{\n')
+            .replace(/\}/g, '\n}\n')
+            .replace(/\;(?![^\(|\"]*(\)|\"))/g, ';\n')
+            .replace(/\,(?![^\(|\"]*(\)|\"))/g, ',\n')
+            .replace(/\n\s*\n/g, '\n')
+            .split('\n'));
+        var depth = 0;
+        var formatted = [];
+        for (var x = 0, len = css.length; x < len; x++) {
+            var line = "".concat(css[x], "\n");
+            if (line.includes('{')) {
+                formatted.push(getIndent(depth++) + trimLeft(line));
+            }
+            else if (line.includes('\}')) {
+                formatted.push(getIndent(--depth) + trimLeft(line));
+            }
+            else {
+                formatted.push(getIndent(depth) + trimLeft(line));
+            }
+        }
+        return formatted.join('').trim();
+    }
+    function getParenthesesRange(input, searchStartIndex) {
+        if (searchStartIndex === void 0) { searchStartIndex = 0; }
+        var length = input.length;
+        var depth = 0;
+        var firstOpenIndex = -1;
+        for (var i = searchStartIndex; i < length; i++) {
+            if (depth === 0) {
+                var openIndex = input.indexOf('(', i);
+                if (openIndex < 0) {
+                    break;
+                }
+                firstOpenIndex = openIndex;
+                depth++;
+                i = openIndex;
+            }
+            else {
+                var closingIndex = input.indexOf(')', i);
+                if (closingIndex < 0) {
+                    break;
+                }
+                var openIndex = input.indexOf('(', i);
+                if (openIndex < 0 || closingIndex < openIndex) {
+                    depth--;
+                    if (depth === 0) {
+                        return { start: firstOpenIndex, end: closingIndex + 1 };
+                    }
+                    i = closingIndex;
+                }
+                else {
+                    depth++;
+                    i = openIndex;
+                }
+            }
+        }
+        return null;
+    }
+
+    var hslaParseCache = new Map();
+    var rgbaParseCache = new Map();
+    function parseColorWithCache($color) {
+        $color = $color.trim();
+        if (rgbaParseCache.has($color)) {
+            return rgbaParseCache.get($color);
+        }
+        if ($color.includes('calc(')) {
+            $color = lowerCalcExpression($color);
+        }
+        var color = parse($color);
+        color && rgbaParseCache.set($color, color);
+        return color;
+    }
+    function parseToHSLWithCache(color) {
+        if (hslaParseCache.has(color)) {
+            return hslaParseCache.get(color);
+        }
+        var rgb = parseColorWithCache(color);
+        if (!rgb) {
+            return null;
+        }
+        var hsl = rgbToHSL(rgb);
+        hslaParseCache.set(color, hsl);
+        return hsl;
+    }
+    function clearColorCache() {
+        hslaParseCache.clear();
+        rgbaParseCache.clear();
+    }
     function hslToRGB(_a) {
         var h = _a.h, s = _a.s, l = _a.l, _b = _a.a, a = _b === void 0 ? 1 : _b;
         if (s === 0) {
@@ -967,22 +1197,22 @@
     function rgbToString(rgb) {
         var r = rgb.r, g = rgb.g, b = rgb.b, a = rgb.a;
         if (a != null && a < 1) {
-            return "rgba(" + toFixed(r) + ", " + toFixed(g) + ", " + toFixed(b) + ", " + toFixed(a, 2) + ")";
+            return "rgba(".concat(toFixed(r), ", ").concat(toFixed(g), ", ").concat(toFixed(b), ", ").concat(toFixed(a, 2), ")");
         }
-        return "rgb(" + toFixed(r) + ", " + toFixed(g) + ", " + toFixed(b) + ")";
+        return "rgb(".concat(toFixed(r), ", ").concat(toFixed(g), ", ").concat(toFixed(b), ")");
     }
     function rgbToHexString(_a) {
         var r = _a.r, g = _a.g, b = _a.b, a = _a.a;
-        return "#" + (a != null && a < 1 ? [r, g, b, Math.round(a * 255)] : [r, g, b]).map(function (x) {
-            return "" + (x < 16 ? '0' : '') + x.toString(16);
-        }).join('');
+        return "#".concat((a != null && a < 1 ? [r, g, b, Math.round(a * 255)] : [r, g, b]).map(function (x) {
+            return "".concat(x < 16 ? '0' : '').concat(x.toString(16));
+        }).join(''));
     }
     function hslToString(hsl) {
         var h = hsl.h, s = hsl.s, l = hsl.l, a = hsl.a;
         if (a != null && a < 1) {
-            return "hsla(" + toFixed(h) + ", " + toFixed(s * 100) + "%, " + toFixed(l * 100) + "%, " + toFixed(a, 2) + ")";
+            return "hsla(".concat(toFixed(h), ", ").concat(toFixed(s * 100), "%, ").concat(toFixed(l * 100), "%, ").concat(toFixed(a, 2), ")");
         }
-        return "hsl(" + toFixed(h) + ", " + toFixed(s * 100) + "%, " + toFixed(l * 100) + "%)";
+        return "hsl(".concat(toFixed(h), ", ").concat(toFixed(s * 100), "%, ").concat(toFixed(l * 100), "%)");
     }
     var rgbMatch = /^rgba?\([^\(\)]+\)$/;
     var hslMatch = /^hsla?\([^\(\)]+\)$/;
@@ -1007,7 +1237,7 @@
         if ($color === 'transparent') {
             return { r: 0, g: 0, b: 0, a: 0 };
         }
-        throw new Error("Unable to parse " + $color);
+        return null;
     }
     function getNumbers($color) {
         var numbers = [];
@@ -1073,8 +1303,8 @@
         switch (h.length) {
             case 3:
             case 4: {
-                var _a = __read([0, 1, 2].map(function (i) { return parseInt("" + h[i] + h[i], 16); }), 3), r = _a[0], g = _a[1], b = _a[2];
-                var a = h.length === 3 ? 1 : (parseInt("" + h[3] + h[3], 16) / 255);
+                var _a = __read([0, 1, 2].map(function (i) { return parseInt("".concat(h[i]).concat(h[i]), 16); }), 3), r = _a[0], g = _a[1], b = _a[2];
+                var a = h.length === 3 ? 1 : (parseInt("".concat(h[3]).concat(h[3]), 16) / 255);
                 return { r: r, g: g, b: b, a: a };
             }
             case 6:
@@ -1084,7 +1314,7 @@
                 return { r: r, g: g, b: b, a: a };
             }
         }
-        throw new Error("Unable to parse " + $hex);
+        return null;
     }
     function getColorByName($color) {
         var n = knownColors.get($color);
@@ -1103,6 +1333,24 @@
             b: (n >> 0) & 255,
             a: 1
         };
+    }
+    function lowerCalcExpression(color) {
+        var searchIndex = 0;
+        var replaceBetweenIndices = function (start, end, replacement) {
+            color = color.substring(0, start) + replacement + color.substring(end);
+        };
+        while ((searchIndex = color.indexOf('calc(')) !== -1) {
+            var range = getParenthesesRange(color, searchIndex);
+            if (!range) {
+                break;
+            }
+            var slice = color.slice(range.start + 1, range.end - 1);
+            var includesPercentage = slice.includes('%');
+            slice = slice.split('%').join('');
+            var output = Math.round(evalMath(slice));
+            replaceBetweenIndices(range.start - 4, range.end, output + (includesPercentage ? '%' : ''));
+        }
+        return color;
     }
     var knownColors = new Map(Object.entries({
         aliceblue: 0xf0f8ff,
@@ -1288,6 +1536,9 @@
         var _b = __read(_a, 2), key = _b[0], value = _b[1];
         return [key.toLowerCase(), value];
     }));
+    function getSRGBLightness(r, g, b) {
+        return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+    }
 
     function scale(x, inLow, inHigh, outLow, outHigh) {
         return (x - inLow) * (outHigh - outLow) / (inHigh - inLow) + outLow;
@@ -1308,92 +1559,6 @@
             }
         }
         return result;
-    }
-
-    function getMatches(regex, input, group) {
-        if (group === void 0) { group = 0; }
-        var matches = [];
-        var m;
-        while ((m = regex.exec(input))) {
-            matches.push(m[group]);
-        }
-        return matches;
-    }
-    function formatCSS(text) {
-        function trimLeft(text) {
-            return text.replace(/^\s+/, '');
-        }
-        function getIndent(depth) {
-            if (depth === 0) {
-                return '';
-            }
-            return ' '.repeat(4 * depth);
-        }
-        if (text.length < 50000) {
-            var emptyRuleRegexp = /[^{}]+{\s*}/;
-            while (emptyRuleRegexp.test(text)) {
-                text = text.replace(emptyRuleRegexp, '');
-            }
-        }
-        var css = (text
-            .replace(/\s{2,}/g, ' ')
-            .replace(/\{/g, '{\n')
-            .replace(/\}/g, '\n}\n')
-            .replace(/\;(?![^\(|\"]*(\)|\"))/g, ';\n')
-            .replace(/\,(?![^\(|\"]*(\)|\"))/g, ',\n')
-            .replace(/\n\s*\n/g, '\n')
-            .split('\n'));
-        var depth = 0;
-        var formatted = [];
-        for (var x = 0, len = css.length; x < len; x++) {
-            var line = css[x] + "\n";
-            if (line.includes('{')) {
-                formatted.push(getIndent(depth++) + trimLeft(line));
-            }
-            else if (line.includes('\}')) {
-                formatted.push(getIndent(--depth) + trimLeft(line));
-            }
-            else {
-                formatted.push(getIndent(depth) + trimLeft(line));
-            }
-        }
-        return formatted.join('').trim();
-    }
-    function getParenthesesRange(input, searchStartIndex) {
-        if (searchStartIndex === void 0) { searchStartIndex = 0; }
-        var length = input.length;
-        var depth = 0;
-        var firstOpenIndex = -1;
-        for (var i = searchStartIndex; i < length; i++) {
-            if (depth === 0) {
-                var openIndex = input.indexOf('(', i);
-                if (openIndex < 0) {
-                    break;
-                }
-                firstOpenIndex = openIndex;
-                depth++;
-                i = openIndex;
-            }
-            else {
-                var closingIndex = input.indexOf(')', i);
-                if (closingIndex < 0) {
-                    break;
-                }
-                var openIndex = input.indexOf('(', i);
-                if (openIndex < 0 || closingIndex < openIndex) {
-                    depth--;
-                    if (depth === 0) {
-                        return { start: firstOpenIndex, end: closingIndex + 1 };
-                    }
-                    i = closingIndex;
-                }
-                else {
-                    depth++;
-                    i = openIndex;
-                }
-            }
-        }
-        return null;
     }
 
     function createFilterMatrix(config) {
@@ -1490,29 +1655,18 @@
         return theme[prop];
     }
     var colorModificationCache = new Map();
-    var colorParseCache$1 = new Map();
-    function parseToHSLWithCache(color) {
-        if (colorParseCache$1.has(color)) {
-            return colorParseCache$1.get(color);
-        }
-        var rgb = parse(color);
-        var hsl = rgbToHSL(rgb);
-        colorParseCache$1.set(color, hsl);
-        return hsl;
-    }
     function clearColorModificationCache() {
         colorModificationCache.clear();
-        colorParseCache$1.clear();
     }
     var rgbCacheKeys = ['r', 'g', 'b', 'a'];
     var themeCacheKeys$1 = ['mode', 'brightness', 'contrast', 'grayscale', 'sepia', 'darkSchemeBackgroundColor', 'darkSchemeTextColor', 'lightSchemeBackgroundColor', 'lightSchemeTextColor'];
     function getCacheId(rgb, theme) {
         var resultId = '';
         rgbCacheKeys.forEach(function (key) {
-            resultId += rgb[key] + ";";
+            resultId += "".concat(rgb[key], ";");
         });
         themeCacheKeys$1.forEach(function (key) {
-            resultId += theme[key] + ";";
+            resultId += "".concat(theme[key], ";");
         });
         return resultId;
     }
@@ -1611,6 +1765,9 @@
                 hx = scale(h, 60, 120, 60, 105);
             }
         }
+        if (hx > 40 && hx < 80) {
+            lx *= 0.75;
+        }
         return { h: hx, s: s, l: lx, a: a };
     }
     function modifyBackgroundColor(rgb, theme) {
@@ -1704,11 +1861,11 @@
         var lines = [];
         lines.push('*:not(pre, pre *, code, .far, .fa, .glyphicon, [class*="vjs-"], .fab, .fa-github, .fas, .material-icons, .icofont, .typcn, mu, [class*="mu-"], .glyphicon, .icon) {');
         if (config.useFont && config.fontFamily) {
-            lines.push("  font-family: " + config.fontFamily + " !important;");
+            lines.push("  font-family: ".concat(config.fontFamily, " !important;"));
         }
         if (config.textStroke > 0) {
-            lines.push("  -webkit-text-stroke: " + config.textStroke + "px !important;");
-            lines.push("  text-stroke: " + config.textStroke + "px !important;");
+            lines.push("  -webkit-text-stroke: ".concat(config.textStroke, "px !important;"));
+            lines.push("  text-stroke: ".concat(config.textStroke, "px !important;"));
         }
         lines.push('}');
         return lines.join('\n');
@@ -1725,16 +1882,16 @@
             filters.push('invert(100%) hue-rotate(180deg)');
         }
         if (config.brightness !== 100) {
-            filters.push("brightness(" + config.brightness + "%)");
+            filters.push("brightness(".concat(config.brightness, "%)"));
         }
         if (config.contrast !== 100) {
-            filters.push("contrast(" + config.contrast + "%)");
+            filters.push("contrast(".concat(config.contrast, "%)"));
         }
         if (config.grayscale !== 0) {
-            filters.push("grayscale(" + config.grayscale + "%)");
+            filters.push("grayscale(".concat(config.grayscale, "%)"));
         }
         if (config.sepia !== 0) {
-            filters.push("sepia(" + config.sepia + "%)");
+            filters.push("sepia(".concat(config.sepia, "%)"));
         }
         if (filters.length === 0) {
             return null;
@@ -1840,7 +1997,7 @@
                                 case 3:
                                     error_1 = _a.sent();
                                     reject(error_1);
-                                    return [3, 4];
+                                    return [2];
                                 case 4:
                                     _a.trys.push([4, 6, , 7]);
                                     return [4, urlToImage(dataURL)];
@@ -1883,7 +2040,7 @@
                 return [2, new Promise(function (resolve, reject) {
                         var image = new Image();
                         image.onload = function () { return resolve(image); };
-                        image.onerror = function () { return reject("Unable to load image " + url); };
+                        image.onerror = function () { return reject("Unable to load image ".concat(url)); };
                         image.src = url;
                     })];
             });
@@ -1912,12 +2069,11 @@
         }
         var naturalWidth = image.naturalWidth, naturalHeight = image.naturalHeight;
         if (naturalHeight === 0 || naturalWidth === 0) {
-            logWarn("logWarn(Image is empty " + image.currentSrc + ")");
+            logWarn("logWarn(Image is empty ".concat(image.currentSrc, ")"));
             return null;
         }
         var size = naturalWidth * naturalHeight * 4;
         if (size > MAX_IMAGE_SIZE) {
-            logInfo('Skipped large image analyzing(Larger than 5mb in memory)');
             return {
                 isDark: false,
                 isLight: false,
@@ -1946,15 +2102,15 @@
         for (y = 0; y < height; y++) {
             for (x = 0; x < width; x++) {
                 i = 4 * (y * width + x);
-                r = d[i + 0] / 255;
-                g = d[i + 1] / 255;
-                b = d[i + 2] / 255;
-                a = d[i + 3] / 255;
-                if (a < TRANSPARENT_ALPHA_THRESHOLD) {
+                r = d[i + 0];
+                g = d[i + 1];
+                b = d[i + 2];
+                a = d[i + 3];
+                if (a / 255 < TRANSPARENT_ALPHA_THRESHOLD) {
                     transparentPixelsCount++;
                 }
                 else {
-                    l = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+                    l = getSRGBLightness(r, g, b);
                     if (l < DARK_LIGHTNESS_THRESHOLD) {
                         darkPixelsCount++;
                     }
@@ -1982,20 +2138,73 @@
         var dataURL = _a.dataURL, width = _a.width, height = _a.height;
         var matrix = getSVGFilterMatrixValue(theme);
         var svg = [
-            "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"" + width + "\" height=\"" + height + "\">",
+            "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"".concat(width, "\" height=\"").concat(height, "\">"),
             '<defs>',
             '<filter id="darkreader-image-filter">',
-            "<feColorMatrix type=\"matrix\" values=\"" + matrix + "\" />",
+            "<feColorMatrix type=\"matrix\" values=\"".concat(matrix, "\" />"),
             '</filter>',
             '</defs>',
-            "<image width=\"" + width + "\" height=\"" + height + "\" filter=\"url(#darkreader-image-filter)\" xlink:href=\"" + dataURL + "\" />",
+            "<image width=\"".concat(width, "\" height=\"").concat(height, "\" filter=\"url(#darkreader-image-filter)\" xlink:href=\"").concat(dataURL, "\" />"),
             '</svg>',
         ].join('');
-        return "data:image/svg+xml;base64," + btoa(svg);
+        return "data:image/svg+xml;base64,".concat(btoa(svg));
     }
     function cleanImageProcessingCache() {
         imageManager && imageManager.stopQueue();
         removeCanvas();
+    }
+
+    var gradientLength = 'gradient'.length;
+    var conicGradient = 'conic-';
+    var conicGradientLength = conicGradient.length;
+    var radialGradient = 'radial-';
+    var linearGradient = 'linear-';
+    function parseGradient(value) {
+        var result = [];
+        var index = 0;
+        var startIndex = conicGradient.length;
+        var _loop_1 = function () {
+            var typeGradient;
+            [linearGradient, radialGradient, conicGradient].find(function (possibleType) {
+                if (index - possibleType.length >= 0) {
+                    var possibleGradient = value.substring(index - possibleType.length, index);
+                    if (possibleGradient === possibleType) {
+                        if (value.slice(index - possibleType.length - 10, index - possibleType.length - 1) === 'repeating') {
+                            typeGradient = "repeating-".concat(possibleType, "gradient");
+                            return true;
+                        }
+                        if (value.slice(index - possibleType.length - 8, index - possibleType.length - 1) === '-webkit') {
+                            typeGradient = "-webkit-".concat(possibleType, "gradient");
+                            return true;
+                        }
+                        typeGradient = "".concat(possibleType, "gradient");
+                        return true;
+                    }
+                }
+            });
+            if (!typeGradient) {
+                return "break";
+            }
+            var _a = getParenthesesRange(value, index + gradientLength), start = _a.start, end = _a.end;
+            var match = value.substring(start + 1, end - 1);
+            startIndex = end + 1 + conicGradientLength;
+            result.push({
+                typeGradient: typeGradient,
+                match: match,
+                offset: typeGradient.length + 2,
+                index: index - typeGradient.length + gradientLength,
+                hasComma: true,
+            });
+        };
+        while ((index = value.indexOf('gradient', startIndex)) !== -1) {
+            var state_1 = _loop_1();
+            if (state_1 === "break")
+                break;
+        }
+        if (result.length) {
+            result[result.length - 1].hasComma = false;
+        }
+        return result;
     }
 
     function getPriority(ruleStyle, property) {
@@ -2014,11 +2223,14 @@
                 return { property: property, value: modifier, important: getPriority(rule.style, property), sourceValue: value };
             }
         }
+        else if (property === 'color-scheme') {
+            return null;
+        }
         else if ((property.includes('color') && property !== '-webkit-print-color-adjust') ||
             property === 'fill' ||
             property === 'stroke' ||
             property === 'stop-color') {
-            var modifier = getColorModifier(property, value);
+            var modifier = getColorModifier(property, value, rule);
             if (modifier) {
                 return { property: property, value: modifier, important: getPriority(rule.style, property), sourceValue: value };
             }
@@ -2037,34 +2249,49 @@
         }
         return null;
     }
+    function joinSelectors() {
+        var selectors = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            selectors[_i] = arguments[_i];
+        }
+        return selectors.filter(Boolean).join(', ');
+    }
     function getModifiedUserAgentStyle(theme, isIFrame, styleSystemControls) {
         var lines = [];
         if (!isIFrame) {
             lines.push('html {');
-            lines.push("    background-color: " + modifyBackgroundColor({ r: 255, g: 255, b: 255 }, theme) + " !important;");
+            lines.push("    background-color: ".concat(modifyBackgroundColor({ r: 255, g: 255, b: 255 }, theme), " !important;"));
             lines.push('}');
         }
-        lines.push("" + (isIFrame ? '' : 'html, body, ') + (styleSystemControls ? 'input, textarea, select, button' : '') + " {");
-        lines.push("    background-color: " + modifyBackgroundColor({ r: 255, g: 255, b: 255 }, theme) + ";");
-        lines.push('}');
-        lines.push("html, body, " + (styleSystemControls ? 'input, textarea, select, button' : '') + " {");
-        lines.push("    border-color: " + modifyBorderColor({ r: 76, g: 76, b: 76 }, theme) + ";");
-        lines.push("    color: " + modifyForegroundColor({ r: 0, g: 0, b: 0 }, theme) + ";");
+        if (isCSSColorSchemePropSupported) {
+            lines.push('html {');
+            lines.push("    color-scheme: ".concat(theme.mode === 1 ? 'dark' : 'dark light', " !important;"));
+            lines.push('}');
+        }
+        var bgSelectors = joinSelectors(isIFrame ? '' : 'html, body', styleSystemControls ? 'input, textarea, select, button, dialog' : '');
+        if (bgSelectors) {
+            lines.push("".concat(bgSelectors, " {"));
+            lines.push("    background-color: ".concat(modifyBackgroundColor({ r: 255, g: 255, b: 255 }, theme), ";"));
+            lines.push('}');
+        }
+        lines.push("".concat(joinSelectors('html, body', styleSystemControls ? 'input, textarea, select, button' : ''), " {"));
+        lines.push("    border-color: ".concat(modifyBorderColor({ r: 76, g: 76, b: 76 }, theme), ";"));
+        lines.push("    color: ".concat(modifyForegroundColor({ r: 0, g: 0, b: 0 }, theme), ";"));
         lines.push('}');
         lines.push('a {');
-        lines.push("    color: " + modifyForegroundColor({ r: 0, g: 64, b: 255 }, theme) + ";");
+        lines.push("    color: ".concat(modifyForegroundColor({ r: 0, g: 64, b: 255 }, theme), ";"));
         lines.push('}');
         lines.push('table {');
-        lines.push("    border-color: " + modifyBorderColor({ r: 128, g: 128, b: 128 }, theme) + ";");
+        lines.push("    border-color: ".concat(modifyBorderColor({ r: 128, g: 128, b: 128 }, theme), ";"));
         lines.push('}');
         lines.push('::placeholder {');
-        lines.push("    color: " + modifyForegroundColor({ r: 169, g: 169, b: 169 }, theme) + ";");
+        lines.push("    color: ".concat(modifyForegroundColor({ r: 169, g: 169, b: 169 }, theme), ";"));
         lines.push('}');
         lines.push('input:-webkit-autofill,');
         lines.push('textarea:-webkit-autofill,');
         lines.push('select:-webkit-autofill {');
-        lines.push("    background-color: " + modifyBackgroundColor({ r: 250, g: 255, b: 189 }, theme) + " !important;");
-        lines.push("    color: " + modifyForegroundColor({ r: 0, g: 0, b: 0 }, theme) + " !important;");
+        lines.push("    background-color: ".concat(modifyBackgroundColor({ r: 250, g: 255, b: 189 }, theme), " !important;"));
+        lines.push("    color: ".concat(modifyForegroundColor({ r: 0, g: 0, b: 0 }, theme), " !important;"));
         lines.push('}');
         if (theme.scrollbarColor) {
             lines.push(getModifiedScrollbarStyle(theme));
@@ -2082,7 +2309,7 @@
             foregroundColorSelection = modifyForegroundColor({ r: 255, g: 255, b: 255 }, __assign(__assign({}, theme), { grayscale: 0 }));
         }
         else {
-            var rgb = parse(theme.selectionColor);
+            var rgb = parseColorWithCache(theme.selectionColor);
             var hsl = rgbToHSL(rgb);
             backgroundColorSelection = theme.selectionColor;
             if (hsl.l < 0.5) {
@@ -2100,9 +2327,9 @@
         var backgroundColorSelection = modifiedSelectionColor.backgroundColorSelection;
         var foregroundColorSelection = modifiedSelectionColor.foregroundColorSelection;
         ['::selection', '::-moz-selection'].forEach(function (selection) {
-            lines.push(selection + " {");
-            lines.push("    background-color: " + backgroundColorSelection + " !important;");
-            lines.push("    color: " + foregroundColorSelection + " !important;");
+            lines.push("".concat(selection, " {"));
+            lines.push("    background-color: ".concat(backgroundColorSelection, " !important;"));
+            lines.push("    color: ".concat(foregroundColorSelection, " !important;"));
             lines.push('}');
         });
         return lines.join('\n');
@@ -2124,7 +2351,7 @@
             colorCorner = modifyBackgroundColor({ r: 255, g: 255, b: 255 }, theme);
         }
         else {
-            var rgb = parse(theme.scrollbarColor);
+            var rgb = parseColorWithCache(theme.scrollbarColor);
             var hsl_1 = rgbToHSL(rgb);
             var isLight = hsl_1.l > 0.5;
             var lighten = function (lighter) { return (__assign(__assign({}, hsl_1), { l: clamp(hsl_1.l + lighter, 0, 1) })); };
@@ -2136,24 +2363,24 @@
             colorThumbActive = hslToString(lighten(0.2));
         }
         lines.push('::-webkit-scrollbar {');
-        lines.push("    background-color: " + colorTrack + ";");
-        lines.push("    color: " + colorIcons + ";");
+        lines.push("    background-color: ".concat(colorTrack, ";"));
+        lines.push("    color: ".concat(colorIcons, ";"));
         lines.push('}');
         lines.push('::-webkit-scrollbar-thumb {');
-        lines.push("    background-color: " + colorThumb + ";");
+        lines.push("    background-color: ".concat(colorThumb, ";"));
         lines.push('}');
         lines.push('::-webkit-scrollbar-thumb:hover {');
-        lines.push("    background-color: " + colorThumbHover + ";");
+        lines.push("    background-color: ".concat(colorThumbHover, ";"));
         lines.push('}');
         lines.push('::-webkit-scrollbar-thumb:active {');
-        lines.push("    background-color: " + colorThumbActive + ";");
+        lines.push("    background-color: ".concat(colorThumbActive, ";"));
         lines.push('}');
         lines.push('::-webkit-scrollbar-corner {');
-        lines.push("    background-color: " + colorCorner + ";");
+        lines.push("    background-color: ".concat(colorCorner, ";"));
         lines.push('}');
         if (isFirefox) {
             lines.push('* {');
-            lines.push("    scrollbar-color: " + colorThumb + " " + colorTrack + ";");
+            lines.push("    scrollbar-color: ".concat(colorThumb, " ").concat(colorTrack, ";"));
             lines.push('}');
         }
         return lines.join('\n');
@@ -2161,10 +2388,11 @@
     function getModifiedFallbackStyle(filter, _a) {
         var strict = _a.strict;
         var lines = [];
-        lines.push("html, body, " + (strict ? 'body :not(iframe)' : 'body > :not(iframe)') + " {");
-        lines.push("    background-color: " + modifyBackgroundColor({ r: 255, g: 255, b: 255 }, filter) + " !important;");
-        lines.push("    border-color: " + modifyBorderColor({ r: 64, g: 64, b: 64 }, filter) + " !important;");
-        lines.push("    color: " + modifyForegroundColor({ r: 0, g: 0, b: 0 }, filter) + " !important;");
+        var isMicrosoft = ['microsoft.com', 'docs.microsoft.com'].includes(location.hostname);
+        lines.push("html, body, ".concat(strict ? "body :not(iframe)".concat(isMicrosoft ? ':not(div[style^="position:absolute;top:0;left:-"]' : '') : 'body > :not(iframe)', " {"));
+        lines.push("    background-color: ".concat(modifyBackgroundColor({ r: 255, g: 255, b: 255 }, filter), " !important;"));
+        lines.push("    border-color: ".concat(modifyBorderColor({ r: 64, g: 64, b: 64 }, filter), " !important;"));
+        lines.push("    color: ".concat(modifyForegroundColor({ r: 0, g: 0, b: 0 }, filter), " !important;"));
         lines.push('}');
         return lines.join('\n');
     }
@@ -2176,44 +2404,28 @@
         'none',
         'unset',
     ]);
-    var colorParseCache = new Map();
-    function parseColorWithCache($color) {
-        $color = $color.trim();
-        if (colorParseCache.has($color)) {
-            return colorParseCache.get($color);
-        }
-        var color = parse($color);
-        colorParseCache.set($color, color);
-        return color;
-    }
-    function tryParseColor($color) {
-        try {
-            return parseColorWithCache($color);
-        }
-        catch (err) {
-            return null;
-        }
-    }
-    function getColorModifier(prop, value) {
+    function getColorModifier(prop, value, rule) {
         if (unparsableColors.has(value.toLowerCase())) {
             return value;
         }
-        try {
-            var rgb_1 = parseColorWithCache(value);
-            if (prop.includes('background')) {
-                return function (filter) { return modifyBackgroundColor(rgb_1, filter); };
-            }
-            if (prop.includes('border') || prop.includes('outline')) {
-                return function (filter) { return modifyBorderColor(rgb_1, filter); };
-            }
-            return function (filter) { return modifyForegroundColor(rgb_1, filter); };
-        }
-        catch (err) {
-            logWarn('Color parse error', err);
+        var rgb = parseColorWithCache(value);
+        if (!rgb) {
             return null;
         }
+        if (prop.includes('background')) {
+            if ((rule.style.webkitMaskImage && rule.style.webkitMaskImage !== 'none') ||
+                (rule.style.webkitMask && !rule.style.webkitMask.startsWith('none')) ||
+                (rule.style.mask && rule.style.mask !== 'none') ||
+                (rule.style.getPropertyValue('mask-image') && rule.style.getPropertyValue('mask-image') !== 'none')) {
+                return function (filter) { return modifyForegroundColor(rgb, filter); };
+            }
+            return function (filter) { return modifyBackgroundColor(rgb, filter); };
+        }
+        if (prop.includes('border') || prop.includes('outline')) {
+            return function (filter) { return modifyBorderColor(rgb, filter); };
+        }
+        return function (filter) { return modifyForegroundColor(rgb, filter); };
     }
-    var gradientRegex = /[\-a-z]+gradient\(([^\(\)]*(\(([^\(\)]*(\(.*?\)))*[^\(\)]*\))){0,15}[^\(\)]*\)/g;
     var imageDetailsCache = new Map();
     var awaitingForImageLoading = new Map();
     function shouldIgnoreImage(selectorText, selectors) {
@@ -2240,7 +2452,7 @@
     function getBgImageModifier(value, rule, ignoreImageSelectors, isCancelled) {
         var _this = this;
         try {
-            var gradients = getMatches(gradientRegex, value);
+            var gradients = parseGradient(value);
             var urls = getMatches(cssURLRegex, value);
             if (urls.length === 0 && gradients.length === 0) {
                 return value;
@@ -2253,37 +2465,35 @@
                     return { match: match, index: valueIndex };
                 });
             };
-            var matches_1 = getIndices(urls).map(function (i) { return (__assign({ type: 'url' }, i)); })
-                .concat(getIndices(gradients).map(function (i) { return (__assign({ type: 'gradient' }, i)); }))
-                .sort(function (a, b) { return a.index - b.index; });
+            var matches_1 = gradients.map(function (i) { return (__assign({ type: 'gradient' }, i)); })
+                .concat(getIndices(urls).map(function (i) { return (__assign({ type: 'url', offset: 0 }, i)); }))
+                .sort(function (a, b) { return a.index > b.index ? 1 : -1; });
             var getGradientModifier_1 = function (gradient) {
-                var match = gradient.match(/^(.*-gradient)\((.*)\)$/);
-                var type = match[1];
-                var content = match[2];
-                var partsRegex = /([^\(\),]+(\([^\(\)]*(\([^\(\)]*\)*[^\(\)]*)?\))?[^\(\),]*),?/g;
+                var typeGradient = gradient.typeGradient, match = gradient.match, hasComma = gradient.hasComma;
+                var partsRegex = /([^\(\),]+(\([^\(\)]*(\([^\(\)]*\)*[^\(\)]*)?\))?([^\(\), ]|( (?!calc)))*),?/g;
                 var colorStopRegex = /^(from|color-stop|to)\(([^\(\)]*?,\s*)?(.*?)\)$/;
-                var parts = getMatches(partsRegex, content, 1).map(function (part) {
+                var parts = getMatches(partsRegex, match, 1).map(function (part) {
                     part = part.trim();
-                    var rgb = tryParseColor(part);
+                    var rgb = parseColorWithCache(part);
                     if (rgb) {
                         return function (filter) { return modifyGradientColor(rgb, filter); };
                     }
                     var space = part.lastIndexOf(' ');
-                    rgb = tryParseColor(part.substring(0, space));
+                    rgb = parseColorWithCache(part.substring(0, space));
                     if (rgb) {
-                        return function (filter) { return modifyGradientColor(rgb, filter) + " " + part.substring(space + 1); };
+                        return function (filter) { return "".concat(modifyGradientColor(rgb, filter), " ").concat(part.substring(space + 1)); };
                     }
                     var colorStopMatch = part.match(colorStopRegex);
                     if (colorStopMatch) {
-                        rgb = tryParseColor(colorStopMatch[3]);
+                        rgb = parseColorWithCache(colorStopMatch[3]);
                         if (rgb) {
-                            return function (filter) { return colorStopMatch[1] + "(" + (colorStopMatch[2] ? colorStopMatch[2] + ", " : '') + modifyGradientColor(rgb, filter) + ")"; };
+                            return function (filter) { return "".concat(colorStopMatch[1], "(").concat(colorStopMatch[2] ? "".concat(colorStopMatch[2], ", ") : '').concat(modifyGradientColor(rgb, filter), ")"); };
                         }
                     }
                     return function () { return part; };
                 });
                 return function (filter) {
-                    return type + "(" + parts.map(function (modify) { return modify(filter); }).join(', ') + ")";
+                    return "".concat(typeGradient, "(").concat(parts.map(function (modify) { return modify(filter); }).join(', '), ")").concat(hasComma ? ', ' : '');
                 };
             };
             var getURLModifier_1 = function (urlValue) {
@@ -2292,17 +2502,21 @@
                     return null;
                 }
                 var url = getCSSURLValue(urlValue);
+                var isURLEmpty = url.length === 0;
                 var parentStyleSheet = rule.parentStyleSheet;
                 var baseURL = (parentStyleSheet && parentStyleSheet.href) ?
                     getCSSBaseBath(parentStyleSheet.href) :
                     ((_a = parentStyleSheet.ownerNode) === null || _a === void 0 ? void 0 : _a.baseURI) || location.origin;
                 url = getAbsoluteURL(baseURL, url);
-                var absoluteValue = "url(\"" + url + "\")";
+                var absoluteValue = "url(\"".concat(url, "\")");
                 return function (filter) { return __awaiter(_this, void 0, void 0, function () {
                     var imageDetails, awaiters_1, err_1, bgImageValue;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
+                                if (isURLEmpty) {
+                                    return [2, "url('')"];
+                                }
                                 if (!imageDetailsCache.has(url)) return [3, 1];
                                 imageDetails = imageDetailsCache.get(url);
                                 return [3, 7];
@@ -2350,27 +2564,27 @@
                 var isDark = imageDetails.isDark, isLight = imageDetails.isLight, isTransparent = imageDetails.isTransparent, isLarge = imageDetails.isLarge, isTooLarge = imageDetails.isTooLarge, width = imageDetails.width;
                 var result;
                 if (isTooLarge) {
-                    result = "url(\"" + imageDetails.src + "\")";
+                    result = "url(\"".concat(imageDetails.src, "\")");
                 }
                 else if (isDark && isTransparent && filter.mode === 1 && !isLarge && width > 2) {
-                    logInfo("Inverting dark image " + imageDetails.src);
+                    logInfo("Inverting dark image ".concat(imageDetails.src));
                     var inverted = getFilteredImageDataURL(imageDetails, __assign(__assign({}, filter), { sepia: clamp(filter.sepia + 10, 0, 100) }));
-                    result = "url(\"" + inverted + "\")";
+                    result = "url(\"".concat(inverted, "\")");
                 }
                 else if (isLight && !isTransparent && filter.mode === 1) {
                     if (isLarge) {
                         result = 'none';
                     }
                     else {
-                        logInfo("Dimming light image " + imageDetails.src);
+                        logInfo("Dimming light image ".concat(imageDetails.src));
                         var dimmed = getFilteredImageDataURL(imageDetails, filter);
-                        result = "url(\"" + dimmed + "\")";
+                        result = "url(\"".concat(dimmed, "\")");
                     }
                 }
                 else if (filter.mode === 0 && isLight && !isLarge) {
-                    logInfo("Applying filter to image " + imageDetails.src);
+                    logInfo("Applying filter to image ".concat(imageDetails.src));
                     var filtered = getFilteredImageDataURL(imageDetails, __assign(__assign({}, filter), { brightness: clamp(filter.brightness - 10, 5, 200), sepia: clamp(filter.sepia + 10, 0, 100) }));
-                    result = "url(\"" + filtered + "\")";
+                    result = "url(\"".concat(filtered, "\")");
                 }
                 else {
                     result = null;
@@ -2378,14 +2592,35 @@
                 return result;
             };
             var modifiers_1 = [];
-            var index_1 = 0;
+            var matchIndex_1 = 0;
+            var prevHasComma_1 = false;
             matches_1.forEach(function (_a, i) {
-                var match = _a.match, type = _a.type, matchStart = _a.index;
-                var prefixStart = index_1;
-                var matchEnd = matchStart + match.length;
-                index_1 = matchEnd;
-                modifiers_1.push(function () { return value.substring(prefixStart, matchStart); });
-                modifiers_1.push(type === 'url' ? getURLModifier_1(match) : getGradientModifier_1(match));
+                var type = _a.type, match = _a.match, index = _a.index, typeGradient = _a.typeGradient, hasComma = _a.hasComma, offset = _a.offset;
+                var matchStart = index;
+                var prefixStart = matchIndex_1;
+                var matchEnd = matchStart + match.length + offset;
+                matchIndex_1 = matchEnd;
+                if (prefixStart !== matchStart) {
+                    if (prevHasComma_1) {
+                        modifiers_1.push(function () {
+                            var betweenValue = value.substring(prefixStart, matchStart);
+                            if (betweenValue[0] === ',') {
+                                betweenValue = betweenValue.substring(1);
+                            }
+                            return betweenValue;
+                        });
+                    }
+                    else {
+                        modifiers_1.push(function () { return value.substring(prefixStart, matchStart); });
+                    }
+                }
+                prevHasComma_1 = hasComma || false;
+                if (type === 'url') {
+                    modifiers_1.push(getURLModifier_1(match));
+                }
+                else if (type === 'gradient') {
+                    modifiers_1.push(getGradientModifier_1({ match: match, index: index, typeGradient: typeGradient, hasComma: hasComma, offset: offset }));
+                }
                 if (i === matches_1.length - 1) {
                     modifiers_1.push(function () { return value.substring(matchEnd); });
                 }
@@ -2393,40 +2628,57 @@
             return function (filter) {
                 var results = modifiers_1.filter(Boolean).map(function (modify) { return modify(filter); });
                 if (results.some(function (r) { return r instanceof Promise; })) {
-                    return Promise.all(results)
-                        .then(function (asyncResults) {
-                        return asyncResults.join('');
+                    return Promise.all(results).then(function (asyncResults) {
+                        return asyncResults.filter(Boolean).join('');
                     });
                 }
-                return results.join('');
+                var combinedResult = results.join('');
+                if (combinedResult.endsWith(', initial')) {
+                    return combinedResult.slice(0, -9);
+                }
+                return combinedResult;
             };
         }
         catch (err) {
-            logWarn("Unable to parse gradient " + value, err);
+            return null;
+        }
+    }
+    function getShadowModifierWithInfo(value) {
+        try {
+            var index_1 = 0;
+            var colorMatches_1 = getMatches(/(^|\s)(?!calc)([a-z]+\(.+?\)|#[0-9a-f]+|[a-z]+)(.*?(inset|outset)?($|,))/ig, value, 2);
+            var notParsed_1 = 0;
+            var modifiers_2 = colorMatches_1.map(function (match, i) {
+                var prefixIndex = index_1;
+                var matchIndex = value.indexOf(match, index_1);
+                var matchEnd = matchIndex + match.length;
+                index_1 = matchEnd;
+                var rgb = parseColorWithCache(match);
+                if (!rgb) {
+                    notParsed_1++;
+                    return function () { return value.substring(prefixIndex, matchEnd); };
+                }
+                return function (filter) { return "".concat(value.substring(prefixIndex, matchIndex)).concat(modifyShadowColor(rgb, filter)).concat(i === colorMatches_1.length - 1 ? value.substring(matchEnd) : ''); };
+            });
+            return function (filter) {
+                var modified = modifiers_2.map(function (modify) { return modify(filter); }).join('');
+                return {
+                    matchesLength: colorMatches_1.length,
+                    unparseableMatchesLength: notParsed_1,
+                    result: modified,
+                };
+            };
+        }
+        catch (err) {
             return null;
         }
     }
     function getShadowModifier(value) {
-        try {
-            var index_2 = 0;
-            var colorMatches_1 = getMatches(/(^|\s)(?!calc)([a-z]+\(.+?\)|#[0-9a-f]+|[a-z]+)(.*?(inset|outset)?($|,))/ig, value, 2);
-            var modifiers_2 = colorMatches_1.map(function (match, i) {
-                var prefixIndex = index_2;
-                var matchIndex = value.indexOf(match, index_2);
-                var matchEnd = matchIndex + match.length;
-                index_2 = matchEnd;
-                var rgb = tryParseColor(match);
-                if (!rgb) {
-                    return function () { return value.substring(prefixIndex, matchEnd); };
-                }
-                return function (filter) { return "" + value.substring(prefixIndex, matchIndex) + modifyShadowColor(rgb, filter) + (i === colorMatches_1.length - 1 ? value.substring(matchEnd) : ''); };
-            });
-            return function (filter) { return modifiers_2.map(function (modify) { return modify(filter); }).join(''); };
-        }
-        catch (err) {
-            logWarn("Unable to parse shadow " + value, err);
+        var shadowModifier = getShadowModifierWithInfo(value);
+        if (!shadowModifier) {
             return null;
         }
+        return function (theme) { return shadowModifier(theme).result; };
     }
     function getVariableModifier(variablesStore, prop, value, rule, ignoredImgSelectors, isCancelled) {
         return variablesStore.getModifierForVariable({
@@ -2441,7 +2693,6 @@
         return variablesStore.getModifierForVarDependant(prop, value);
     }
     function cleanModificationCache() {
-        colorParseCache.clear();
         clearColorModificationCache();
         imageDetailsCache.clear();
         cleanImageProcessingCache();
@@ -2651,8 +2902,11 @@
                             return v;
                         }, function (fallback) { return tryModifyBgColor(fallback, theme); });
                         if (property === 'box-shadow') {
-                            var shadowModifier = getShadowModifier(variableReplaced);
-                            return shadowModifier(theme) || variableReplaced;
+                            var shadowModifier = getShadowModifierWithInfo(variableReplaced);
+                            var modifiedShadow = shadowModifier(theme);
+                            if (modifiedShadow.unparseableMatchesLength !== modifiedShadow.matchesLength) {
+                                return modifiedShadow.result;
+                            }
                         }
                         return variableReplaced;
                     };
@@ -2672,25 +2926,8 @@
                 };
             }
             if (property.startsWith('border') || property.startsWith('outline')) {
-                if (sourceValue.endsWith(')')) {
-                    var colorTypeMatch = sourceValue.match(/((rgb|hsl)a?)\(/);
-                    if (colorTypeMatch) {
-                        var index_1 = colorTypeMatch.index;
-                        return function (theme) {
-                            var value = insertVarValues(sourceValue, _this.unstableVarValues);
-                            if (!value) {
-                                return sourceValue;
-                            }
-                            var beginning = sourceValue.substring(0, index_1);
-                            var color = sourceValue.substring(index_1, sourceValue.length);
-                            var inserted = insertVarValues(color, _this.unstableVarValues);
-                            var modified = tryModifyBorderColor(inserted, theme);
-                            return "" + beginning + modified;
-                        };
-                    }
-                }
                 return function (theme) {
-                    return replaceCSSVariablesNames(sourceValue, function (v) { return wrapBorderColorVariableName(v); }, function (fallback) { return tryModifyTextColor(fallback, theme); });
+                    return replaceCSSVariablesNames(sourceValue, function (v) { return wrapBorderColorVariableName(v); }, function (fallback) { return tryModifyBorderColor(fallback, theme); });
                 };
             }
             return null;
@@ -2742,7 +2979,7 @@
                 return;
             }
             this.definedVars.add(varName);
-            var color = tryParseColor(value);
+            var color = parseColorWithCache(value);
             if (color) {
                 this.unknownColorVars.add(varName);
             }
@@ -2885,7 +3122,7 @@
             try {
                 for (var declarations_1 = __values(declarations), declarations_1_1 = declarations_1.next(); !declarations_1_1.done; declarations_1_1 = declarations_1.next()) {
                     var _b = __read(declarations_1_1.value, 2), property = _b[0], value = _b[1];
-                    cssLines.push("    " + property + ": " + value + ";");
+                    cssLines.push("    ".concat(property, ": ").concat(value, ";"));
                 }
             }
             catch (e_2_1) { e_2 = { error: e_2_1 }; }
@@ -2961,7 +3198,7 @@
             var _a = getVariableNameAndFallback(match), name = _a.name, fallback = _a.fallback;
             var newName = nameReplacer(name);
             if (!fallback) {
-                return "var(" + newName + ")";
+                return "var(".concat(newName, ")");
             }
             var newFallback;
             if (isVarDependant(fallback)) {
@@ -2973,7 +3210,7 @@
             else {
                 newFallback = fallback;
             }
-            return "var(" + newName + ", " + newFallback + ")";
+            return "var(".concat(newName, ", ").concat(newFallback, ")");
         };
         return replaceVariablesMatches(value, matchReplacer);
     }
@@ -2984,16 +3221,16 @@
         });
     }
     function wrapBgColorVariableName(name) {
-        return "--darkreader-bg" + name;
+        return "--darkreader-bg".concat(name);
     }
     function wrapTextColorVariableName(name) {
-        return "--darkreader-text" + name;
+        return "--darkreader-text".concat(name);
     }
     function wrapBorderColorVariableName(name) {
-        return "--darkreader-border" + name;
+        return "--darkreader-border".concat(name);
     }
     function wrapBgImgVariableName(name) {
-        return "--darkreader-bgimg" + name;
+        return "--darkreader-bgimg".concat(name);
     }
     function isVariable(property) {
         return property.startsWith('--');
@@ -3004,17 +3241,41 @@
     function isConstructedColorVar(value) {
         return value.match(/^\s*(rgb|hsl)a?\(/);
     }
+    var rawValueRegex = /^\d{1,3}, ?\d{1,3}, ?\d{1,3}$/;
+    function parseRawValue(color) {
+        if (rawValueRegex.test(color)) {
+            var splitted = color.split(',');
+            var resultInRGB_1 = 'rgb(';
+            splitted.forEach(function (number) {
+                resultInRGB_1 += "".concat(number.trim(), ", ");
+            });
+            resultInRGB_1 = resultInRGB_1.substring(0, resultInRGB_1.length - 2);
+            resultInRGB_1 += ')';
+            return { isRaw: true, color: resultInRGB_1 };
+        }
+        return { isRaw: false, color: color };
+    }
+    function handleRawValue(color, theme, modifyFunction) {
+        var _a = parseRawValue(color), isRaw = _a.isRaw, newColor = _a.color;
+        var rgb = parseColorWithCache(newColor);
+        if (rgb) {
+            var outputColor = modifyFunction(rgb, theme);
+            if (isRaw) {
+                var outputInRGB = parseColorWithCache(outputColor);
+                return outputInRGB ? "".concat(outputInRGB.r, ", ").concat(outputInRGB.g, ", ").concat(outputInRGB.b) : outputColor;
+            }
+            return outputColor;
+        }
+        return newColor;
+    }
     function tryModifyBgColor(color, theme) {
-        var rgb = tryParseColor(color);
-        return rgb ? modifyBackgroundColor(rgb, theme) : color;
+        return handleRawValue(color, theme, modifyBackgroundColor);
     }
     function tryModifyTextColor(color, theme) {
-        var rgb = tryParseColor(color);
-        return rgb ? modifyForegroundColor(rgb, theme) : color;
+        return handleRawValue(color, theme, modifyForegroundColor);
     }
     function tryModifyBorderColor(color, theme) {
-        var rgb = tryParseColor(color);
-        return rgb ? modifyBorderColor(rgb, theme) : color;
+        return handleRawValue(color, theme, modifyBorderColor);
     }
     function insertVarValues(source, varValues, stack) {
         if (stack === void 0) { stack = new Set(); }
@@ -3123,13 +3384,13 @@
         return normalizedPropList[customProp] = cssProp;
     });
     var INLINE_STYLE_ATTRS = ['style', 'fill', 'stop-color', 'stroke', 'bgcolor', 'color'];
-    var INLINE_STYLE_SELECTOR = INLINE_STYLE_ATTRS.map(function (attr) { return "[" + attr + "]"; }).join(', ');
+    var INLINE_STYLE_SELECTOR = INLINE_STYLE_ATTRS.map(function (attr) { return "[".concat(attr, "]"); }).join(', ');
     function getInlineOverrideStyle() {
         return overridesList.map(function (_a) {
             var dataAttr = _a.dataAttr, customProp = _a.customProp, cssProp = _a.cssProp;
             return [
-                "[" + dataAttr + "] {",
-                "  " + cssProp + ": var(" + customProp + ") !important;",
+                "[".concat(dataAttr, "] {"),
+                "  ".concat(cssProp, ": var(").concat(customProp, ") !important;"),
                 '}',
             ].join('\n');
         }).join('\n');
@@ -3201,7 +3462,7 @@
         });
         var attrObserver = new MutationObserver(function (mutations) {
             if (timeoutId) {
-                cache.push.apply(cache, __spreadArray([], __read(mutations)));
+                cache.push.apply(cache, __spreadArray([], __read(mutations), false));
                 return;
             }
             attemptCount++;
@@ -3219,7 +3480,7 @@
                         cache = [];
                         handleAttributeMutations(attributeCache);
                     }, RETRY_TIMEOUT);
-                    cache.push.apply(cache, __spreadArray([], __read(mutations)));
+                    cache.push.apply(cache, __spreadArray([], __read(mutations), false));
                     return;
                 }
                 start = now;
@@ -3247,8 +3508,8 @@
     var filterProps = ['brightness', 'contrast', 'grayscale', 'sepia', 'mode'];
     function getInlineStyleCacheKey(el, theme) {
         return INLINE_STYLE_ATTRS
-            .map(function (attr) { return attr + "=\"" + el.getAttribute(attr) + "\""; })
-            .concat(filterProps.map(function (prop) { return prop + "=\"" + theme[prop] + "\""; }))
+            .map(function (attr) { return "".concat(attr, "=\"").concat(el.getAttribute(attr), "\""); })
+            .concat(filterProps.map(function (prop) { return "".concat(prop, "=\"").concat(theme[prop], "\""); }))
             .join(' ');
     }
     function shouldIgnoreInlineStyle(element, selectors) {
@@ -3267,8 +3528,9 @@
         }
         var unsetProps = new Set(Object.keys(overrides));
         function setCustomProp(targetCSSProp, modifierCSSProp, cssVal) {
-            var _a = overrides[targetCSSProp], customProp = _a.customProp, dataAttr = _a.dataAttr;
-            var mod = getModifiableCSSDeclaration(modifierCSSProp, cssVal, {}, variablesStore, ignoreImageSelectors, null);
+            var isPropertyVariable = targetCSSProp.startsWith('--');
+            var _a = isPropertyVariable ? {} : overrides[targetCSSProp], customProp = _a.customProp, dataAttr = _a.dataAttr;
+            var mod = getModifiableCSSDeclaration(modifierCSSProp, cssVal, { style: element.style }, variablesStore, ignoreImageSelectors, null);
             if (!mod) {
                 return;
             }
@@ -3276,11 +3538,20 @@
             if (typeof value === 'function') {
                 value = value(theme);
             }
-            element.style.setProperty(customProp, value);
-            if (!element.hasAttribute(dataAttr)) {
-                element.setAttribute(dataAttr, '');
+            if (isPropertyVariable && typeof value === 'object') {
+                var typedValue = value;
+                typedValue.declarations.forEach(function (_a) {
+                    var property = _a.property, value = _a.value;
+                    !(value instanceof Promise) && element.style.setProperty(property, value);
+                });
             }
-            unsetProps.delete(targetCSSProp);
+            else {
+                element.style.setProperty(customProp, value);
+                if (!element.hasAttribute(dataAttr)) {
+                    element.setAttribute(dataAttr, '');
+                }
+                unsetProps.delete(targetCSSProp);
+            }
         }
         if (ignoreInlineSelectors.length > 0) {
             if (shouldIgnoreInlineStyle(element, ignoreInlineSelectors)) {
@@ -3293,14 +3564,14 @@
         if (element.hasAttribute('bgcolor')) {
             var value = element.getAttribute('bgcolor');
             if (value.match(/^[0-9a-f]{3}$/i) || value.match(/^[0-9a-f]{6}$/i)) {
-                value = "#" + value;
+                value = "#".concat(value);
             }
             setCustomProp('background-color', 'background-color', value);
         }
         if (element.hasAttribute('color') && element.rel !== 'mask-icon') {
             var value = element.getAttribute('color');
             if (value.match(/^[0-9a-f]{3}$/i) || value.match(/^[0-9a-f]{6}$/i)) {
-                value = "#" + value;
+                value = "#".concat(value);
             }
             setCustomProp('color', 'color', value);
         }
@@ -3339,12 +3610,16 @@
             if (property === 'background-image' && value.includes('url')) {
                 return;
             }
-            if (overrides.hasOwnProperty(property)) {
+            if (overrides.hasOwnProperty(property) || (property.startsWith('--') && !normalizedPropList[property])) {
                 setCustomProp(property, property, value);
             }
             else {
                 var overridenProp = normalizedPropList[property];
-                if (overridenProp && (!element.style.getPropertyValue(overridenProp) && !element.hasAttribute(overridenProp))) {
+                if (overridenProp &&
+                    (!element.style.getPropertyValue(overridenProp) && !element.hasAttribute(overridenProp))) {
+                    if (overridenProp === 'background-color' && element.hasAttribute('bgcolor')) {
+                        return;
+                    }
                     element.style.setProperty(property, '');
                 }
             }
@@ -3359,18 +3634,16 @@
     }
 
     var metaThemeColorName = 'theme-color';
-    var metaThemeColorSelector = "meta[name=\"" + metaThemeColorName + "\"]";
+    var metaThemeColorSelector = "meta[name=\"".concat(metaThemeColorName, "\"]");
     var srcMetaThemeColor = null;
     var observer = null;
     function changeMetaThemeColor(meta, theme) {
         srcMetaThemeColor = srcMetaThemeColor || meta.content;
-        try {
-            var color = parse(srcMetaThemeColor);
-            meta.content = modifyBackgroundColor(color, theme);
+        var color = parseColorWithCache(srcMetaThemeColor);
+        if (!color) {
+            return;
         }
-        catch (err) {
-            logWarn(err);
-        }
+        meta.content = modifyBackgroundColor(color, theme);
     }
     function changeMetaThemeColorWhenAvailable(theme) {
         var meta = document.querySelector(metaThemeColorSelector);
@@ -3421,7 +3694,11 @@
         'lightSchemeTextColor',
     ];
     function getThemeKey(theme) {
-        return themeCacheKeys.map(function (p) { return p + ":" + theme[p]; }).join(';');
+        var resultKey = '';
+        themeCacheKeys.forEach(function (key) {
+            resultKey += "".concat(key, ":").concat(theme[key], ";");
+        });
+        return resultKey;
     }
     var asyncQueue = createAsyncTasksQueue();
     function createStyleSheetModifier() {
@@ -3451,7 +3728,7 @@
                 var textDiffersFromPrev = false;
                 notFoundCacheKeys.delete(cssText);
                 if (rule.parentRule instanceof CSSMediaRule) {
-                    cssText += ";" + rule.parentRule.media.mediaText;
+                    cssText += ";".concat(rule.parentRule.media.mediaText);
                 }
                 if (!rulesTextCache.has(cssText)) {
                     rulesTextCache.add(cssText);
@@ -3494,9 +3771,13 @@
                 var selector = rule.selector, declarations = rule.declarations;
                 var getDeclarationText = function (dec) {
                     var property = dec.property, value = dec.value, important = dec.important, sourceValue = dec.sourceValue;
-                    return property + ": " + (value == null ? sourceValue : value) + (important ? ' !important' : '') + ";";
+                    return "".concat(property, ": ").concat(value == null ? sourceValue : value).concat(important ? ' !important' : '', ";");
                 };
-                var ruleText = selector + " { " + declarations.map(getDeclarationText).join(' ') + " }";
+                var cssRulesText = '';
+                declarations.forEach(function (declarations) {
+                    cssRulesText += "".concat(getDeclarationText(declarations), " ");
+                });
+                var ruleText = "".concat(selector, " { ").concat(cssRulesText, " }");
                 target.insertRule(ruleText, index);
             }
             var asyncDeclarations = new Map();
@@ -3573,7 +3854,7 @@
                             return { property: mod.property, value: mod.value, important: important, sourceValue: sourceValue, varKey: varKey };
                         });
                         var index = readyDeclarations.indexOf(oldDecs[0], initialIndex);
-                        readyDeclarations.splice.apply(readyDeclarations, __spreadArray([index, oldDecs.length], __read(readyVarDecs)));
+                        readyDeclarations.splice.apply(readyDeclarations, __spreadArray([index, oldDecs.length], __read(readyVarDecs), false));
                         oldDecs = readyVarDecs;
                         rebuildVarRule(varKey);
                     });
@@ -3605,7 +3886,7 @@
                     if (rule instanceof CSSMediaRule) {
                         var media = rule.media;
                         var index = parent.cssRules.length;
-                        parent.insertRule("@media " + media.mediaText + " {}", index);
+                        parent.insertRule("@media ".concat(media.mediaText, " {}"), index);
                         return parent.cssRules[index];
                     }
                     return parent;
@@ -3652,13 +3933,29 @@
     }
 
     var STYLE_SELECTOR = 'style, link[rel*="stylesheet" i]:not([disabled])';
+    function isFontsGoogleApiStyle(element) {
+        if (!element.href) {
+            return false;
+        }
+        try {
+            var elementURL = new URL(element.href);
+            return elementURL.hostname === 'fonts.googleapis.com';
+        }
+        catch (err) {
+            logInfo("Couldn't construct ".concat(element.href, " as URL"));
+            return false;
+        }
+    }
     function shouldManageStyle(element) {
         return (((element instanceof HTMLStyleElement) ||
             (element instanceof SVGStyleElement) ||
             (element instanceof HTMLLinkElement &&
                 element.rel &&
                 element.rel.toLowerCase().includes('stylesheet') &&
-                !element.disabled)) &&
+                element.href &&
+                !element.disabled &&
+                (isFirefox ? !element.href.startsWith('moz-extension://') : true) &&
+                !isFontsGoogleApiStyle(element))) &&
             !element.classList.contains('darkreader') &&
             element.media.toLowerCase() !== 'print' &&
             !element.classList.contains('stylus'));
@@ -3709,14 +4006,20 @@
         function containsCSSImport() {
             return element instanceof HTMLStyleElement && element.textContent.trim().match(cssImportRegex);
         }
-        function hasCrossOriginImports(cssRules) {
+        function hasImports(cssRules, checkCrossOrigin) {
             var result = false;
             if (cssRules) {
                 var rule = void 0;
                 cssRulesLoop: for (var i = 0, len = cssRules.length; i < len; i++) {
                     rule = cssRules[i];
                     if (rule.href) {
-                        if (rule.href.startsWith('http') && !rule.href.startsWith(location.origin)) {
+                        if (checkCrossOrigin) {
+                            if (rule.href.startsWith('http') && !rule.href.startsWith(location.origin)) {
+                                result = true;
+                                break cssRulesLoop;
+                            }
+                        }
+                        else {
                             result = true;
                             break cssRulesLoop;
                         }
@@ -3733,7 +4036,12 @@
                 return null;
             }
             var cssRules = safeGetSheetRules();
-            if (hasCrossOriginImports(cssRules)) {
+            if (element instanceof HTMLLinkElement &&
+                !isRelativeHrefOnAbsolutePath(element.href) &&
+                hasImports(cssRules, false)) {
+                return null;
+            }
+            if (hasImports(cssRules, true)) {
                 return null;
             }
             return cssRules;
@@ -3758,7 +4066,7 @@
             syncStyle.classList.add('darkreader');
             syncStyle.classList.add('darkreader--sync');
             syncStyle.media = 'screen';
-            if (!isChromium && element.title) {
+            if (element.title) {
                 syncStyle.title = element.title;
             }
             syncStyleSet.add(syncStyle);
@@ -3768,30 +4076,25 @@
         var loadingLinkId = ++loadingLinkCounter;
         function getRulesAsync() {
             return __awaiter(this, void 0, void 0, function () {
-                var cssText, cssBasePath, _a, cssRules, accessError, err_1, crossOriginImport, fullCSSText, err_2;
+                var cssText, cssBasePath, _a, cssRules, accessError, fullCSSText;
                 var _b;
                 return __generator(this, function (_c) {
                     switch (_c.label) {
                         case 0:
                             if (!(element instanceof HTMLLinkElement)) return [3, 7];
                             _a = __read(getRulesOrError(), 2), cssRules = _a[0], accessError = _a[1];
-                            if (accessError) {
-                                logWarn(accessError);
-                            }
                             if (!((!cssRules && !accessError && !isSafari) ||
                                 (isSafari && !element.sheet) ||
                                 isStillLoadingError(accessError))) return [3, 5];
                             _c.label = 1;
                         case 1:
                             _c.trys.push([1, 3, , 4]);
-                            logInfo("Linkelement " + loadingLinkId + " is not loaded yet and thus will be await for", element);
                             return [4, linkLoading(element, loadingLinkId)];
                         case 2:
                             _c.sent();
                             return [3, 4];
                         case 3:
-                            err_1 = _c.sent();
-                            logWarn(err_1);
+                            _c.sent();
                             wasLoadingError = true;
                             return [3, 4];
                         case 4:
@@ -3799,14 +4102,12 @@
                                 return [2, null];
                             }
                             _b = __read(getRulesOrError(), 2), cssRules = _b[0], accessError = _b[1];
-                            if (accessError) {
-                                logWarn(accessError);
-                            }
                             _c.label = 5;
                         case 5:
-                            crossOriginImport = hasCrossOriginImports(cssRules);
-                            if (cssRules != null && !crossOriginImport) {
-                                return [2, cssRules];
+                            if (cssRules) {
+                                if (!hasImports(cssRules, false)) {
+                                    return [2, cssRules];
+                                }
                             }
                             return [4, loadText(element.href)];
                         case 6:
@@ -3836,8 +4137,7 @@
                             corsCopy = createCORSCopy(element, fullCSSText);
                             return [3, 12];
                         case 11:
-                            err_2 = _c.sent();
-                            logWarn(err_2);
+                            _c.sent();
                             return [3, 12];
                         case 12:
                             if (corsCopy) {
@@ -3850,9 +4150,12 @@
                 });
             });
         }
-        function details() {
+        function details(options) {
             var rules = getRulesSync();
             if (!rules) {
+                if (options.secondRound) {
+                    return null;
+                }
                 if (isLoadingRules || wasLoadingError) {
                     return null;
                 }
@@ -3865,7 +4168,6 @@
                         update();
                     }
                 }).catch(function (err) {
-                    logWarn(err);
                     isLoadingRules = false;
                     loadingEnd();
                 });
@@ -3880,6 +4182,11 @@
                 return;
             }
             cancelAsyncOperations = false;
+            function removeCSSRulesFromSheet(sheet) {
+                for (var i = sheet.cssRules.length - 1; i >= 0; i--) {
+                    sheet.deleteRule(i);
+                }
+            }
             function prepareOverridesSheet() {
                 if (!syncStyle) {
                     createSyncStyle();
@@ -3890,9 +4197,7 @@
                     syncStyle.textContent = '';
                 }
                 var sheet = syncStyle.sheet;
-                for (var i = sheet.cssRules.length - 1; i >= 0; i--) {
-                    sheet.deleteRule(i);
-                }
+                removeCSSRulesFromSheet(sheet);
                 if (syncStylePositionWatcher) {
                     syncStylePositionWatcher.run();
                 }
@@ -3939,7 +4244,6 @@
         function safeGetSheetRules() {
             var _a = __read(getRulesOrError(), 2), cssRules = _a[0], err = _a[1];
             if (err) {
-                logWarn(err);
                 return null;
             }
             return cssRules;
@@ -4042,10 +4346,8 @@
             }
             moveCount++;
             if (moveCount > maxMoveCount) {
-                logWarn('Style sheet was moved multiple times', element);
                 return;
             }
-            logWarn('Restore style', syncStyle, element);
             insertStyle();
             corsCopyPositionWatcher && corsCopyPositionWatcher.skip();
             syncStylePositionWatcher && syncStylePositionWatcher.skip();
@@ -4074,12 +4376,11 @@
                         };
                         var onLoad = function () {
                             cleanUp();
-                            logInfo("Linkelement " + loadingId + " has been loaded");
                             resolve();
                         };
                         var onError = function () {
                             cleanUp();
-                            reject("Linkelement " + loadingId + " couldn't be loaded. " + link.href);
+                            reject("Linkelement ".concat(loadingId, " couldn't be loaded. ").concat(link.href));
                         };
                         rejectorsForLoadingLinks.set(loadingId, function () {
                             cleanUp();
@@ -4095,7 +4396,7 @@
         });
     }
     function getCSSImportURL(importDeclaration) {
-        return getCSSURLValue(importDeclaration.substring(7).trim().replace(/;$/, ''));
+        return getCSSURLValue(importDeclaration.substring(7).trim().replace(/;$/, '').replace(/screen$/, ''));
     }
     function loadText(url) {
         return __awaiter(this, void 0, void 0, function () {
@@ -4115,7 +4416,7 @@
     function replaceCSSImports(cssText, basePath, cache) {
         if (cache === void 0) { cache = new Map(); }
         return __awaiter(this, void 0, void 0, function () {
-            var importMatches, importMatches_1, importMatches_1_1, match, importURL, absoluteURL, importedCSS, err_3, e_1_1;
+            var importMatches, importMatches_1, importMatches_1_1, match, importURL, absoluteURL, importedCSS, e_1_1;
             var e_1, _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
@@ -4149,8 +4450,7 @@
                         importedCSS = _b.sent();
                         return [3, 7];
                     case 6:
-                        err_3 = _b.sent();
-                        logWarn(err_3);
+                        _b.sent();
                         importedCSS = '';
                         return [3, 7];
                     case 7:
@@ -4241,7 +4541,7 @@
             return __generator(this, function (_a) {
                 return [2, new Promise(function (resolve) {
                         if (window.customElements && typeof customElements.whenDefined === 'function') {
-                            customElements.whenDefined(tag).then(resolve);
+                            customElements.whenDefined(tag).then(function () { return resolve(); });
                         }
                         else if (canOptimizeUsingProxy) {
                             resolvers.set(tag, resolve);
@@ -4374,7 +4674,7 @@
                 onHugeMutations: handleHugeTreeMutations,
             });
             var attrObserver = new MutationObserver(handleAttributeMutations);
-            attrObserver.observe(root, { attributes: true, attributeFilter: ['rel', 'disabled', 'media'], subtree: true });
+            attrObserver.observe(root, { attributes: true, attributeFilter: ['rel', 'disabled', 'media', 'href'], subtree: true });
             observers.push(treeObserver, attrObserver);
             observedRoots.add(root);
         }
@@ -4431,7 +4731,7 @@
     function createAdoptedStyleSheetOverride(node) {
         var cancelAsyncOperations = false;
         function injectSheet(sheet, override) {
-            var newSheets = __spreadArray([], __read(node.adoptedStyleSheets));
+            var newSheets = __spreadArray([], __read(node.adoptedStyleSheets), false);
             var sheetIndex = newSheets.indexOf(sheet);
             var existingIndex = newSheets.indexOf(override);
             if (sheetIndex === existingIndex - 1) {
@@ -4445,7 +4745,7 @@
         }
         function destroy() {
             cancelAsyncOperations = true;
-            var newSheets = __spreadArray([], __read(node.adoptedStyleSheets));
+            var newSheets = __spreadArray([], __read(node.adoptedStyleSheets), false);
             node.adoptedStyleSheets.forEach(function (adoptedStyleSheet) {
                 if (overrideList.has(adoptedStyleSheet)) {
                     var existingIndex = newSheets.indexOf(adoptedStyleSheet);
@@ -4491,14 +4791,26 @@
         };
     }
 
-    function injectProxy() {
+    function injectProxy(enableStyleSheetsProxy) {
         document.dispatchEvent(new CustomEvent('__darkreader__inlineScriptsAllowed'));
         var addRuleDescriptor = Object.getOwnPropertyDescriptor(CSSStyleSheet.prototype, 'addRule');
         var insertRuleDescriptor = Object.getOwnPropertyDescriptor(CSSStyleSheet.prototype, 'insertRule');
         var deleteRuleDescriptor = Object.getOwnPropertyDescriptor(CSSStyleSheet.prototype, 'deleteRule');
         var removeRuleDescriptor = Object.getOwnPropertyDescriptor(CSSStyleSheet.prototype, 'removeRule');
-        var documentStyleSheetsDescriptor = Object.getOwnPropertyDescriptor(Document.prototype, 'styleSheets');
-        var shouldWrapHTMLElement = location.hostname.endsWith('baidu.com');
+        var documentStyleSheetsDescriptor = enableStyleSheetsProxy ?
+            Object.getOwnPropertyDescriptor(Document.prototype, 'styleSheets') : null;
+        var shouldWrapHTMLElement = [
+            'baidu.com',
+            'baike.baidu.com',
+            'ditu.baidu.com',
+            'map.baidu.com',
+            'maps.baidu.com',
+            'haokan.baidu.com',
+            'pan.baidu.com',
+            'passport.baidu.com',
+            'tieba.baidu.com',
+            'www.baidu.com'
+        ].includes(location.hostname);
         var getElementsByTagNameDescriptor = shouldWrapHTMLElement ?
             Object.getOwnPropertyDescriptor(Element.prototype, 'getElementsByTagName') : null;
         var cleanUp = function () {
@@ -4508,7 +4820,9 @@
             Object.defineProperty(CSSStyleSheet.prototype, 'removeRule', removeRuleDescriptor);
             document.removeEventListener('__darkreader__cleanUp', cleanUp);
             document.removeEventListener('__darkreader__addUndefinedResolver', addUndefinedResolver);
-            Object.defineProperty(Document.prototype, 'styleSheets', documentStyleSheetsDescriptor);
+            if (enableStyleSheetsProxy) {
+                Object.defineProperty(Document.prototype, 'styleSheets', documentStyleSheetsDescriptor);
+            }
             if (shouldWrapHTMLElement) {
                 Object.defineProperty(Element.prototype, 'getElementsByTagName', getElementsByTagNameDescriptor);
             }
@@ -4548,37 +4862,53 @@
             }
         }
         function proxyDocumentStyleSheets() {
-            var docSheets = documentStyleSheetsDescriptor.get.call(this);
-            var filtered = __spreadArray([], __read(docSheets)).filter(function (styleSheet) {
-                return !styleSheet.ownerNode.classList.contains('darkreader');
-            });
-            return Object.setPrototypeOf(filtered, StyleSheetList.prototype);
+            var _this = this;
+            var getCurrentValue = function () {
+                var docSheets = documentStyleSheetsDescriptor.get.call(_this);
+                var filteredSheets = __spreadArray([], __read(docSheets), false).filter(function (styleSheet) {
+                    return !styleSheet.ownerNode.classList.contains('darkreader');
+                });
+                filteredSheets.item = function (item) {
+                    return filteredSheets[item];
+                };
+                return Object.setPrototypeOf(filteredSheets, StyleSheetList.prototype);
+            };
+            var elements = getCurrentValue();
+            var styleSheetListBehavior = {
+                get: function (_, property) {
+                    return getCurrentValue()[property];
+                }
+            };
+            elements = new Proxy(elements, styleSheetListBehavior);
+            return elements;
         }
         function proxyGetElementsByTagName(tagName) {
             var _this = this;
+            if (tagName !== 'style') {
+                return getElementsByTagNameDescriptor.value.call(this, tagName);
+            }
             var getCurrentElementValue = function () {
                 var elements = getElementsByTagNameDescriptor.value.call(_this, tagName);
-                if (tagName === 'style') {
-                    elements = Object.setPrototypeOf(__spreadArray([], __read(elements)).filter(function (element) {
-                        return !element.classList.contains('darkreader');
-                    }), NodeList.prototype);
-                }
-                return elements;
+                return Object.setPrototypeOf(__spreadArray([], __read(elements), false).filter(function (element) {
+                    return !element.classList.contains('darkreader');
+                }), NodeList.prototype);
             };
             var elements = getCurrentElementValue();
-            var NodeListBehavior = {
+            var nodeListBehavior = {
                 get: function (_, property) {
-                    return getCurrentElementValue()[property];
+                    return getCurrentElementValue()[Number(property) || property];
                 }
             };
-            elements = new Proxy(elements, NodeListBehavior);
+            elements = new Proxy(elements, nodeListBehavior);
             return elements;
         }
         Object.defineProperty(CSSStyleSheet.prototype, 'addRule', Object.assign({}, addRuleDescriptor, { value: proxyAddRule }));
         Object.defineProperty(CSSStyleSheet.prototype, 'insertRule', Object.assign({}, insertRuleDescriptor, { value: proxyInsertRule }));
         Object.defineProperty(CSSStyleSheet.prototype, 'deleteRule', Object.assign({}, deleteRuleDescriptor, { value: proxyDeleteRule }));
         Object.defineProperty(CSSStyleSheet.prototype, 'removeRule', Object.assign({}, removeRuleDescriptor, { value: proxyRemoveRule }));
-        Object.defineProperty(Document.prototype, 'styleSheets', Object.assign({}, documentStyleSheetsDescriptor, { get: proxyDocumentStyleSheets }));
+        if (enableStyleSheetsProxy) {
+            Object.defineProperty(Document.prototype, 'styleSheets', Object.assign({}, documentStyleSheetsDescriptor, { get: proxyDocumentStyleSheets }));
+        }
         if (shouldWrapHTMLElement) {
             Object.defineProperty(Element.prototype, 'getElementsByTagName', Object.assign({}, getElementsByTagNameDescriptor, { value: proxyGetElementsByTagName }));
         }
@@ -4594,7 +4924,7 @@
     var ignoredInlineSelectors = null;
     function createOrUpdateStyle(className, root) {
         if (root === void 0) { root = document.head || document; }
-        var element = root.querySelector("." + className);
+        var element = root.querySelector(".".concat(className));
         if (!element) {
             element = document.createElement('style');
             element.classList.add('darkreader');
@@ -4606,7 +4936,7 @@
     }
     function createOrUpdateScript(className, root) {
         if (root === void 0) { root = document.head || document; }
-        var element = root.querySelector("." + className);
+        var element = root.querySelector(".".concat(className));
         if (!element) {
             element = document.createElement('script');
             element.classList.add('darkreader');
@@ -4644,8 +4974,8 @@
         var invertStyle = createOrUpdateStyle('darkreader--invert');
         if (fixes && Array.isArray(fixes.invert) && fixes.invert.length > 0) {
             invertStyle.textContent = [
-                fixes.invert.join(', ') + " {",
-                "    filter: " + getCSSFilterValue(__assign(__assign({}, filter), { contrast: filter.mode === 0 ? filter.contrast : clamp(filter.contrast - 10, 0, 100) })) + " !important;",
+                "".concat(fixes.invert.join(', '), " {"),
+                "    filter: ".concat(getCSSFilterValue(__assign(__assign({}, filter), { contrast: filter.mode === 0 ? filter.contrast : clamp(filter.contrast - 10, 0, 100) })), " !important;"),
                 '}',
             ].join('\n');
         }
@@ -4667,24 +4997,27 @@
         var darkSchemeBackgroundColor = filter.darkSchemeBackgroundColor, darkSchemeTextColor = filter.darkSchemeTextColor, lightSchemeBackgroundColor = filter.lightSchemeBackgroundColor, lightSchemeTextColor = filter.lightSchemeTextColor, mode = filter.mode;
         var schemeBackgroundColor = mode === 0 ? lightSchemeBackgroundColor : darkSchemeBackgroundColor;
         var schemeTextColor = mode === 0 ? lightSchemeTextColor : darkSchemeTextColor;
-        schemeBackgroundColor = modifyBackgroundColor(parse(schemeBackgroundColor), filter);
-        schemeTextColor = modifyForegroundColor(parse(schemeTextColor), filter);
+        schemeBackgroundColor = modifyBackgroundColor(parseColorWithCache(schemeBackgroundColor), filter);
+        schemeTextColor = modifyForegroundColor(parseColorWithCache(schemeTextColor), filter);
         variableStyle.textContent = [
             ":root {",
-            "   --darkreader-neutral-background: " + schemeBackgroundColor + ";",
-            "   --darkreader-neutral-text: " + schemeTextColor + ";",
-            "   --darkreader-selection-background: " + selectionColors.backgroundColorSelection + ";",
-            "   --darkreader-selection-text: " + selectionColors.foregroundColorSelection + ";",
+            "   --darkreader-neutral-background: ".concat(schemeBackgroundColor, ";"),
+            "   --darkreader-neutral-text: ".concat(schemeTextColor, ";"),
+            "   --darkreader-selection-background: ".concat(selectionColors.backgroundColorSelection, ";"),
+            "   --darkreader-selection-text: ".concat(selectionColors.foregroundColorSelection, ";"),
             "}"
         ].join('\n');
         document.head.insertBefore(variableStyle, inlineStyle.nextSibling);
         setupNodePositionWatcher(variableStyle, 'variables');
         var rootVarsStyle = createOrUpdateStyle('darkreader--root-vars');
         document.head.insertBefore(rootVarsStyle, variableStyle.nextSibling);
-        var proxyScript = createOrUpdateScript('darkreader--proxy');
-        proxyScript.append("(" + injectProxy + ")()");
-        document.head.insertBefore(proxyScript, rootVarsStyle.nextSibling);
-        proxyScript.remove();
+        var injectProxyArg = !(fixes && fixes.disableStyleSheetsProxy);
+        {
+            var proxyScript = createOrUpdateScript('darkreader--proxy');
+            proxyScript.append("(".concat(injectProxy, ")(").concat(injectProxyArg, ")"));
+            document.head.insertBefore(proxyScript, rootVarsStyle.nextSibling);
+            proxyScript.remove();
+        }
     }
     var shadowRootsWithOverrides = new Set();
     function createShadowStaticStyleOverrides(root) {
@@ -4697,8 +5030,8 @@
         var invertStyle = createOrUpdateStyle('darkreader--invert', root);
         if (fixes && Array.isArray(fixes.invert) && fixes.invert.length > 0) {
             invertStyle.textContent = [
-                fixes.invert.join(', ') + " {",
-                "    filter: " + getCSSFilterValue(__assign(__assign({}, filter), { contrast: filter.mode === 0 ? filter.contrast : clamp(filter.contrast - 10, 0, 100) })) + " !important;",
+                "".concat(fixes.invert.join(', '), " {"),
+                "    filter: ".concat(getCSSFilterValue(__assign(__assign({}, filter), { contrast: filter.mode === 0 ? filter.contrast : clamp(filter.contrast - 10, 0, 100) })), " !important;"),
                 '}',
             ].join('\n');
         }
@@ -4710,11 +5043,10 @@
     }
     function replaceCSSTemplates($cssText) {
         return $cssText.replace(/\${(.+?)}/g, function (_, $color) {
-            var color = tryParseColor($color);
+            var color = parseColorWithCache($color);
             if (color) {
                 return modifyColor(color, filter);
             }
-            logWarn("Couldn't parse CSSTemplate's color.");
             return $color;
         });
     }
@@ -4731,7 +5063,7 @@
             .filter(function (style) { return !styleManagers.has(style); })
             .map(function (style) { return createManager(style); });
         newManagers
-            .map(function (manager) { return manager.details(); })
+            .map(function (manager) { return manager.details({ secondRound: false }); })
             .filter(function (detail) { return detail && detail.rules.length > 0; })
             .forEach(function (detail) {
             variablesStore.addRulesForMatching(detail.rules);
@@ -4761,11 +5093,10 @@
     var loadingStyles = new Set();
     function createManager(element) {
         var loadingStyleId = ++loadingStylesCounter;
-        logInfo("New manager for element, with loadingStyleID " + loadingStyleId, element);
         function loadingStart() {
             if (!isDOMReady() || !didDocumentShowUp) {
                 loadingStyles.add(loadingStyleId);
-                logInfo("Current amount of styles loading: " + loadingStyles.size);
+                logInfo("Current amount of styles loading: ".concat(loadingStyles.size));
                 var fallbackStyle = document.querySelector('.darkreader--fallback');
                 if (!fallbackStyle.textContent) {
                     fallbackStyle.textContent = getModifiedFallbackStyle(filter, { strict: false });
@@ -4774,14 +5105,13 @@
         }
         function loadingEnd() {
             loadingStyles.delete(loadingStyleId);
-            logInfo("Removed loadingStyle " + loadingStyleId + ", now awaiting: " + loadingStyles.size);
-            logInfo("To-do to be loaded", loadingStyles);
+            logInfo("Removed loadingStyle ".concat(loadingStyleId, ", now awaiting: ").concat(loadingStyles.size));
             if (loadingStyles.size === 0 && isDOMReady()) {
                 cleanFallbackStyle();
             }
         }
         function update() {
-            var details = manager.details();
+            var details = manager.details({ secondRound: true });
             if (!details) {
                 return;
             }
@@ -4813,7 +5143,6 @@
             cleanFallbackStyle();
             return;
         }
-        logWarn("DOM is ready, but still have styles being loaded.", loadingStyles);
     }
     var documentVisibilityListener = null;
     var didDocumentShowUp = !document.hidden;
@@ -4840,7 +5169,7 @@
             createDynamicStyleOverrides();
             watchForUpdates();
         }
-        if (document.hidden) {
+        if (document.hidden && !filter.immediateModify) {
             watchForDocumentVisibility(runDynamicStyle);
         }
         else {
@@ -4849,12 +5178,16 @@
         changeMetaThemeColorWhenAvailable(filter);
     }
     function handleAdoptedStyleSheets(node) {
-        if (Array.isArray(node.adoptedStyleSheets)) {
-            if (node.adoptedStyleSheets.length > 0) {
-                var newManger = createAdoptedStyleSheetOverride(node);
-                adoptedStyleManagers.push(newManger);
-                newManger.render(filter, ignoredImageAnalysisSelectors);
+        try {
+            if (Array.isArray(node.adoptedStyleSheets)) {
+                if (node.adoptedStyleSheets.length > 0) {
+                    var newManger = createAdoptedStyleSheetOverride(node);
+                    adoptedStyleManagers.push(newManger);
+                    newManger.render(filter, ignoredImageAnalysisSelectors);
+                }
             }
+        }
+        catch (err) {
         }
     }
     function watchForUpdates() {
@@ -4866,12 +5199,11 @@
                 .filter(function (style) { return !styleManagers.has(style); });
             var stylesToRestore = moved
                 .filter(function (style) { return styleManagers.has(style); });
-            logInfo("Styles to be removed:", stylesToRemove);
             stylesToRemove.forEach(function (style) { return removeManager(style); });
             var newManagers = stylesToManage
                 .map(function (style) { return createManager(style); });
             newManagers
-                .map(function (manager) { return manager.details(); })
+                .map(function (manager) { return manager.details({ secondRound: false }); })
                 .filter(function (detail) { return detail && detail.rules.length > 0; })
                 .forEach(function (detail) {
                 variablesStore.addRulesForMatching(detail.rules);
@@ -4887,7 +5219,7 @@
         watchForInlineStyles(function (element) {
             overrideInlineStyle(element, filter, ignoredInlineSelectors, ignoredImageAnalysisSelectors);
             if (element === document.documentElement) {
-                var styleAttr = element.getAttribute('style');
+                var styleAttr = element.getAttribute('style') || '';
                 if (styleAttr.includes('--')) {
                     variablesStore.matchVariablesAndDependants();
                     variablesStore.putRootVars(document.head.querySelector('.darkreader--root-vars'), filter);
@@ -4910,6 +5242,16 @@
         removeDOMReadyListener(onDOMReady);
         cleanReadyStateCompleteListeners();
     }
+    var metaObserver;
+    function addMetaListener() {
+        metaObserver = new MutationObserver(function () {
+            if (document.querySelector('meta[name="darkreader-lock"]')) {
+                metaObserver.disconnect();
+                removeDynamicTheme();
+            }
+        });
+        metaObserver.observe(document.head, { childList: true, subtree: true });
+    }
     function createDarkReaderInstanceMarker() {
         var metaElement = document.createElement('meta');
         metaElement.name = 'darkreader';
@@ -4917,6 +5259,9 @@
         document.head.appendChild(metaElement);
     }
     function isAnotherDarkReaderInstanceActive() {
+        if (document.querySelector('meta[name="darkreader-lock"]')) {
+            return true;
+        }
         var meta = document.querySelector('meta[name="darkreader"]');
         if (meta) {
             if (meta.content !== INSTANCE_ID) {
@@ -4925,6 +5270,7 @@
             return false;
         }
         createDarkReaderInstanceMarker();
+        addMetaListener();
         return false;
     }
     function createOrUpdateDynamicTheme(filterConfig, dynamicThemeFixes, iframe) {
@@ -4937,6 +5283,11 @@
         else {
             ignoredImageAnalysisSelectors = [];
             ignoredInlineSelectors = [];
+        }
+        if (filter.immediateModify) {
+            setIsDOMReady(function () {
+                return true;
+            });
         }
         isIFrame$1 = iframe;
         if (document.head) {
@@ -5000,6 +5351,7 @@
             manager.destroy();
         });
         adoptedStyleManagers.splice(0);
+        metaObserver && metaObserver.disconnect();
     }
     function cleanDynamicThemeCache() {
         variablesStore.clear();
@@ -5008,6 +5360,7 @@
         cancelRendering();
         stopWatchingForUpdates();
         cleanModificationCache();
+        clearColorCache();
     }
 
     var blobRegex = /url\(\"(blob\:.*?)\"\)/g;
@@ -5025,18 +5378,18 @@
                         return [4, Promise.all(promises)];
                     case 1:
                         data = _a.sent();
-                        return [2, text.replace(blobRegex, function () { return "url(\"" + data.shift() + "\")"; })];
+                        return [2, text.replace(blobRegex, function () { return "url(\"".concat(data.shift(), "\")"); })];
                 }
             });
         });
     }
-    var banner = "/*\n                        _______\n                       /       \\\n                      .==.    .==.\n                     ((  ))==((  ))\n                    / \"==\"    \"==\"\\\n                   /____|| || ||___\\\n       ________     ____    ________  ___    ___\n       |  ___  \\   /    \\   |  ___  \\ |  |  /  /\n       |  |  \\  \\ /  /\\  \\  |  |  \\  \\|  |_/  /\n       |  |   )  /  /__\\  \\ |  |__/  /|  ___  \\\n       |  |__/  /  ______  \\|  ____  \\|  |  \\  \\\n_______|_______/__/ ____ \\__\\__|___\\__\\__|___\\__\\____\n|  ___  \\ |  ____/ /    \\   |  ___  \\ |  ____|  ___  \\\n|  |  \\  \\|  |___ /  /\\  \\  |  |  \\  \\|  |___|  |  \\  \\\n|  |__/  /|  ____/  /__\\  \\ |  |   )  |  ____|  |__/  /\n|  ____  \\|  |__/  ______  \\|  |__/  /|  |___|  ____  \\\n|__|   \\__\\____/__/      \\__\\_______/ |______|__|   \\__\\\n                https://darkreader.org\n*/\n\n/*! Dark reader generated CSS | Licensed under MIT https://github.com/darkreader/darkreader/blob/master/LICENSE */\n";
+    var banner = "/*\n                        _______\n                       /       \\\n                      .==.    .==.\n                     ((  ))==((  ))\n                    / \"==\"    \"==\"\\\n                   /____|| || ||___\\\n       ________     ____    ________  ___    ___\n       |  ___  \\   /    \\   |  ___  \\ |  |  /  /\n       |  |  \\  \\ /  /\\  \\  |  |  \\  \\|  |_/  /\n       |  |   )  /  /__\\  \\ |  |__/  /|  ___  \\\n       |  |__/  /  ______  \\|  ____  \\|  |  \\  \\\n_______|_______/__/ ____ \\__\\__|___\\__\\__|___\\__\\____\n|  ___  \\ |  ____/ /    \\   |  ___  \\ |  ____|  ___  \\\n|  |  \\  \\|  |___ /  /\\  \\  |  |  \\  \\|  |___|  |  \\  \\\n|  |__/  /|  ____/  /__\\  \\ |  |   )  |  ____|  |__/  /\n|  ____  \\|  |__/  ______  \\|  |__/  /|  |___|  ____  \\\n|__|   \\__\\____/__/      \\__\\_______/ |______|__|   \\__\\\n                https://darkreader.org\n*/\n\n/*! Dark reader generated CSS | Licensed under MIT https://github.com/darkreader/darkreader/blob/main/LICENSE */\n";
     function collectCSS() {
         return __awaiter(this, void 0, void 0, function () {
             function addStaticCSS(selector, comment) {
                 var staticStyle = document.querySelector(selector);
                 if (staticStyle && staticStyle.textContent) {
-                    css.push("/* " + comment + " */");
+                    css.push("/* ".concat(comment, " */"));
                     css.push(staticStyle.textContent);
                     css.push('');
                 }
@@ -5158,4 +5511,4 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
