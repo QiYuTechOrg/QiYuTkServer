@@ -1,19 +1,19 @@
 [tool.poetry]
 name = "tbk"
-version = "v0.8.4"
+version = "v0.8.5"
 description = "奇遇淘客"
 authors = ["dev <dev@qiyutech.tech>"]
 readme = "README.md"
 homepage = "https://tbk.qiyutech.tech/"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.9,<3.11"
 
 # 调度
 apscheduler = ">=3.6,<4.0"
 
 # web framework
-django = ">=4.0,<4.1"
+django = ">=4.1,<4.2"
 
 # for django database
 psycopg2-binary = ">=2.9,<2.10"
@@ -38,11 +38,11 @@ pytz = ">=2022,<2023"
 gunicorn = ">=20.0,<21"
 
 # for log
-django-structlog = ">=2.2,<2.3"
+django-structlog = ">=3.0,<3.1"
 
 ###################################################
 # API 接口 依赖
-django-ninja = ">=0.18,<0.19"
+django-ninja = ">=0.19,<0.20"
 ###################################################
 
 
