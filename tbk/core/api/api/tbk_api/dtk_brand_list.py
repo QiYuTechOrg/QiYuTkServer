@@ -35,7 +35,7 @@ async def tbk_dtk_brand_list(
     async def inner():
         j = await tbk.get_brand_list(args.page_id)
         if j is None:
-            return ApiResp.from_errno(AppErrno.tbk_error)
+            return ApiResp.from_errno(AppErrno.dtk_error)
         return ApiResp.from_data(j)
 
     return await inner
